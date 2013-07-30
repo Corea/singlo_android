@@ -18,5 +18,8 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+<<<<<<< HEAD
 
 .DS_Store
+=======
+>>>>>>> b9301f0a8d53f3ae2e6e30bf0b65331c24f88f33
