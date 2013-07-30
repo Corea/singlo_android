@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string-array name="cause">
+        <item>추천훈련</item>
+        <item>Backswing-Resisted-Drill</item>
+        <item>Bird-Dog-Alternating-Arm-and-Leg</item>
+        <item>Bird-Dog-Hip-Extension</item>
+        <item>Bridge-w-Leg-Extension</item>
+        <item>Calf-Stretch---Half-Kneeling</item>
+        <item>Cats-&amp;-Dogs</item>
+        <item>Chest-Press---Lunge-Stance-One-Arm-Decline</item>
+        <item>Chops-(No-Rotation)---Half-Kneeling-w-bar</item>
+        <item>Club-Behind-Spine-Forward-Bends</item>
+        <item>Dead-Bugs-Criss-Cross</item>
+        <item>Dead-Bugs-Leg-Slides</item>
+        <item>Deep-Squats-Dumbell-Assist-w-Arm-Reach</item>
+        <item>Foam-Roller-Step-and-Toss</item>
+        <item>Forehand-Topspin-Drill</item>
+        <item>Hip-Crossovers-Knees-Up</item>
+        <item>Hip-Drops</item>
+        <item>Hip-Flexor-Stretch---Half-Kneeling</item>
+        <item>Hip-Windshield-Wipers</item>
+        <item>Horizontal-Chops---Wide-to-Narrow-Base</item>
+        <item>Lead-hip-high-torso-turns</item>
+        <item>Lifts-(No-Rotation)---Half-Kneeling-w-bar</item>
+        <item>Open-Book-Rib-Cage-Stretch</item>
+        <item>Pelvic-Tilt-in-Golf-Stance-Find-Neutral</item>
+        <item>Pelvic-Tilts-Supine</item>
+        <item>Pizza-Dumbell-Drill</item>
+        <item>Reach-Roll-Lift-Down</item>
+        <item>Reach-Roll-Lift-Planks</item>
+        <item>Rows---Golf-Stance</item>
+        <item>Search-and-Destroy</item>
+        <item>Shovel-Pass</item>
+        <item>Side-Arm-Pitch</item>
+        <item>Side-Hip-Lifts</item>
+        <item>Side-Leg-Lifts</item>
+        <item>Side-Planks</item>
+        <item>Side-Step-Ups</item>
+        <item>Single-Leg-Bridge</item>
+        <item>Single-Leg-Single-Arm-Deadlifts</item>
+        <item>Step-Change-of-Direction</item>
+        <item>Stick-Reverse-Crunches</item>
+        <item>Stork-Turns-Supported</item>
+        <item>Torso-Acceleration-Good-Shoulder-Plane</item>
+        <item>Torso-Backswing-in-Neutral-Pelvis</item>
+        <item>Triceps---Diagonal-Chop</item>
+        <item>Ts-Ys-Ls-Ws-Swiss-Ball</item>
+        <item>Turn-Grab-and-Throw</item>
+        <item>Two-Hand-Forehand-Topspin</item>
+        <item>Weighted-Club-Swings-Elbows-Together</item>
+        <item>Wrist-Curls-Palm-Down</item>
+        <item>Wrist-Curls-Palm-Up</item>
+        <item>Wrist-Pronation-Supination</item>
+        <item>X-Walks</item>
+    </string-array>
+
+</resources>

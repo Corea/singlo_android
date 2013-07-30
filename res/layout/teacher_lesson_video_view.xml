@@ -1,0 +1,177 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/RelativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/play_back" >
+
+        <ImageButton
+            android:id="@+id/RewindImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/PlayImageButton"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="26dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/rewind_btn" />
+
+        <ImageButton
+            android:id="@+id/ForwardImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/PlayImageButton"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/RewindImageButton"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="26dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/forward_btn" />
+
+        <SeekBar
+            android:id="@+id/SeekBar"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/PlayImageButton"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@+id/PlayImageButton"
+            android:layout_toRightOf="@+id/ForwardImageButton"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+        <ImageButton
+            android:id="@+id/PlayImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:layout_marginRight="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="23dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/play_btn" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout1"
+        android:layout_marginBottom="58dp" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <VideoView
+                android:id="@+id/VideoView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal|center_vertical|center"
+                android:gravity="center" />
+
+            <ImageView
+                android:id="@+id/DrawingCanvasImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@android:color/transparent" />
+
+            <ImageView
+                android:id="@+id/DrawingCacheCanvasImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@android:color/transparent" />
+
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/BackImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="32dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/back_btn" />
+
+        <ImageButton
+            android:id="@+id/RemoveImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/BackImageButton"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/erase_btn" />
+
+        <ImageButton
+            android:id="@+id/SaveImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/RemoveImageButton"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="65dp"
+            android:paddingBottom="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/picturesave_btn" />
+
+        <TextView
+            android:id="@+id/ImageCountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/SaveImageButton"
+            android:layout_alignRight="@+id/SaveImageButton"
+            android:layout_marginBottom="5dp"
+            android:text="0 / 8"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/FinishImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ImageCountTextView"
+            android:layout_alignRight="@+id/ImageCountTextView"
+            android:layout_marginBottom="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:maxWidth="50dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/complete_btn" />
+    </RelativeLayout>
+
+</RelativeLayout>

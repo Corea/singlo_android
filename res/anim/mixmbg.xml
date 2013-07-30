@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shareInterpolator="false" >
+        
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator" 
+            	android:fromYDelta="0%" 
+            	android:toYDelta="5%"             	
+            	android:duration="4000" />
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator"
+           		android:startOffset="4000"            		
+            	android:fromXDelta="0%" 
+            	android:toXDelta="5%"             	
+            	android:duration="4000" />   
+            <translate 
+           		android:interpolator="@android:anim/cycle_interpolator" 
+           		android:startOffset="8000" 
+            	android:fromYDelta="0%" 
+            	android:toYDelta="5%"             	
+            	android:duration="4000" /> 
+            <translate 
+           		android:interpolator="@android:anim/cycle_interpolator"
+           		android:startOffset="12000"            		
+            	android:fromXDelta="0%" 
+            	android:toXDelta="5%"             	
+            	android:duration="4000" />    
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator" 
+           		android:startOffset="16000" 
+            	android:fromYDelta="0%" 
+            	android:toYDelta="5%"             	
+            	android:duration="4000" />
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator"
+           		android:startOffset="20000"            		
+            	android:fromXDelta="0%" 
+            	android:toXDelta="5%"             	
+            	android:duration="4000" />
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator" 
+           		android:startOffset="24000" 
+            	android:fromYDelta="0%" 
+            	android:toYDelta="5%"             	
+            	android:duration="4000" />
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator"
+           		android:startOffset="28000"            		
+            	android:fromXDelta="0%" 
+            	android:toXDelta="5%"             	
+            	android:duration="4000" />
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator" 
+           		android:startOffset="32000" 
+            	android:fromYDelta="0%" 
+            	android:toYDelta="5%"             	
+            	android:duration="4000" />
+        	<translate 
+           		android:interpolator="@android:anim/cycle_interpolator"
+           		android:startOffset="36000"            		
+            	android:fromXDelta="0%" 
+            	android:toXDelta="5%"             	
+            	android:duration="4000" />
+</set>

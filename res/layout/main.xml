@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_back"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/LogoImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="Logo"
+            android:maxWidth="100dp"
+            android:src="@drawable/singlo_icon" />
+
+        <TextView
+            android:id="@+id/RegisterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="90dp"
+            android:shadowColor="#6b000000"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="2"
+            android:text="싱글로가 처음이신가요?"
+            android:textColor="#ffe5eae4"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/RegisterButton"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="6dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/register_back"
+            android:drawablePadding="4dp"
+            android:maxHeight="1dp"
+            android:text="회원 가입"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/LoginText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:shadowColor="#6b000000"
+            android:shadowDx="1.0"
+            android:shadowDy="1.0"
+            android:shadowRadius="2"
+            android:text="이미 가입하셨다면"
+            android:textColor="#ffe5eae4"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/LoginButton"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="6dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/login_back"
+            android:drawablePadding="4dp"
+            android:maxHeight="1dp"
+            android:text="로그인"
+            android:textColor="#087300"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <TextView
+            android:id="@+id/CopyrightText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:gravity="center"
+            android:text="Copyrights Singlo co.Ltd. All Rights reserved"
+            android:textColor="#89c84f"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

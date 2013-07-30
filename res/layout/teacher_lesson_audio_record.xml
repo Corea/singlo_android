@@ -1,0 +1,367 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/record_back"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/StopImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight="31"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/save_btn" />
+
+        <ImageButton
+            android:id="@+id/RecordImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight="37"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/record_btn" />
+
+        <ImageButton
+            android:id="@+id/CancelImageButton"
+            android:layout_width="27dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_weight="34.5"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/cancel_btn" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="56dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout08"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="1/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout07"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="2/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout06"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="3/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout05"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="4/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout04"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="5/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout03"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="6/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="7/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RelativeLayout01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1" >
+
+                <ImageView
+                    android:id="@+id/CaptureImageView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@android:color/transparent" />
+
+                <TextView
+                    android:id="@+id/CaptureTextView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="8/8"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/LinearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/RemoveImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/transparent"
+                    android:maxWidth="50dp"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center"
+                    android:src="@drawable/delete_btn" />
+
+                <ImageButton
+                    android:id="@+id/ChangeOrderImageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:maxWidth="50dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/changeorder_btn" />
+
+                <TextView
+                    android:id="@+id/RecordTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:text="00 : 00 : 00"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="56dp" >
+    </RelativeLayout>
+
+</RelativeLayout>

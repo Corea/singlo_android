@@ -1,0 +1,184 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".Login_garbage" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/main_top_bg" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:adjustViewBounds="true"
+                android:gravity="center_vertical"
+                android:scaleType="fitXY"
+                android:src="@drawable/main_top_logo" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="14dp"
+                android:text="프로골퍼모드"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/HomeImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/main_top_profile_off" />
+
+        <ImageButton
+            android:id="@+id/MylessonImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/main_top_menub01" />
+
+        <ImageButton
+            android:id="@+id/GolfbagImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/main_top_menuc01" />
+
+        <ImageButton
+            android:id="@+id/SettingImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/main_top_menud01" />
+    </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="91"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/AnswerPlayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="60dp"
+                android:layout_marginTop="60dp"
+                android:layout_weight="39.13"
+                android:background="@drawable/play_btn" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="7.79"
+                android:background="@drawable/namebar" >
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ImageView01"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="80"
+                android:adjustViewBounds="true"
+                android:src="@drawable/questioncontent_bar" />
+
+            <TextView
+                android:id="@+id/QuestionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="14.93"
+                android:adjustViewBounds="true"
+                android:background="@drawable/text_bg"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp"
+                android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/ImageView02"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="79.26"
+                android:adjustViewBounds="true"
+                android:src="@drawable/lessonupload_bar" />
+
+            <ImageButton
+                android:id="@+id/MovieButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="39.13"
+                android:background="@drawable/upload_icon" />
+
+            <TextView
+                android:id="@+id/MovieButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="레슨을 업로드 해주세요"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/AnswerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/lessonstart_btn" />
+
+    </LinearLayout>
+
+</ScrollView>
