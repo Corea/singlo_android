@@ -126,6 +126,12 @@
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
+            android:name="com.kapp.singlo.ui.MylessonEvaluation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
             android:name="com.kapp.singlo.ui.LessonRequestPage1"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"

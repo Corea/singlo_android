@@ -19,6 +19,7 @@ public class Const {
 	public static final String LESSON_ANSWER_URL = url_prefix + "/lesson/answer";
 	public static final String LESSON_ANSWER_GET_URL = url_prefix + "/lesson/get_answer";
 	public static final String LESSON_CAPTURE_GET_URL = url_prefix + "/lesson/get_video_capture";
+	public static final String LESSON_EVALUATION_URL = url_prefix + "/lesson/evaluation";
 	
 	public static final String TEACHER_GET_LIST_URL = url_prefix + "/teacher/get_list";
 	public static final String TEACHER_LIKE_URL = url_prefix + "/teacher/like";

@@ -61,7 +61,7 @@
             android:layout_weight="1" >
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout08"
+                android:id="@+id/RelativeLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -88,10 +88,23 @@
                     android:text="1/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout07"
+                android:id="@+id/RelativeLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -118,10 +131,23 @@
                     android:text="2/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout06"
+                android:id="@+id/RelativeLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -148,6 +174,19 @@
                     android:text="3/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -157,7 +196,7 @@
             android:layout_weight="1" >
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout05"
+                android:id="@+id/RelativeLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -184,10 +223,23 @@
                     android:text="4/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout04"
+                android:id="@+id/RelativeLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -214,10 +266,23 @@
                     android:text="5/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout03"
+                android:id="@+id/RelativeLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -244,6 +309,19 @@
                     android:text="6/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -253,7 +331,7 @@
             android:layout_weight="1" >
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout02"
+                android:id="@+id/RelativeLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -280,10 +358,23 @@
                     android:text="7/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/RelativeLayout01"
+                android:id="@+id/RelativeLayout8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -310,51 +401,73 @@
                     android:text="8/8"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/selectedImageView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="32dp"
+                    android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/LinearLayout1"
+            <RelativeLayout
+                android:id="@+id/RelativeLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
-                <ImageButton
-                    android:id="@+id/RemoveImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:maxWidth="50dp"
-                    android:scaleType="fitXY"
-                    android:layout_gravity="center"
-                    android:src="@drawable/delete_btn" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_above="@+id/RecordTimeTextView"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical" >
 
-                <ImageButton
-                    android:id="@+id/ChangeOrderImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:adjustViewBounds="true"
-                    android:layout_gravity="center"
-                    android:background="@android:color/transparent"
-                    android:maxWidth="50dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/changeorder_btn" />
+                    <ImageButton
+                        android:id="@+id/RemoveImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:layout_gravity="center"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/delete_btn" />
+
+                    <ImageButton
+                        android:id="@+id/ChangeOrderImageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/changeorder_btn" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/RecordTimeTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
                     android:text="00 : 00 : 00"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 

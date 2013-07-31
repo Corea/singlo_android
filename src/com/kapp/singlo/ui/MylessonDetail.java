@@ -68,6 +68,7 @@ public class MylessonDetail extends Activity {
 	private ImageButton lessonTabImageButton;
 	private ImageButton recommendTabImageButton;
 	private ImageButton mySwingTabImageButton;
+	private ImageButton evaluationImageButton;
 
 	private ImageView causeImageView;
 	private ImageView recommendImageView1;
@@ -238,6 +239,9 @@ public class MylessonDetail extends Activity {
 		recommendTabImageButton = (ImageButton) findViewById(R.id.RecommendTabImageButton);
 		mySwingTabImageButton = (ImageButton) findViewById(R.id.MySwingTabImageButton);
 		mySwingTabImageButton.setOnClickListener(mySwingTabImageButtonListener);
+		evaluationImageButton = (ImageButton) findViewById(R.id.EvaluationImageButton);
+		evaluationImageButton
+				.setOnClickListener(evaluationImageButtonOnClickListener);
 
 		causeTitleTextView = (TextView) findViewById(R.id.CauseTitleTextView);
 		causeDetailTextView = (TextView) findViewById(R.id.CauseDetailTextView);
@@ -390,13 +394,26 @@ public class MylessonDetail extends Activity {
 		}
 	};
 	private OnClickListener mySwingTabImageButtonListener = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(MylessonDetail.this, SingloVideoView.class);
+			Intent intent = new Intent(MylessonDetail.this,
+					SingloVideoView.class);
 			intent.putExtra("url", lesson.getVideo());
 			startActivity(intent);
-			
+
+		}
+	};
+
+	private OnClickListener evaluationImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(MylessonDetail.this,
+					MylessonEvaluation.class);
+			intent.putExtra("lesson_id", lesson_id);
+			startActivity(intent);
+
 		}
 	};
 

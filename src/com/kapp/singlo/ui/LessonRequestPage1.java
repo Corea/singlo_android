@@ -92,7 +92,7 @@ public class LessonRequestPage1 extends Activity {
 						choice_mode = items[whichButton];
 					}
 				})
-				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				.setPositiveButton("선택", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						// OK 버튼 클릭시 , 여기서 선택한 값을 메인 Activity 로 넘기면 된다.
 
@@ -113,7 +113,7 @@ public class LessonRequestPage1 extends Activity {
 						startActivity(intent);
 					}
 				})
-				.setNegativeButton("Cancel",
+				.setNegativeButton("취소",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
