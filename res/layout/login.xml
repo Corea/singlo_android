@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ececec"  >
+    android:background="#ececec" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -24,40 +24,33 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/top_back" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:text="로그인"
+                android:textColor="#4e4e4e"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <ImageButton
-                    android:id="@+id/BackImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="46dp"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/back_button" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="21dp"
-                    android:adjustViewBounds="true"
-                    android:text="로그인"
-                    android:textColor="#e2e2e2"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <ImageButton
+                android:id="@+id/BackImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/description_back_button"
+                android:scaleType="centerCrop"
+                android:src="@drawable/backtomain_btn" />
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="38dp"
             android:layout_weight="0.42" >
 
             <TextView
@@ -70,7 +63,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -81,12 +73,12 @@
 
             <TextView
                 android:id="@+id/TextView02"
-                android:layout_width="70dp"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="이름"
-                android:textColor="#718770"
-                android:textSize="12sp"
+                android:text="@string/text_name"
+                android:textColor="#434343"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -94,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="46dp"
+                android:layout_marginRight="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/join_input_back"
                 android:ems="10"
@@ -118,12 +110,12 @@
 
             <TextView
                 android:id="@+id/TextView01"
-                android:layout_width="70dp"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="생일"
-                android:textColor="#718770"
-                android:textSize="12sp"
+                android:text="@string/text_birthday"
+                android:textColor="#434343"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -131,10 +123,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="46dp"
+                android:layout_marginRight="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/join_input_back"
                 android:ems="10"
+                android:hint="@string/text_hint_birthday"
+                android:inputType="number"
                 android:lines="1"
                 android:paddingBottom="7dp"
                 android:paddingLeft="10dp"
@@ -151,12 +145,12 @@
 
             <TextView
                 android:id="@+id/TextView03"
-                android:layout_width="70dp"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:text="전화번호"
-                android:textColor="#718770"
-                android:textSize="12sp"
+                android:text="@string/text_phone"
+                android:textColor="#434343"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -164,11 +158,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="46dp"
+                android:layout_marginRight="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/join_input_back"
                 android:ems="10"
-                android:hint="+82"
+                android:hint="@string/text_hint_phone"
+                android:inputType="number"
                 android:lines="1"
                 android:paddingBottom="7dp"
                 android:paddingLeft="10dp"
@@ -181,8 +176,8 @@
             android:id="@+id/StartSingloButton"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/join_start_back"
             android:gravity="center_vertical|center_horizontal"
@@ -199,6 +194,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"
-        android:src="@drawable/join_bottom_logo" />
+        android:src="@drawable/logo_overlay" />
 
 </RelativeLayout>

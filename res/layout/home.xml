@@ -2,146 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ececec"
     android:orientation="vertical" >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_bg" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <ImageButton
-                android:id="@+id/LessonRequestImageButton"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_lesson" />
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:adjustViewBounds="true"
-                android:gravity="center_vertical"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_logo" />
-        </RelativeLayout>
-    </FrameLayout>
+    <include layout="@layout/user_top_menu" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" >
 
-        <ImageButton
-            android:id="@+id/HomeImageButton"
+        <Button
+            android:id="@+id/AllProfessionalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
+            android:background="@drawable/shorttabon_btn"
             android:scaleType="fitXY"
-            android:src="@drawable/main_top_menua01" />
+            android:text="모든 프로"
+            android:textColor="#ff34a93a" />
 
-        <ImageButton
-            android:id="@+id/MylessonImageButton"
+        <Button
+            android:id="@+id/LikeProfessionalButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
+            android:background="@drawable/shorttaboff_btn"
             android:scaleType="fitXY"
-            android:src="@drawable/main_top_menub01" />
-
-        <ImageButton
-            android:id="@+id/GolfbagImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_menuc01" />
-
-        <ImageButton
-            android:id="@+id/SettingImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_menud01" />
+            android:text="관심 프로"
+            android:textColor="#ff434343" />
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_servtop_bg" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <ImageButton
-                android:id="@+id/AllProfessionalImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/prolist_servtop_buttona02" />
-
-            <ImageButton
-                android:id="@+id/LikeProfessionalImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/prolist_servtop_buttonb01" />
-        </LinearLayout>
-    </FrameLayout>
 
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:background="#ffffffff">
     </ListView>
 
 </LinearLayout>

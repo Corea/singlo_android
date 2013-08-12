@@ -11,91 +11,7 @@
         android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_bg" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:adjustViewBounds="true"
-                    android:gravity="center_vertical"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/main_top_logo" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="14dp"
-                    android:text="프로골퍼모드"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <ImageButton
-                android:id="@+id/HomeImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_profile_off" />
-
-            <ImageButton
-                android:id="@+id/MylessonImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_menub01" />
-
-            <ImageButton
-                android:id="@+id/GolfbagImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_menuc01" />
-
-            <ImageButton
-                android:id="@+id/SettingImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_menud01" />
-        </LinearLayout>
+        <include layout="@layout/teacher_top_menu" />
 
         <ImageButton
             android:id="@+id/AnswerPlayButton"
@@ -502,7 +418,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="14dp"
                             android:thumb="@android:color/transparent" />
-
                     </FrameLayout>
                 </LinearLayout>
 
@@ -969,7 +884,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/lessonstart_btn"
+            android:background="@drawable/lessoncomplete_btn"
             android:scaleType="fitXY" />
     </LinearLayout>
 

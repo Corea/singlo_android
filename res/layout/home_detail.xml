@@ -5,107 +5,24 @@
     android:background="#ececec"
     android:orientation="vertical" >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_bg" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <ImageButton
-                android:id="@+id/LessonRequestImageButton"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_lesson" />
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:adjustViewBounds="true"
-                android:gravity="center_vertical"
-                android:scaleType="fitXY"
-                android:src="@drawable/main_top_logo" />
-        </RelativeLayout>
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageButton
-            android:id="@+id/HomeImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_menua01" />
-
-        <ImageButton
-            android:id="@+id/MylessonImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_menub01" />
-
-        <ImageButton
-            android:id="@+id/GolfbagImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_menuc01" />
-
-        <ImageButton
-            android:id="@+id/SettingImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/main_top_menud01" />
-    </LinearLayout>
+    <include layout="@layout/user_top_menu" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="15dp" >
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <WebView
+            android:id="@+id/ProfileWebView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="10dp"
-            android:adjustViewBounds="true"
             android:background="@android:color/white"
-            android:maxWidth="63dp"
-            android:padding="5dp"
-            android:src="@drawable/join_example_photo" />
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false"
+            android:padding="5dp" />
 
         <RelativeLayout
             android:id="@+id/RelativeLayout1"
@@ -149,61 +66,19 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <RatingBar
+                    android:id="@+id/ScoreRatingBar"
+                    style="@style/SingloSmallRatingBar"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp" >
-
-                    <ImageView
-                        android:id="@+id/ImageView01"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:longClickable="false"
-                        android:src="@drawable/prolist_star100" />
-
-                    <ImageView
-                        android:id="@+id/AnswerPlayButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:longClickable="false"
-                        android:src="@drawable/prolist_star100" />
-
-                    <ImageView
-                        android:id="@+id/ImageView02"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:longClickable="false"
-                        android:src="@drawable/prolist_star100" />
-
-                    <ImageView
-                        android:id="@+id/imageView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:longClickable="false"
-                        android:src="@drawable/prolist_star100" />
-
-                    <ImageView
-                        android:id="@+id/imageView5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:longClickable="false"
-                        android:src="@drawable/prolist_star100" />
-                </LinearLayout>
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:isIndicator="true"
+                    android:longClickable="false"
+                    android:numStars="5"
+                    android:stepSize="0.1" />
 
                 <TextView
                     android:id="@+id/TextView_00"
@@ -282,7 +157,7 @@
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/PaymentImageButton"
+                android:id="@+id/FavoriteImageButton"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_alignBottom="@+id/linearLayout1"
@@ -366,10 +241,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:background="@android:color/white"
             android:padding="15dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:background="@android:color/white"
             android:text="&apos;비밀 SNS 계정&apos; 파문을 일으킨 기성용(24·스완지시티)에 대한 대한축구협회(KFA)의 징계여부가 이르면 10일 결정될 것으로 보인다.
 
 국제축구연맹(FIFA) 20세 이하(U-20) 월드컵에 한국 선수단 단장 자격으로 동행했던 허정무 대한축구협회 부회장이 9일 선수단과 함께 귀국했다. 축구협회는 그동안 기성용 파문에 대해 허 부회장이 귀국한 후 부회장단 회의를 통해 본격적인 논의가 진행될 것이라고 밝혀왔다.
@@ -377,8 +252,7 @@
 대한축구협회 관계자는 이날 뉴스1과의 통화에서 &apos;허 부회장이 귀국했지만 부회장단 모임은 없었다&apos;며 &apos;정확하게 언제 열릴지는 모르지만 10일이나 11일 안으로 협의가 있을 것&apos;이라고 말했다.
 "
             android:textColor="@android:color/black"
-            android:textSize="12sp"
-             />
+            android:textSize="12sp" />
     </ScrollView>
 
 </LinearLayout>

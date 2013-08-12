@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:descendantFocusability="blocksDescendants"
     android:background="#FFFFFF"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -11,7 +11,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:background="#ececec"
         android:clickable="false"
         android:longClickable="false" >
 
@@ -23,7 +22,7 @@
             android:background="@anim/shape" >
 
             <WebView
-                android:id="@+id/webView1"
+                android:id="@+id/ProfileWebView"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="2dp"
@@ -55,7 +54,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="#ececec"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
@@ -71,7 +69,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:layout_marginTop="5dp"
-                    android:background="#ececec"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
@@ -87,69 +84,27 @@
                 android:layout_height="15dp"
                 android:layout_marginTop="2dp" >
 
-                <ImageView
-                    android:id="@+id/imageView1"
+                <RatingBar
+                    android:id="@+id/ScoreRatingBar"
+                    style="@style/SingloSmallRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:src="@drawable/prolist_star100" />
-
-                <ImageView
-                    android:id="@+id/AnswerPlayButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:src="@drawable/prolist_star100" />
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:src="@drawable/prolist_star100" />
-
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:src="@drawable/prolist_star100" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:src="@drawable/prolist_star100" />
+                    android:layout_gravity="center_vertical"
+                    android:numStars="5"
+                    android:stepSize="0.1" />
 
                 <TextView
-                    android:id="@+id/TextView_00"
+                    android:id="@+id/ScoreTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
-                    android:background="#ececec"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:gravity="center_vertical"
                     android:longClickable="false"
                     android:paddingLeft="5dp"
-                    android:text="100명 5.0점"
+                    android:text="5.0점 / 100명"
                     android:textColor="#858585"
                     android:textSize="10dp" />
             </LinearLayout>
@@ -159,7 +114,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="15dp"
                 android:layout_marginTop="3dp"
-                android:background="#ececec"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
@@ -181,7 +135,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/nonselected_checkbox"
+                android:background="@drawable/selectoff_icon"
                 android:scaleType="fitXY" />
         </LinearLayout>
     </LinearLayout>

@@ -29,7 +29,6 @@ public class DBConnector extends SQLiteOpenHelper {
 	private static final String KEY_SERVER_ID = "server_id";
 	private static final String KEY_NAME = "name";
 	private static final String KEY_CERTIFICATION = "certification";
-	private static final String KEY_LESSONS = "lessons";
 	private static final String KEY_PRICE = "price";
 	private static final String KEY_PROFILE = "profile";
 	private static final String KEY_PHOTO = "photo";
@@ -60,6 +59,10 @@ public class DBConnector extends SQLiteOpenHelper {
 	private static final String KEY_IMAGE = "image";
 	private static final String KEY_LINE = "line";
 	private static final String KEY_LIKE = "like";
+	private static final String KEY_ACTIVE = "active";
+	private static final String KEY_STATUS_MESSAGE = "status_message";
+	private static final String KEY_EVALUATION_COUNT = "evaluation_count";
+	private static final String KEY_EVALUATION_SCORE = "evaluation_score";
 
 	public DBConnector(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -71,9 +74,12 @@ public class DBConnector extends SQLiteOpenHelper {
 		String CREATE_PROFESSIONAL_TABLE = "CREATE TABLE " + TABLE_PROFESSIONAL
 				+ "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID
 				+ " INTEGER," + KEY_NAME + " TEXT," + KEY_CERTIFICATION
-				+ " TEXT," + KEY_LESSONS + " TEXT," + KEY_PRICE + " INTEGER,"
-				+ KEY_PROFILE + " TEXT," + KEY_PHOTO + " TEXT," + KEY_URL
-				+ " TEXT," + KEY_LIKE + " INTEGER" + ")";
+				+ " TEXT," + KEY_PRICE + " INTEGER," + KEY_PROFILE + " TEXT,"
+				+ KEY_PHOTO + " TEXT," + KEY_URL + " TEXT," + KEY_LIKE
+				+ " INTEGER," + KEY_ACTIVE + " INTEGER," + KEY_STATUS
+				+ " INTEGER," + KEY_STATUS_MESSAGE + " TEXT,"
+				+ KEY_EVALUATION_COUNT + " INTEGER," + KEY_EVALUATION_SCORE
+				+ " REAL" + ")";
 		db.execSQL(CREATE_PROFESSIONAL_TABLE);
 
 		String CREATE_LESSON_TABLE = "CREATE TABLE " + TABLE_LESSON + "("
@@ -132,12 +138,16 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_SERVER_ID, professional.getServerId());
 		values.put(KEY_NAME, professional.getName());
 		values.put(KEY_CERTIFICATION, professional.getCertification());
-		values.put(KEY_LESSONS, professional.getLesson());
 		values.put(KEY_PRICE, professional.getPrice());
 		values.put(KEY_PROFILE, professional.getProfile());
 		values.put(KEY_PHOTO, professional.getPhoto());
 		values.put(KEY_URL, professional.getUrl());
 		values.put(KEY_LIKE, professional.getLike());
+		values.put(KEY_ACTIVE, professional.getActive());
+		values.put(KEY_STATUS, professional.getStatus());
+		values.put(KEY_STATUS_MESSAGE, professional.getStatusMessage());
+		values.put(KEY_EVALUATION_COUNT, professional.getEvaluationCount());
+		values.put(KEY_EVALUATION_SCORE, professional.getEvaluationScore());
 
 		// Inserting Row
 		db.insert(TABLE_PROFESSIONAL, null, values);
@@ -148,19 +158,21 @@ public class DBConnector extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_PROFESSIONAL, new String[] { KEY_ID,
-				KEY_SERVER_ID, KEY_NAME, KEY_CERTIFICATION, KEY_LESSONS,
-				KEY_PRICE, KEY_PROFILE, KEY_PHOTO, KEY_URL, KEY_LIKE }, KEY_ID
-				+ "=?", new String[] { String.valueOf(id) }, null, null, null,
-				null);
+				KEY_SERVER_ID, KEY_NAME, KEY_CERTIFICATION, KEY_PRICE,
+				KEY_PROFILE, KEY_PHOTO, KEY_URL, KEY_LIKE, KEY_ACTIVE,
+				KEY_STATUS, KEY_STATUS_MESSAGE, KEY_EVALUATION_COUNT,
+				KEY_EVALUATION_SCORE }, KEY_ID + "=?",
+				new String[] { String.valueOf(id) }, null, null, null, null);
 
 		if (cursor != null) {
 			cursor.moveToFirst();
 
 			Professional professional = new Professional(cursor.getInt(0),
 					cursor.getInt(1), cursor.getString(2), cursor.getString(3),
-					cursor.getString(4), Integer.parseInt(cursor.getString(5)),
-					cursor.getString(6), cursor.getString(7),
-					cursor.getString(8), cursor.getInt(9));
+					cursor.getInt(4), cursor.getString(5), cursor.getString(6),
+					cursor.getString(7), cursor.getInt(8), cursor.getInt(9),
+					cursor.getInt(10), cursor.getString(11), cursor.getInt(12),
+					cursor.getDouble(13));
 			db.close();
 			return professional;
 		}
@@ -172,9 +184,10 @@ public class DBConnector extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_PROFESSIONAL, new String[] { KEY_ID,
-				KEY_SERVER_ID, KEY_NAME, KEY_CERTIFICATION, KEY_LESSONS,
-				KEY_PRICE, KEY_PROFILE, KEY_PHOTO, KEY_URL, KEY_LIKE },
-				KEY_SERVER_ID + "=?",
+				KEY_SERVER_ID, KEY_NAME, KEY_CERTIFICATION, KEY_PRICE,
+				KEY_PROFILE, KEY_PHOTO, KEY_URL, KEY_LIKE, KEY_ACTIVE,
+				KEY_STATUS, KEY_STATUS_MESSAGE, KEY_EVALUATION_COUNT,
+				KEY_EVALUATION_SCORE }, KEY_SERVER_ID + "=?",
 				new String[] { String.valueOf(server_id) }, null, null, null,
 				null);
 
@@ -183,9 +196,10 @@ public class DBConnector extends SQLiteOpenHelper {
 
 			Professional professional = new Professional(cursor.getInt(0),
 					cursor.getInt(1), cursor.getString(2), cursor.getString(3),
-					cursor.getString(4), Integer.parseInt(cursor.getString(5)),
-					cursor.getString(6), cursor.getString(7),
-					cursor.getString(8), cursor.getInt(9));
+					cursor.getInt(4), cursor.getString(5), cursor.getString(6),
+					cursor.getString(7), cursor.getInt(8), cursor.getInt(9),
+					cursor.getInt(10), cursor.getString(11), cursor.getInt(12),
+					cursor.getDouble(13));
 
 			db.close();
 			return professional;
@@ -209,10 +223,12 @@ public class DBConnector extends SQLiteOpenHelper {
 			do {
 				Professional professional = new Professional(cursor.getInt(0),
 						cursor.getInt(1), cursor.getString(2),
-						cursor.getString(3), cursor.getString(4),
-						Integer.parseInt(cursor.getString(5)),
-						cursor.getString(6), cursor.getString(7),
-						cursor.getString(8), cursor.getInt(9));
+						cursor.getString(3), cursor.getInt(4),
+						cursor.getString(5), cursor.getString(6),
+						cursor.getString(7), cursor.getInt(8),
+						cursor.getInt(9), cursor.getInt(10),
+						cursor.getString(11), cursor.getInt(12),
+						cursor.getDouble(13));
 
 				professionalList.add(professional);
 			} while (cursor.moveToNext());
@@ -230,12 +246,16 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_NAME, professional.getName());
 		values.put(KEY_SERVER_ID, professional.getServerId());
 		values.put(KEY_CERTIFICATION, professional.getCertification());
-		values.put(KEY_LESSONS, professional.getLesson());
 		values.put(KEY_PRICE, professional.getPrice());
 		values.put(KEY_PROFILE, professional.getProfile());
 		values.put(KEY_PHOTO, professional.getPhoto());
 		values.put(KEY_URL, professional.getUrl());
 		values.put(KEY_LIKE, professional.getLike());
+		values.put(KEY_ACTIVE, professional.getActive());
+		values.put(KEY_STATUS, professional.getStatus());
+		values.put(KEY_STATUS_MESSAGE, professional.getStatusMessage());
+		values.put(KEY_EVALUATION_COUNT, professional.getEvaluationCount());
+		values.put(KEY_EVALUATION_SCORE, professional.getEvaluationScore());
 
 		// updating row
 		int result = db.update(TABLE_PROFESSIONAL, values, KEY_ID + " = ?",

@@ -3,7 +3,7 @@
     android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ececec" >
+    android:background="#e6e6e6" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -24,49 +24,40 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/top_back" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:text="@string/text_register"
+                android:textColor="#4e4e4e"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <ImageButton
-                    android:id="@+id/BackImageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="46dp"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/description_back_button"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/back_button" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="21dp"
-                    android:adjustViewBounds="true"
-                    android:text="@string/text_register"
-                    android:textColor="#e2e2e2"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <ImageButton
+                android:id="@+id/BackImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/description_back_button"
+                android:scaleType="centerCrop"
+                android:src="@drawable/backtomain_btn" />
         </FrameLayout>
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/ProfileImageView"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:adjustViewBounds="true"
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/description_profile_image"
-            android:maxWidth="100dp"
-            android:padding="5dp"
-            android:src="@drawable/join_example_photo" />
+            android:scaleType="fitXY"
+            android:src="@drawable/pictureupload_btn" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,21 +66,20 @@
             android:layout_weight="0.42" >
 
             <TextView
-                android:id="@+id/TextView02"
-                android:layout_width="70dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/text_name"
-                android:textColor="#718770"
-                android:textSize="12sp"
+                android:textColor="#434343"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/NameEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="46dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="40dp"
                 android:background="@drawable/join_input_back"
                 android:ems="10"
                 android:hint="@string/text_hint_name"
@@ -108,24 +98,24 @@
             android:layout_weight="0.42" >
 
             <TextView
-                android:id="@+id/TextView01"
-                android:layout_width="70dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/text_birthday"
-                android:textColor="#718770"
-                android:textSize="12sp"
+                android:textColor="#434343"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/BirthdayEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="46dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="40dp"
                 android:background="@drawable/join_input_back"
                 android:ems="10"
                 android:hint="@string/text_hint_birthday"
+                android:inputType="number"
                 android:lines="1"
                 android:paddingBottom="7dp"
                 android:paddingLeft="10dp"
@@ -141,25 +131,24 @@
             android:layout_weight="0.42" >
 
             <TextView
-                android:id="@+id/TextView03"
-                android:layout_width="70dp"
+                android:layout_width="87dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="@string/text_phone"
-                android:textColor="#718770"
-                android:textSize="12sp"
+                android:textColor="#434343"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/PhoneNumberEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="46dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="40dp"
                 android:background="@drawable/join_input_back"
                 android:ems="10"
                 android:hint="@string/text_hint_phone"
-                android:inputType="phone"
+                android:inputType="number"
                 android:lines="1"
                 android:paddingBottom="7dp"
                 android:paddingLeft="10dp"
@@ -178,7 +167,8 @@
                 android:id="@+id/UsingTermImageButton"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginLeft="85dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="40dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/description_null"
@@ -189,30 +179,29 @@
                 android:id="@+id/UsingTermTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/using_term"
-                android:textColor="#969696" />
+                android:textColor="#434343"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/text_agree"
-                android:textColor="#969696" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp" >
+                android:textColor="#434343"
+                android:textSize="14sp" />
 
             <ImageButton
                 android:id="@+id/UsingPersonalInfoImageButton"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginLeft="85dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="37dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/description_null"
@@ -223,33 +212,36 @@
                 android:id="@+id/UsingPersonalInfoTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/using_personal_info"
-                android:textColor="#969696" />
+                android:textColor="#434343"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/text_agree"
-                android:textColor="#969696" />
+                android:textColor="#434343"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <Button
             android:id="@+id/StartSingloButton"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_marginTop="28dp"
             android:background="@drawable/join_start_back"
             android:gravity="center_vertical|center_horizontal"
             android:text="@string/text_startSinglo"
             android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
 
         <ImageView
             android:id="@+id/imageView1"
@@ -258,7 +250,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
             android:contentDescription="@string/description_null"
-            android:src="@drawable/join_bottom_logo" />
+            android:src="@drawable/logo_overlay" />
     </LinearLayout>
 
 </ScrollView>

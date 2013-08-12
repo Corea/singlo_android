@@ -2,7 +2,9 @@ package com.kapp.singlo.util;
 
 import java.io.File;
 
+import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 public class Utility {
 
@@ -32,4 +34,40 @@ public class Utility {
 		return ret / 1024;
 	}
 
+	public static String getCacheFilename(Context context, String filename,
+			Boolean... params) {
+		boolean remove_old_version = false;
+		if (params.length > 0) {
+			remove_old_version = params[0].booleanValue();
+		}
+
+		File cacheDir = context.getCacheDir();
+
+		if (!cacheDir.exists()) {
+			cacheDir.mkdirs();
+		}
+
+		File tempFile = new File(cacheDir, filename);
+
+		if (remove_old_version && tempFile.exists())
+			tempFile.delete();
+
+		return tempFile.getAbsolutePath();
+	}
+
+	public static String getImageHtmlCode(String _imageURL) {
+		StringBuffer sb = new StringBuffer("<html>");
+		sb.append("<head>");
+		sb.append("<style type=\"text/css\">");
+		sb.append("body { margin: 0; }");
+		sb.append("</style>");
+		sb.append("</head>");
+		sb.append("<body>");
+		sb.append("<img width=\"100%\" height=\"100%\" src=\"" + _imageURL
+				+ "\"/>");
+		sb.append("</body>");
+		sb.append("</html>");
+		Log.d("sb", sb.toString());
+		return sb.toString();
+	}
 }

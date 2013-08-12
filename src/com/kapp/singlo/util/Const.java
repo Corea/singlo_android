@@ -23,10 +23,14 @@ public class Const {
 	
 	public static final String TEACHER_GET_LIST_URL = url_prefix + "/teacher/get_list";
 	public static final String TEACHER_LIKE_URL = url_prefix + "/teacher/like";
+	public static final String TEACHER_LESSON_STATUS_URL = url_prefix + "/teacher/lesson_status";
 	
 	public static final String VIDEO_URL = url_prefix + "/video/";
 	public static final String CAPTURE_URL = url_prefix + "/capture/";
+	public static final String PROFILE_URL = url_prefix + "/profile/";
 
+	public static final String PROFILE_NONE_URL = "http://garagestory.cafe24.com/img/none.jpg" ;
+		
 	public static final String lineEnd = "\r\n";
 	public static final String twoHyphens = "--";
 	public static final String boundary = "*****";
