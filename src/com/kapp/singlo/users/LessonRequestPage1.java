@@ -270,7 +270,7 @@ public class LessonRequestPage1 extends Activity {
 
 										intent.putExtra(
 												MediaStore.EXTRA_VIDEO_QUALITY,
-												0);
+												1);
 										intent.putExtra(
 												MediaStore.EXTRA_SIZE_LIMIT,
 												10 * 1024 * 1024);

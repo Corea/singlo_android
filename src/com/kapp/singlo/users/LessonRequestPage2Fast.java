@@ -6,8 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
 import com.kapp.singlo.R;
+import com.kapp.singlo.billing.IabHelper;
+import com.kapp.singlo.billing.IabResult;
+import com.kapp.singlo.billing.Purchase;
+import com.kapp.singlo.data.Professional;
 import com.kapp.singlo.util.Const;
 
 import android.app.Activity;
@@ -40,10 +45,34 @@ public class LessonRequestPage2Fast extends Activity {
 
 	private ProgressDialog processDialog;
 
+	private int REQUEST_CODE_PURCHASE = 1001;
+	private String FAST_LESSON = "com.kapp.singlo.fast_lesson";
+	private IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener;
+	private IabHelper mHelper;
+	private Activity mActivity;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lesson_request_page2_fast);
-
+		
+		
+		mActivity = this;
+		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuzmpFd1j/O1CYxR6k5QKjozel0TtFhWTK6aeWB8aIp9R4W6SH//DO/9DutcGDAGs3IWBjPeYA+DLI7A3Qjx2j50K4IdYXWtKeFIQVMatuSUZxwzgB6Aj90trhmbkdPpAAlaMgqyW/ynV8lrRilV6tnzV43RNW/UcQvBL74sq+m10QMQEekOuK4i/eOw2qpwfyyz4mV5DOsMoec0d9pmHjmq+UGyRSCaV6g6Sx79PgiMfYspTtyTuYaoZDQuPQFnLvCbAV2cbcpTdZVmuAU6morsuQl+7XHYowjz+7Fg2P5jfZ6k3UmeTtEQD+8AE3YA56I7VBPIYQ3Y/1akpXymohQIDAQAB";
+	   mHelper = new IabHelper(this, base64EncodedPublicKey);
+		  
+	   mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+			@Override
+			public void onIabSetupFinished(IabResult result) {			
+				// TODO Auto-generated method stub
+				 if (!result.isSuccess()) {
+			         // Oh noes, there was a problem.
+			         
+			      }
+				 readyForPurchase();
+			         // Hooray, IAB is fully set up!  
+			}
+		});	   
+		   
 		SharedPreferences spLogin = getSharedPreferences("login", Activity.MODE_PRIVATE);
 		id = spLogin.getInt("id", 0);
 
@@ -58,28 +87,49 @@ public class LessonRequestPage2Fast extends Activity {
 		paymentImageButton.setOnClickListener(paymentImageButtonClickListener);
 
 	}
-
+	private void readyForPurchase(){
+		mPurchaseFinishedListener  = new IabHelper.OnIabPurchaseFinishedListener() {
+			@Override
+			public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+				// TODO Auto-generated method stub
+				if (result.isFailure()) {
+					Log.d("SAJO", "Error purchasing: " + result);
+				     return;
+				}else{
+					Log.d("SAJO", "item : " + purchase.getSku());
+				    uploadVideo();
+				}
+			}
+			
+		};
+	}
+	private void requestPurchase(){
+		mHelper.launchPurchaseFlow(mActivity, FAST_LESSON, REQUEST_CODE_PURCHASE, mPurchaseFinishedListener);
+	}
+	
 	OnClickListener paymentImageButtonClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			if (submitProcess) {
-				return;
-			}
-			submitProcess = true;
 			
-			processDialog = new ProgressDialog(LessonRequestPage2Fast.this);
-			processDialog.setMessage("동영상을 업로드 하고 있습니다.");
-			processDialog.setIndeterminate(false);
-			processDialog.show();
-			
-			submitQuestion = new SubmitQuestion();
-			submitQuestion.execute();
-			
+			requestPurchase();
 
 		}
 	};
-
+	private void uploadVideo(){
+		if (submitProcess) {
+			return;
+		}
+		submitProcess = true;
+		
+		processDialog = new ProgressDialog(LessonRequestPage2Fast.this);
+		processDialog.setMessage("동영상을 업로드 하고 있습니다.");
+		processDialog.setIndeterminate(false);
+		processDialog.show();
+		
+		submitQuestion = new SubmitQuestion();
+		submitQuestion.execute();
+	}
 	private class SubmitQuestion extends AsyncTask<String, String, String> {
 
 		@Override
@@ -187,6 +237,23 @@ public class LessonRequestPage2Fast extends Activity {
 			Log.e("File Up", "result = " + s);
 			dos.close();
 		};
-
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		 super.onActivityResult(requestCode, resultCode, data);
+		if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+	        // not handled, so handle it ourselves (here's where you'd
+	        // perform any handling of activity results not related to in-app
+	        // billing...
+		}else{
+	        if (requestCode == REQUEST_CODE_PURCHASE) {
+	        	
+		    }else{ //결제 실패
+		      Log.d("SAJO", "purchase failed");
+		    }
+		}
+		
 	}
 }

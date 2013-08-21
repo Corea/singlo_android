@@ -213,14 +213,17 @@ public class Login extends Activity {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 			InputStream is;
-
-			Log.d("Login", url);
+			SharedPreferences prefs = getSharedPreferences("Singlo", MODE_PRIVATE);;
+			String pushtoken = prefs.getString("pushtoken", "");
+			Log.d("SAJO", "gogo");
+			Log.d("SAJO", "pushtoken : " + pushtoken);
+			Log.d("SAJO", url);
 			try {
 				List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
 				nameValuePairs.add(new BasicNameValuePair("name", name));
-				nameValuePairs
-						.add(new BasicNameValuePair("birthday", birthday));
+				nameValuePairs.add(new BasicNameValuePair("birthday", birthday));
 				nameValuePairs.add(new BasicNameValuePair("phone", phone));
+				nameValuePairs.add(new BasicNameValuePair("pushtoken", pushtoken));
 
 				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
