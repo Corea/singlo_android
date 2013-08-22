@@ -276,7 +276,7 @@ public class LessonRequestPage1 extends Activity {
 												10 * 1024 * 1024);
 										intent.putExtra(
 												MediaStore.EXTRA_DURATION_LIMIT,
-												8);
+												6);
 										startActivityForResult(intent, 2);
 									} else if (choice_movie_mode
 											.equals("동영상 선택")) {

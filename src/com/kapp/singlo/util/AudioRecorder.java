@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Context;
 import android.media.AudioFormat;
@@ -13,12 +14,15 @@ import android.media.MediaRecorder;
 
 public class AudioRecorder {
 	private static final int RECORDER_BPP = 16;
-	private static final String AUDIO_RECORDER_TEMP_FILE = "record_temp.raw";
-	private static final String AUDIO_RECORDER_FINAL_FILE = "record_final.wav";
+	private static final String AUDIO_RECORDER_TEMP_FILE = "record_temp";
+	private static final String AUDIO_RECORDER_TEMP_EXTENSION = ".raw";
+	private static final String AUDIO_RECORDER_FINAL_FILE = "record_final";
+	private static final String AUDIO_RECORDER_FINAL_EXTENSION = ".wav";
 	private static final int RECORDER_SAMPLERATE = 8000;
 	private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_STEREO;
 	private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
+	private int hash;
 	private int bufferSize;
 	private AudioRecord recorder = null;
 	private Thread recordingThread = null;
@@ -33,11 +37,12 @@ public class AudioRecorder {
 
 	// getCacheFilename
 
-	public AudioRecorder(Context context) {
-
+	public AudioRecorder(Context context, int hash) {
 		this.context = context;
 		bufferSize = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,
 				RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING);
+
+		this.hash = hash;
 	}
 
 	public boolean isRecording() {
@@ -46,6 +51,10 @@ public class AudioRecorder {
 
 	public boolean isStarted() {
 		return isStarted;
+	}
+
+	public String getTempFilename() {
+		return tempFilename;
 	}
 
 	public void startRecording() {
@@ -100,7 +109,7 @@ public class AudioRecorder {
 
 		recordingThread.start();
 	}
-
+/*
 	public void stopRecording() {
 		isRecording = false;
 		isStarted = false;
@@ -114,15 +123,17 @@ public class AudioRecorder {
 		}
 
 		realFilename = Utility.getCacheFilename(context,
-				AUDIO_RECORDER_FINAL_FILE, true);
+				AUDIO_RECORDER_FINAL_FILE + AUDIO_RECORDER_FINAL_EXTENSION,
+				true);
 		copyWaveFile(tempFilename, realFilename);
 		deleteTempFile();
 	}
-
+*/
 	private void writeAudioDataToFile(boolean is_resume) {
 		byte data[] = new byte[bufferSize];
-		tempFilename = Utility.getCacheFilename(context,
-				AUDIO_RECORDER_TEMP_FILE, !is_resume);
+		tempFilename = Utility
+				.getCacheFilename(context, AUDIO_RECORDER_TEMP_FILE + hash
+						+ AUDIO_RECORDER_TEMP_EXTENSION, !is_resume);
 		FileOutputStream os = null;
 
 		try {
@@ -153,42 +164,9 @@ public class AudioRecorder {
 		}
 	}
 
-	private void copyWaveFile(String inFilename, String outFilename) {
-		FileInputStream in = null;
-		FileOutputStream out = null;
-		long totalAudioLen = 0;
-		long totalDataLen = totalAudioLen + 44;
-		long longSampleRate = RECORDER_SAMPLERATE;
-		int channels = 2;
-		long byteRate = RECORDER_BPP * RECORDER_SAMPLERATE * channels / 8;
-
-		byte[] data = new byte[bufferSize];
-
-		try {
-			in = new FileInputStream(inFilename);
-			out = new FileOutputStream(outFilename);
-			totalAudioLen = in.getChannel().size();
-			totalDataLen = totalAudioLen + 44;
-
-			WriteWaveFileHeader(out, totalAudioLen, totalDataLen,
-					longSampleRate, channels, byteRate);
-
-			while (in.read(data) != -1) {
-				out.write(data);
-			}
-
-			in.close();
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void WriteWaveFileHeader(FileOutputStream out, long totalAudioLen,
-			long totalDataLen, long longSampleRate, int channels, long byteRate)
-			throws IOException {
+	private static void WriteWaveFileHeader(FileOutputStream out,
+			long totalAudioLen, long totalDataLen, long longSampleRate,
+			int channels, long byteRate) throws IOException {
 
 		byte[] header = new byte[44];
 
@@ -244,5 +222,65 @@ public class AudioRecorder {
 		File file = new File(tempFilename);
 
 		file.delete();
+	}
+
+	private static void deleteTempFile(String filename) {
+		File file = new File(filename);
+
+		file.delete();
+	}
+
+
+	public static void mergeRecorder(Context context,
+			List<AudioRecorder> audioRecorderList) {
+
+		String realFilename = Utility.getCacheFilename(context,
+				AUDIO_RECORDER_FINAL_FILE + AUDIO_RECORDER_FINAL_EXTENSION,
+				true);
+
+		long totalAudioLen = 0;
+		for (int i = 0; i < audioRecorderList.size(); i++) {
+			try {
+				FileInputStream in = new FileInputStream(audioRecorderList.get(
+						i).getTempFilename());
+				totalAudioLen += in.getChannel().size();
+				in.close();
+			} catch (Exception e) {
+
+			}
+		}
+
+		try {
+			FileInputStream in = null;
+			FileOutputStream out = new FileOutputStream(realFilename);
+			long totalDataLen = totalAudioLen + 44;
+			long longSampleRate = RECORDER_SAMPLERATE;
+			int channels = 2;
+			long byteRate = RECORDER_BPP * RECORDER_SAMPLERATE * channels / 8;
+
+			int bufferSize = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,
+					RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING);
+			byte[] data = new byte[bufferSize];
+
+			WriteWaveFileHeader(out, totalAudioLen, totalDataLen,
+					longSampleRate, channels, byteRate);
+			for (int i = 0; i < audioRecorderList.size(); i++) {
+				in = new FileInputStream(audioRecorderList.get(i)
+						.getTempFilename());
+
+				while (in.read(data) != -1) {
+					out.write(data);
+				}
+
+				in.close();
+				deleteTempFile(audioRecorderList.get(i).getTempFilename());
+			}
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

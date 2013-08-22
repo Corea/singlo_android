@@ -2,140 +2,203 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ececec"
     android:orientation="vertical" >
 
     <include layout="@layout/teacher_top_menu" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15dp" >
+        android:layout_height="wrap_content" >
 
-        <WebView
-            android:id="@+id/ProfileWebView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/white"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:longClickable="false"
-            android:padding="5dp" />
-
-        <RelativeLayout
-            android:id="@+id/RelativeLayout1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="6dp"
-            android:background="@drawable/pro_introduce_back"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp" >
+            android:orientation="vertical" >
 
-            <LinearLayout
-                android:id="@+id/linearLayout1"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:orientation="vertical" >
+                android:background="@drawable/singlo_subtitle"
+                android:paddingBottom="5dp"
+                android:paddingLeft="100dp"
+                android:paddingTop="33dp" >
+
+                <LinearLayout
+                    android:id="@+id/NameLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center_vertical"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/pro_icon" />
+
+                    <TextView
+                        android:id="@+id/NameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:text="이름"
+                        android:textColor="#484848"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/NameLinearLayout"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/NameLinearLayout" >
 
-                    <TextView
-                        android:id="@+id/TextView_01"
+                    <Button
+                        android:id="@+id/RecommendVideoButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:longClickable="false"
-                        android:text="이름/"
-                        android:textColor="#000000"
-                        android:textSize="15sp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/gray_btn"
+                        android:gravity="center"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="7dp"
+                        android:paddingTop="3dp"
+                        android:text="추천영상"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/NameLinearLayout"
+                    android:layout_marginTop="5dp"
+                    android:text="부재 중 메시지"
+                    android:textColor="#ff727272"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="33dp"
+                android:paddingLeft="100dp"
+                android:paddingRight="8dp"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:id="@+id/PriceTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="￦6000"
+                    android:textColor="#ff303030"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/ClassTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="Class A"
+                        android:textColor="#ff303030"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/TextView_02"
+                        android:id="@+id/CertificationTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:text="￦6,000"
-                        android:textColor="#858585"
-                        android:textSize="15sp" />
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="LPGA"
+                        android:textColor="#ff7c7c7c"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
-                <RatingBar
-                    android:id="@+id/ScoreRatingBar"
-                    style="@style/SingloSmallRatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:isIndicator="true"
-                    android:longClickable="false"
-                    android:numStars="5"
-                    android:stepSize="0.1" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/ScoreTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center_vertical"
-                    android:longClickable="false"
-                    android:text="100명 5.0점"
-                    android:textColor="#858585"
-                    android:textSize="12sp" />
+                    <RatingBar
+                        android:id="@+id/ScoreRatingBar"
+                        style="@style/SingloSmallRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:isIndicator="true"
+                        android:longClickable="false"
+                        android:numStars="5"
+                        android:stepSize="0.1" />
 
-                <TextView
-                    android:id="@+id/TextView_03"
-                    android:layout_width="fill_parent"
-                    android:layout_height="15dp"
-                    android:background="@android:color/transparent"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:text="certification"
-                    android:textColor="#858585"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/ScoreTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@android:color/transparent"
+                        android:gravity="center_horizontal"
+                        android:text="5.0점 / 100명"
+                        android:textColor="#858585"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
+        <RelativeLayout
+            android:id="@+id/FavoriteRelativeLayout"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="33dp"
+            android:background="@android:color/white" >
+
+            <WebView
+                android:id="@+id/ProfileWebView"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:longClickable="false" />
+
+            <ImageView
+                android:id="@+id/FavoriteImageView"
+                android:layout_width="16dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout1"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal" >
-
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@android:color/transparent" />
-
-                <ImageButton
-                    android:id="@+id/RecommendVideoImageButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/pro_button_video01" />
-            </LinearLayout>
+                android:layout_alignRight="@+id/ProfileWebView"
+                android:layout_alignTop="@+id/ProfileWebView"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/addfavorite_btn" />
         </RelativeLayout>
-    </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -206,6 +269,7 @@
             android:id="@+id/ProfileTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:background="@android:color/white"
             android:padding="15dp"
             android:paddingLeft="25dp"

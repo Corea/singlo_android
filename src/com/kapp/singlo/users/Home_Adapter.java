@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -29,8 +28,7 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 	private static final int likeImage = R.drawable.bookmarkon_btn;
 	private static final int unlikeImage = R.drawable.bookmarkoff_btn;
 
-	private LinearLayout likestar;
-	private ImageView inlike;
+	private ImageView likeImageView;
 
 	private boolean is_interested;
 
@@ -63,7 +61,6 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View v = convertView;
 		if (v == null) {
-
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.home_item, null);
@@ -71,17 +68,21 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 		Professional professional = items.get(position);
 
 		if (professional != null) {
-			WebView profileWebView = (WebView) v.findViewById(R.id.webView1);
+			WebView profileWebView = (WebView) v
+					.findViewById(R.id.ProfileWebView);
 			TextView scoreTextView = (TextView) v
-					.findViewById(R.id.TextView_00);
-			TextView nameTextView = (TextView) v.findViewById(R.id.TextView_01);
+					.findViewById(R.id.ScoreTextView);
+			TextView nameTextView = (TextView) v
+					.findViewById(R.id.NameTextView);
 			TextView priceTextView = (TextView) v
-					.findViewById(R.id.TextView_02);
+					.findViewById(R.id.PriceTextView);
 			TextView certificateTextView = (TextView) v
-					.findViewById(R.id.TextView_03);
-			inlike = (ImageView) v.findViewById(R.id.ImageView_9);
+					.findViewById(R.id.CertificationTextView);
+			likeImageView = (ImageView) v.findViewById(R.id.LikeImageView);
 			RatingBar scoreRatingbar = (RatingBar) v
 					.findViewById(R.id.ScoreRatingBar);
+			ImageView lessonActiveImageView = (ImageView) v
+					.findViewById(R.id.LessonActiveImageView);
 
 			String image_url = Const.PROFILE_URL + professional.getPhoto();
 			profileWebView.loadDataWithBaseURL(null,
@@ -94,12 +95,23 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 			scoreTextView.setText(String.format("%.1f",
 					professional.getEvaluationScore())
 					+ "점 / " + professional.getEvaluationCount() + "명 ");
-			nameTextView.setText(professional.getName() + " / ");
-			priceTextView.setText("￦ " + professional.getPrice());
+			nameTextView.setText(professional.getName());
+			priceTextView.setText("" + professional.getPrice());
 			certificateTextView.setText(professional.getCertification());
-			inlike.setImageResource((professional.getLike() == 1) ? likeImage
-					: unlikeImage);
+			likeImageView
+					.setImageResource((professional.getLike() == 1) ? likeImage
+							: unlikeImage);
+			likeImageView.setOnClickListener(likestarOnClickListener);
+			likeImageView.setTag(position);
 			scoreRatingbar.setRating((float) professional.getEvaluationScore());
+
+			if (professional.getStatus() == 1) {
+				lessonActiveImageView
+						.setImageResource(R.drawable.lessonon_icon);
+			} else {
+				lessonActiveImageView
+						.setImageResource(R.drawable.lessonoff_icon);
+			}
 
 			// focus disable
 			profileWebView.setFocusable(false);
@@ -118,11 +130,6 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 			scoreRatingbar.setLongClickable(false);
 			scoreRatingbar.setFocusableInTouchMode(false);
 			scoreRatingbar.setIsIndicator(true);
-
-			likestar = (LinearLayout) v.findViewById(R.id.likestar);
-			likestar.setOnClickListener(likestarOnClickListener);
-			likestar.setTag(position);
-
 		}
 
 		return v;
@@ -131,7 +138,8 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 	private OnClickListener likestarOnClickListener = new OnClickListener() {
 
 		public void onClick(View v) {
-			ImageView imglike = (ImageView) v.findViewById(R.id.ImageView_9);
+			ImageView likeImageView = (ImageView) v
+					.findViewById(R.id.LikeImageView);
 
 			int index = (Integer) v.getTag();
 
@@ -139,10 +147,10 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 
 			if (!is_interested) {
 				if (items.get(index).getLike() == 0) {
-					imglike.setImageResource(likeImage);
+					likeImageView.setImageResource(likeImage);
 					items.get(index).setLike(1);
 				} else {
-					imglike.setImageResource(unlikeImage);
+					likeImageView.setImageResource(unlikeImage);
 					items.get(index).setLike(0);
 				}
 
@@ -160,7 +168,7 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 					}
 				}
 
-				imglike.setImageResource(unlikeImage);
+				likeImageView.setImageResource(unlikeImage);
 				items.get(index).setLike(0);
 				likestar(index);
 				items.remove(index);

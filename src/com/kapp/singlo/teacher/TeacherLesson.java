@@ -23,8 +23,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,6 +52,10 @@ public class TeacherLesson extends SingloTeacherActivity {
 	private LessonTask lessonTask;
 
 	private int teacher_id;
+	private int lesson_type;
+
+	private Button fastLessonButton;
+	private Button slowLessonButton;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,11 +70,15 @@ public class TeacherLesson extends SingloTeacherActivity {
 		Array_Data = new ArrayList<TeacherLesson_List_Data>();
 		Array_Data.clear();
 
+		fastLessonButton = (Button) findViewById(R.id.FastLessonButton);
+		fastLessonButton.setOnClickListener(fastLessonButtonOnClickListener);
+		slowLessonButton = (Button) findViewById(R.id.SlowLessonButton);
+		slowLessonButton.setOnClickListener(slowLessonButtonOnClickListener);
+
 		progressDialog = ProgressDialog.show(TeacherLesson.this, "", "준비중입니다.",
-				true, false);
+				false, false);
 		lessonTask = new LessonTask();
 		lessonTask.execute();
-
 	}
 
 	protected void onResume() {
@@ -81,22 +91,86 @@ public class TeacherLesson extends SingloTeacherActivity {
 	private OnItemClickListener CustomListItemClickListener = new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> adapterView, View v, int pos,
 				long id) {
-
 			Log.d("click", String.valueOf(pos));
-			if (lessons.get(pos).getStatus() == 0) {
-				Intent intent = new Intent(TeacherLesson.this,
-						TeacherLessonAnswer1.class);
-				intent.putExtra("lesson_id", lessons.get(pos).getID());
-				startActivity(intent);
-				overridePendingTransition(0, 0);
-				finish();
-			} else {
-				Toast.makeText(TeacherLesson.this, "완료된 레슨입니다.",
-						Toast.LENGTH_SHORT).show();
+
+			for (int i = 0; i < lessons.size(); i++) {
+				if (lessons.get(i).getLessonType() == lesson_type) {
+					pos--;
+					if (pos < 0) {
+						if (lessons.get(i).getStatus() == 0) {
+							Intent intent = new Intent(TeacherLesson.this,
+									TeacherLessonAnswer1.class);
+							intent.putExtra("lesson_id", lessons.get(i).getID());
+							startActivity(intent);
+							overridePendingTransition(0, 0);
+							finish();
+						} else {
+							Toast.makeText(TeacherLesson.this, "완료된 레슨입니다.",
+									Toast.LENGTH_SHORT).show();
+						}
+						return;
+					}
+				}
 			}
 
 		}
 	};
+
+	private OnClickListener fastLessonButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			fastLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
+			slowLessonButton.setBackgroundResource(R.drawable.shorttaboff_btn);
+
+			lesson_type = 1;
+			setLessonType();
+		}
+	};
+	private OnClickListener slowLessonButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			fastLessonButton.setBackgroundResource(R.drawable.shorttaboff_btn);
+			slowLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
+
+			lesson_type = 0;
+			setLessonType();
+		}
+	};
+
+	private void setLessonType() {
+
+		Array_Data.clear();
+		DBConnector db = new DBConnector(TeacherLesson.this);
+		lessons = db.getAllLesson();
+		db.close();
+
+		for (int k = 0; k < lessons.size(); k++) {
+			if (lessons.get(k).getLessonType() == lesson_type) {
+				String image_url = Const.PROFILE_URL + "user_"
+						+ lessons.get(k).getUserID() + ".png";
+
+				if (lessons.get(k).getStatus() == 1) {
+					data = new TeacherLesson_List_Data(image_url, "문의자 : ",
+							lessons.get(k).getUserName(), "등록시간 : "
+									+ lessons.get(k).getCreatedDatetime(), "",
+							R.drawable.completelesson_icon);
+				} else {
+					data = new TeacherLesson_List_Data(image_url, "문의자 : ",
+							lessons.get(k).getUserName(), "등록시간 : "
+									+ lessons.get(k).getCreatedDatetime(), "",
+							R.drawable.watinglesson_icon);
+				}
+				Array_Data.add(data);
+			}
+		}
+
+		adapter = null;
+		adapter = new TeacherLesson_Adapter(getBaseContext(),
+				android.R.layout.simple_list_item_1, Array_Data);
+		Custom_List.setAdapter(adapter);
+	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		switch (keyCode) {
@@ -129,34 +203,10 @@ public class TeacherLesson extends SingloTeacherActivity {
 		protected void onCancelled() {
 			super.onCancelled();
 
-			DBConnector db = new DBConnector(TeacherLesson.this);
-			lessons = db.getAllLesson();
-			db.close();
-
-			for (int k = 0; k < lessons.size(); k++) {
-				String image_url = Const.PROFILE_URL + "user_"
-						+ lessons.get(k).getUserID() + ".png";
-
-				if (lessons.get(k).getStatus() == 1) {
-					data = new TeacherLesson_List_Data(image_url, "문의자 : ",
-							lessons.get(k).getUserName(), "등록시간 : "
-									+ lessons.get(k).getCreatedDatetime(), "",
-							R.drawable.completelesson_icon);
-				} else {
-					data = new TeacherLesson_List_Data(image_url, "문의자 : ",
-							lessons.get(k).getUserName(), "등록시간 : "
-									+ lessons.get(k).getCreatedDatetime(), "",
-							R.drawable.watinglesson_icon);
-				}
-				Array_Data.add(data);
-			}
-
-			adapter = null;
-			adapter = new TeacherLesson_Adapter(getBaseContext(),
-					android.R.layout.simple_list_item_1, Array_Data);
 			Custom_List = (ListView) findViewById(R.id.listView5);
-			Custom_List.setAdapter(adapter);
 			Custom_List.setOnItemClickListener(CustomListItemClickListener);
+			lesson_type = 1;
+			setLessonType();
 
 			progressDialog.dismiss();
 		}
@@ -167,6 +217,7 @@ public class TeacherLesson extends SingloTeacherActivity {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 
+			dbConnector.removeLessonAll();
 			Log.d("loading_lesson_list", "loading_lesson_list");
 
 			try {
@@ -222,7 +273,6 @@ public class TeacherLesson extends SingloTeacherActivity {
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}
-
 				}
 			} catch (Exception e) {
 				Log.d("disp", "err : " + e.getMessage());

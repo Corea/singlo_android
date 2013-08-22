@@ -14,6 +14,7 @@ public class Professional {
 	int active;
 	int status;
 	String status_message;
+	String company;
 
 	int evaluation_count;
 	double evaluation_score;
@@ -24,7 +25,8 @@ public class Professional {
 	public Professional(int id, int server_id, String name,
 			String certification, int price, String profile, String photo,
 			String url, int like, int active, int status,
-			String status_message, int evaluation_count, double evaluation_score) {
+			String status_message, int evaluation_count,
+			double evaluation_score, String company) {
 		this.id = id;
 		this.server_id = server_id;
 		this.name = name;
@@ -39,12 +41,13 @@ public class Professional {
 		this.status_message = status_message;
 		this.evaluation_count = evaluation_count;
 		this.evaluation_score = evaluation_score;
+		this.company = company;
 	}
 
 	public Professional(int server_id, String name, String certification,
 			int price, String profile, String photo, String url, int like,
 			int active, int status, String status_message,
-			int evaluation_count, double evaluation_score) {
+			int evaluation_count, double evaluation_score, String company) {
 		this.server_id = server_id;
 		this.name = name;
 		this.certification = certification;
@@ -58,6 +61,7 @@ public class Professional {
 		this.status_message = status_message;
 		this.evaluation_count = evaluation_count;
 		this.evaluation_score = evaluation_score;
+		this.company = company;
 	}
 
 	public int getID() {
@@ -116,6 +120,10 @@ public class Professional {
 		return evaluation_score;
 	}
 
+	public String getCompany() {
+		return company;
+	}
+
 	public void setID(int id) {
 		this.id = id;
 	}
@@ -166,10 +174,13 @@ public class Professional {
 
 	public void setEvaluationCount(int evaluation_count) {
 		this.evaluation_count = evaluation_count;
-
 	}
 
 	public void setEvaluationScore(double evaluation_score) {
 		this.evaluation_score = evaluation_score;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
 	}
 }

@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -39,8 +40,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -63,11 +64,11 @@ public class MylessonDetail extends SingloUserActivity {
 	private List<Integer> recommendIDList;
 	private List<LessonAnswerImage> lessonAnswerImageList;
 
-	private ImageButton lessonTabImageButton;
-	private ImageButton recommendTabImageButton;
-	private ImageButton mySwingTabImageButton;
-	private ImageButton evaluationImageButton;
+	private Button lessonTabButton;
+	private Button mySwingTabButton;
+	private Button evaluationButton;
 
+	private WebView profileWebView;
 	private ImageView causeImageView;
 	private ImageView recommendImageView1;
 	private ImageView recommendImageView2;
@@ -106,28 +107,27 @@ public class MylessonDetail extends SingloUserActivity {
 
 		db.close();
 
-		Button target = null;
+		Button target = (Button) findViewById(R.id.ClubTypeButton);
 		switch (lesson.getClubType()) {
 		case 1:
-			target = (Button) findViewById(R.id.DriverButton);
+			target.setText("드라이버");
 			break;
 		case 2:
-			target = (Button) findViewById(R.id.WoodButton);
+			target.setText("우드");
 			break;
 		case 3:
-			target = (Button) findViewById(R.id.UtilityButton);
+			target.setText("유틸리티");
 			break;
 		case 4:
-			target = (Button) findViewById(R.id.IronButton);
+			target.setText("아이언");
 			break;
 		case 5:
-			target = (Button) findViewById(R.id.WedgeButton);
+			target.setText("웨지");
 			break;
 		case 6:
-			target = (Button) findViewById(R.id.PutterButton);
+			target.setText("퍼터");
 			break;
 		}
-		target.setBackgroundResource(R.drawable.select_back);
 
 		causeIDList = new ArrayList<Integer>();
 		causeIDList.add(R.drawable.cause_1);
@@ -224,18 +224,17 @@ public class MylessonDetail extends SingloUserActivity {
 		recommendIDList.add(R.drawable.recommend_50);
 		recommendIDList.add(R.drawable.recommend_51);
 
-		lessonTabImageButton = (ImageButton) findViewById(R.id.LessonTabImageButton);
-		lessonTabImageButton.setOnClickListener(lessonTabImageButtonListener);
-		recommendTabImageButton = (ImageButton) findViewById(R.id.RecommendTabImageButton);
-		mySwingTabImageButton = (ImageButton) findViewById(R.id.MySwingTabImageButton);
-		mySwingTabImageButton.setOnClickListener(mySwingTabImageButtonListener);
-		evaluationImageButton = (ImageButton) findViewById(R.id.EvaluationImageButton);
-		evaluationImageButton
+		lessonTabButton = (Button) findViewById(R.id.LessonTabButton);
+		lessonTabButton.setOnClickListener(lessonTabImageButtonListener);
+		mySwingTabButton = (Button) findViewById(R.id.MySwingTabButton);
+		mySwingTabButton.setOnClickListener(mySwingTabImageButtonListener);
+		evaluationButton = (Button) findViewById(R.id.EvaluationButton);
+		evaluationButton
 				.setOnClickListener(evaluationImageButtonOnClickListener);
 
 		causeTitleTextView = (TextView) findViewById(R.id.CauseTitleTextView);
 		causeDetailTextView = (TextView) findViewById(R.id.CauseDetailTextView);
-		question_text = (TextView) findViewById(R.id.QuestionText);
+		question_text = (TextView) findViewById(R.id.QuestionTextView);
 		try {
 			question_text.setText(URLDecoder.decode(lesson.getQuestion(),
 					"utf-8"));
@@ -266,6 +265,7 @@ public class MylessonDetail extends SingloUserActivity {
 		causeImageView = (ImageView) findViewById(R.id.CauseImageView);
 		recommendImageView1 = (ImageView) findViewById(R.id.RecommendImageView1);
 		recommendImageView2 = (ImageView) findViewById(R.id.RecommendImageView2);
+		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
 
 		progressDialog = ProgressDialog.show(MylessonDetail.this, "",
 				"준비중입니다.", true, false);
@@ -312,11 +312,10 @@ public class MylessonDetail extends SingloUserActivity {
 		@Override
 		public void onClick(View v) {
 			active_tab = 0;
-			lessonTabImageButton.setImageResource(R.drawable.lessontabon_btn);
-			recommendTabImageButton
-					.setImageResource(R.drawable.videotaboff_btn);
-			mySwingTabImageButton
-					.setImageResource(R.drawable.myswingtaboff_btn);
+			lessonTabButton.setBackgroundResource(R.drawable.tabon_btn);
+			lessonTabButton.setTextColor(Color.parseColor("#FF34A93A"));
+			mySwingTabButton.setBackgroundResource(R.drawable.taboff_btn);
+			mySwingTabButton.setTextColor(Color.parseColor("#FF000000"));
 		}
 	};
 	private OnClickListener mySwingTabImageButtonListener = new OnClickListener() {
@@ -324,10 +323,10 @@ public class MylessonDetail extends SingloUserActivity {
 		@Override
 		public void onClick(View v) {
 			active_tab = 2;
-			lessonTabImageButton.setImageResource(R.drawable.lessontaboff_btn);
-			recommendTabImageButton
-					.setImageResource(R.drawable.videotaboff_btn);
-			mySwingTabImageButton.setImageResource(R.drawable.myswingtabon_btn);
+			lessonTabButton.setBackgroundResource(R.drawable.taboff_btn);
+			lessonTabButton.setTextColor(Color.parseColor("#FF000000"));
+			mySwingTabButton.setBackgroundResource(R.drawable.tabon_btn);
+			mySwingTabButton.setTextColor(Color.parseColor("#FF34A93A"));
 		}
 	};
 	private OnClickListener thumbnailImageViewOnClickListener = new OnClickListener() {
@@ -430,7 +429,6 @@ public class MylessonDetail extends SingloUserActivity {
 		} finally {
 			brd.recycle();
 		}
-
 	}
 
 	private class LessonDetailTask extends AsyncTask<Void, Void, Void> {
@@ -470,7 +468,12 @@ public class MylessonDetail extends SingloUserActivity {
 			for (int i = 0; i < 8; i++) {
 				sum += seekBarList.get(i).getProgress();
 			}
-			scoreTextView.setText(sum / 8 + "." + (int) (sum / 8 * 10) % 10);
+			if (sum == 80) {
+				scoreTextView.setText("10");
+			} else {
+				scoreTextView
+						.setText(sum / 8 + "." + (int) (sum * 10 / 8) % 10);
+			}
 
 			causeImageView.setImageResource(causeIDList.get(lessonAnswer
 					.getCause()));
@@ -558,9 +561,11 @@ public class MylessonDetail extends SingloUserActivity {
 						server_id = picture.getInt("id");
 						String image = picture.getString("image");
 						String line = picture.getString("line");
+						long timing = picture.getLong("timing");
+
 						LessonAnswerImage lessonAnswerImage = new LessonAnswerImage(
 								lessonAnswer.getServerID(), server_id, image,
-								line);
+								line, timing);
 						dbConnector.addLessonAnswerImage(lessonAnswerImage);
 
 					}

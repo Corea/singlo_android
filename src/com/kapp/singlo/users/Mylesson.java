@@ -217,6 +217,7 @@ public class Mylesson extends SingloUserActivity {
 				if (lessons.get(i).getStatus() == 1) {
 					showingLessons.add(lessons.get(i));
 				}
+				//if( lessons.get(i).get)
 			}
 
 			adapter = null;
@@ -236,6 +237,7 @@ public class Mylesson extends SingloUserActivity {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 
+			dbConnector.removeLessonAll();
 			Log.d("loading_lesson_list_user", "loading_lesson_list_user");
 
 			try {

@@ -6,25 +6,28 @@ public class LessonAnswerImage {
 	int server_id;
 	String image;
 	String line;
+	long timing;
 
 	public LessonAnswerImage() {
 	}
 
 	public LessonAnswerImage(int answer_id, int server_id, String image,
-			String line) {
+			String line, long timing) {
 		this.answer_id = answer_id;
 		this.server_id = server_id;
 		this.image = image;
 		this.line = line;
+		this.timing = timing;
 	}
 
 	public LessonAnswerImage(int id, int answer_id, int server_id,
-			String image, String line) {
+			String image, String line, long timing) {
 		this.id = id;
 		this.answer_id = answer_id;
 		this.server_id = server_id;
 		this.image = image;
 		this.line = line;
+		this.timing = timing;
 	}
 
 	public int getID() {
@@ -47,6 +50,10 @@ public class LessonAnswerImage {
 		return line;
 	}
 
+	public long getTiming() {
+		return timing;
+	}
+
 	public void setID(int id) {
 		this.id = id;
 	}
@@ -67,4 +74,7 @@ public class LessonAnswerImage {
 		this.line = line;
 	}
 
+	public void setTiming(long timing) {
+		this.timing = timing;
+	}
 }

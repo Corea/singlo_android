@@ -30,13 +30,7 @@ public class Main extends Activity {
 		int id = spLogin.getInt("id", 0);
 
 		if (id != 0) {
-			Boolean isProfessional = spLogin.getBoolean("type", false);
-			Intent intent;
-			if (isProfessional) {
-				intent = new Intent(Main.this, TeacherHome.class);
-			} else {
-				intent = new Intent(Main.this, Home.class);
-			}
+			Intent intent = new Intent(Main.this, Login.class);
 			startActivity(intent);
 			finish();
 		}

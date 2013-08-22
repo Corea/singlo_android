@@ -94,7 +94,7 @@ public class TeacherSetting extends SingloTeacherActivity {
 		} else {
 			pushStatusImageButton.setBackgroundResource(R.drawable.switchon_btn);
 		}
-		if (professional.getStatus() == 0) {
+		if (professional.getStatus() == 1) {
 			lessonStatusImageButton.setBackgroundResource(R.drawable.switchon_btn);
 		} else {
 			lessonStatusImageButton.setBackgroundResource(R.drawable.switchoff_btn);

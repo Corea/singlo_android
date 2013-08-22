@@ -11,82 +11,123 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:clickable="false"
-        android:longClickable="false" >
+        android:longClickable="false"
+        android:paddingBottom="13dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="13dp" >
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_margin="3dp"
-            android:layout_weight="25" >
-
-            <WebView
-                android:id="@+id/webView1"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="25"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:longClickable="false" />
-        </RelativeLayout>
+        <WebView
+            android:id="@+id/ProfileWebView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
             android:layout_weight="55"
             android:clickable="false"
             android:focusable="false"
             android:longClickable="false"
             android:orientation="vertical"
-            android:paddingLeft="5dp" >
+            android:paddingLeft="10dp" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="18dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:longClickable="false"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pro_icon" />
 
                 <TextView
-                    android:id="@+id/TextView_01"
+                    android:id="@+id/NameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_vertical"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:inputType="textMultiLine"
                     android:longClickable="false"
-                    android:text="이름/"
-                    android:textColor="#000000"
-                    android:textSize="15dp"
+                    android:paddingLeft="5dp"
+                    android:text="이름"
+                    android:textColor="#ff303030"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/TextView_02"
+                <ImageView
+                    android:id="@+id/LessonActiveImageView"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:adjustViewBounds="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:longClickable="false"
+                    android:paddingLeft="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/lessonon_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:inputType="textMultiLine"
                     android:longClickable="false"
-                    android:text="￦6,000"
-                    android:textColor="#858585"
-                    android:textSize="15dp" />
+                    android:paddingLeft="5dp"
+                    android:text="/ ￦"
+                    android:textColor="#ff4e4e4e"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/PriceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"
+                    android:longClickable="false"
+                    android:text="6000"
+                    android:textColor="#ff4e4e4e"
+                    android:textSize="14dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="15dp"
-                android:layout_marginTop="2dp" >
+                android:layout_marginTop="2dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false" >
 
                 <RatingBar
                     android:id="@+id/ScoreRatingBar"
                     style="@style/SingloSmallRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="center_vertical"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
@@ -94,7 +135,7 @@
                     android:stepSize="0.1" />
 
                 <TextView
-                    android:id="@+id/TextView_00"
+                    android:id="@+id/ScoreTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
                     android:layout_gravity="center_vertical"
@@ -104,13 +145,13 @@
                     android:gravity="center_vertical"
                     android:longClickable="false"
                     android:paddingLeft="5dp"
-                    android:text="100명 5.0점"
+                    android:text="5.0점 / 100명"
                     android:textColor="#858585"
                     android:textSize="10dp" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/TextView_03"
+                android:id="@+id/CertificationTextView"
                 android:layout_width="fill_parent"
                 android:layout_height="15dp"
                 android:layout_marginTop="3dp"
@@ -124,21 +165,17 @@
                 android:textSize="12dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/likestar"
-            android:layout_width="0dp"
-            android:layout_marginRight="8dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="15" >
-
-            <ImageView
-                android:id="@+id/ImageView_9"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:background="@drawable/bookmarkoff_btn"
-                android:scaleType="fitXY" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/LikeImageView"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitXY"
+            android:src="@drawable/bookmarkoff_btn" />
     </LinearLayout>
 
 </LinearLayout>

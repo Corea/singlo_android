@@ -1,25 +1,11 @@
 package com.kapp.singlo.users;
 
-import java.io.InputStream;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import com.kapp.singlo.R;
-import com.kapp.singlo.data.DBConnector;
-import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.bg.CallbackListener;
+import com.kapp.singlo.bg.LoginAsyncTask;
 import com.kapp.singlo.teacher.TeacherHome;
-import com.kapp.singlo.util.Const;
-import com.kapp.singlo.util.JSONParser;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,10 +13,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -38,7 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-public class Login extends Activity {
+public class Login extends Activity implements CallbackListener {
 
 	static Activity mainActivity;
 
@@ -49,39 +33,35 @@ public class Login extends Activity {
 	private ImageButton backImageButton;
 	private Button startSingloButton;
 
-	private Boolean loginProcess;
-	private Boolean loginSuccess;
-	private Boolean isProfessional;
+	private LoginAsyncTask loginAsyncTask;
 
-	private LoginTask loginTask;
-
-	private int id, count;
-	private String name, birthday, phone, photo;
+	private boolean isProfessional;
+	private boolean loginProcess;
+	private boolean autoLogin;
+	private String name, birthday, phone;
 
 	private SharedPreferences spLogin;
 
 	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		spLogin = getSharedPreferences("login", Login.MODE_PRIVATE);
 
-		id = spLogin.getInt("id", 0);
+		int id = spLogin.getInt("id", 0);
 
 		if (id != 0) {
 			name = spLogin.getString("name", "");
-			isProfessional = spLogin.getBoolean("type", false);
-			birthday = spLogin.getString("birthday", "");
 			phone = spLogin.getString("phone", "");
-			photo = spLogin.getString("photo", "");
-			count = spLogin.getInt("count", 0);
+			birthday = spLogin.getString("birthday", "");
 
-			if (Main.mainActivity != null) {
-				Main.mainActivity.finish();
-			}
-			Intent intent = new Intent(Login.this, Home.class);
-			startActivity(intent);
-			finish();
+			loginAsyncTask = new LoginAsyncTask();
+			loginAsyncTask.setContext(Login.this);
+			loginAsyncTask.setCallbackListener(Login.this);
+			loginAsyncTask.execute(name, birthday, phone);
+			autoLogin = true;
+			return;
 		}
+		autoLogin = false;
 
-		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
 
 		phoneNumberEditText = (EditText) findViewById(R.id.PhoneNumberEditText);
@@ -98,12 +78,9 @@ public class Login extends Activity {
 		startSingloButton.setOnClickListener(startSingloButtonClickListener);
 
 		loginProcess = false;
-		loginSuccess = false;
-		isProfessional = false;
-
 	}
 
-	OnClickListener backClickListener = new OnClickListener() {
+	private OnClickListener backClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -115,13 +92,12 @@ public class Login extends Activity {
 		}
 	};
 
-	OnClickListener startSingloButtonClickListener = new OnClickListener() {
+	private OnClickListener startSingloButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			if (loginProcess) {
 				return;
 			}
-
 			loginProcess = true;
 
 			try {
@@ -137,134 +113,74 @@ public class Login extends Activity {
 				phone = nameEditText.getText().toString();
 			}
 
-			loginTask = new LoginTask();
-			loginTask.execute();
+			loginAsyncTask = new LoginAsyncTask();
+			loginAsyncTask.setContext(Login.this);
+			loginAsyncTask.setCallbackListener(Login.this);
+			loginAsyncTask.execute(name, birthday, phone);
 		}
 	};
 
-	void saveLoginPreferences() {
+	private void saveLoginPreferences(LoginAsyncTask loginAsyncTask) {
 		SharedPreferences.Editor editor = spLogin.edit();
-		editor.putInt("id", id);
+		editor.putInt("id", loginAsyncTask.getID());
 		editor.putBoolean("type", isProfessional);
 		editor.putString("name", name);
 		editor.putString("birthday", birthday);
 		editor.putString("phone", phone);
-		editor.putString("photo", photo);
-		editor.putInt("count", count);
+		editor.putString("photo", loginAsyncTask.getPhoto());
+		editor.putInt("count", loginAsyncTask.getCount());
 		editor.commit();
 	}
 
-	public class LoginTask extends AsyncTask<Void, Void, Void> {
-		protected void onPreExecute() {
-			super.onPreExecute();
-		}
+	public void callback(Object... params) {
+		LoginAsyncTask loginAsyncTask = (LoginAsyncTask) params[0];
 
-		@Override
-		protected Void doInBackground(Void... p) {
-			login();
-			return null;
-		}
+		if (loginAsyncTask.getLoginSuccess()) {
+			isProfessional = loginAsyncTask.isProfessional();
+			saveLoginPreferences(loginAsyncTask);
 
-		@Override
-		protected void onPostExecute(Void result) {
-			if (loginSuccess) {
-				saveLoginPreferences();
-
-				Intent intent;
-				if (isProfessional) {
-					intent = new Intent(Login.this, TeacherHome.class);
-				} else {
-					intent = new Intent(Login.this, Home.class);
-				}
-
-				if (Main.mainActivity != null) {
-					Main.mainActivity.finish();
-				}
-				startActivity(intent);
-				finish();
+			Intent intent;
+			if (isProfessional) {
+				intent = new Intent(Login.this, TeacherHome.class);
 			} else {
-				String msg = "아이이와 비밀번호가 일치하지 않습니다.";
-				AlertDialog.Builder gsDialog = new AlertDialog.Builder(
-						Login.this);
-
-				gsDialog.setTitle("로그인 실패");
-				gsDialog.setMessage(msg);
-				gsDialog.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								//
-							}
-						}).create().show();
-
-				this.cancel(true);
+				intent = new Intent(Login.this, Home.class);
 			}
-			loginProcess = false;
-		}
 
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-			loginProcess = false;
-		}
+			if (Main.mainActivity != null) {
+				Main.mainActivity.finish();
+			}
+			startActivity(intent);
+			finish();
+		} else {
+			String msg = "이름, 생일, 전화번호가 일치하는 정보가 없습니다.";
+			AlertDialog.Builder gsDialog = new AlertDialog.Builder(this);
 
-		void login() {
-			String url = Const.LOGIN_URL;
-			HttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
-			InputStream is;
+			gsDialog.setTitle("로그인 실패");
+			gsDialog.setMessage(msg);
+			gsDialog.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							//
+						}
+					}).create().show();
+			if (autoLogin) {
+				setContentView(R.layout.login);
 
-			Log.d("Login", url);
-			try {
-				List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
-				nameValuePairs.add(new BasicNameValuePair("name", name));
-				nameValuePairs
-						.add(new BasicNameValuePair("birthday", birthday));
-				nameValuePairs.add(new BasicNameValuePair("phone", phone));
+				phoneNumberEditText = (EditText) findViewById(R.id.PhoneNumberEditText);
+				TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+				phoneNumberEditText.setText(mgr.getLine1Number());
 
-				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				nameEditText = (EditText) findViewById(R.id.NameEditText);
+				birthdayEditText = (EditText) findViewById(R.id.BirthdayEditText);
 
-				HttpResponse httpResponse = httpClient.execute(httpPost);
-				is = httpResponse.getEntity().getContent();
+				backImageButton = (ImageButton) findViewById(R.id.BackImageButton);
+				backImageButton.setOnClickListener(backClickListener);
 
-				JSONParser jParser = new JSONParser();
-				JSONObject json = jParser.getJSONFromStream(is);
-
-				name = URLDecoder.decode(name, "UTF-8");
-				int now_id = json.getInt("id");
-				String now_photo = URLDecoder.decode(json.getString("photo"),
-						"UTF-8");
-
-				if (json.getString("type").equals("teacher")) {
-					isProfessional = true;
-
-					Professional professional = new Professional(now_id, name,
-							URLDecoder.decode(json.getString("certification"),
-									"UTF-8"), json.getInt("price"),
-							URLDecoder.decode(json.getString("profile"),
-									"UTF-8"), URLDecoder.decode(
-									json.getString("photo"), "UTF-8"),
-							URLDecoder.decode(json.getString("url"), "UTF-8"),
-							0, json.getBoolean("active") ? 1 : 0,
-							json.getBoolean("status") ? 1 : 0,
-							json.getString("status_message"),
-							json.getInt("evaluation_count"),
-							json.getDouble("evaluation_score"));
-					DBConnector db = new DBConnector(Login.this);
-					db.addProfessional(professional);
-					db.close();
-				} else {
-					isProfessional = false;
-				}
-				count = json.getInt("count");
-
-				photo = now_photo;
-				id = now_id;
-				loginSuccess = true;
-			} catch (Exception e) {
-				Log.d("disp", "err : " + e.getMessage());
+				startSingloButton = (Button) findViewById(R.id.StartSingloButton);
+				startSingloButton
+						.setOnClickListener(startSingloButtonClickListener);
 			}
 		}
+		loginProcess = false;
 	}
-
 }

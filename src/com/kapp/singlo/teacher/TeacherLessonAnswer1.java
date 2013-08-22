@@ -7,42 +7,40 @@ import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.ui.SingloVideoView;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class TeacherLessonAnswer1 extends SingloTeacherActivity {
-	private ProgressDialog progressDialog;
 
-	private TextView questionText;
-	private TextView questionUsernameTextView;
+	private WebView profileWebView;
+	private TextView questionTextView;
+	private TextView nameTextView;
+	private TextView datetimeTextView;
+
 	private Lesson lesson;
+	//private 
 
 	private int user_id;
 	private int lesson_id;
 
 	private ImageButton downloadVideoButton;
-	private ImageButton submitButton;
-
-	private Uri selected_video;
+	private Button submitButton;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.teacher_lesson_answer_page1);
-		
+
 		setTopMenu(1);
-		
-		progressDialog = new ProgressDialog(this);
 
 		SharedPreferences spData = getSharedPreferences("login", MODE_PRIVATE);
 		user_id = spData.getInt("id", 0);
@@ -53,38 +51,41 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 		lesson = db.getLesson(lesson_id);
 		db.close();
 
-		questionText = (TextView) findViewById(R.id.QuestionText);
-		questionText.setText(lesson.getQuestion());
-		questionUsernameTextView = (TextView) findViewById(R.id.QuestionUsernameTextView);
-		questionUsernameTextView.setText(lesson.getUserName() + "님");
+		questionTextView = (TextView) findViewById(R.id.QuestionTextView);
+		questionTextView.setText(lesson.getQuestion());
+		nameTextView = (TextView) findViewById(R.id.NameTextView);
+		nameTextView.setText(lesson.getUserName());
+		datetimeTextView = (TextView) findViewById(R.id.DatetimeTextView);
+		datetimeTextView.setText(lesson.getCreatedDatetime());
+
+		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
 
 		downloadVideoButton = (ImageButton) findViewById(R.id.AnswerPlayButton);
 		downloadVideoButton.setOnTouchListener(videoButtonTouchListener);
 
-		Button target = null;
+		Button target = (Button) findViewById(R.id.ClubTypeButton);
 		switch (lesson.getClubType()) {
 		case 1:
-			target = (Button) findViewById(R.id.DriverButton);
+			target.setText("드라이버");
 			break;
 		case 2:
-			target = (Button) findViewById(R.id.WoodButton);
+			target.setText("우드");
 			break;
 		case 3:
-			target = (Button) findViewById(R.id.UtilityButton);
+			target.setText("유틸리티");
 			break;
 		case 4:
-			target = (Button) findViewById(R.id.IronButton);
+			target.setText("아이언");
 			break;
 		case 5:
-			target = (Button) findViewById(R.id.WedgeButton);
+			target.setText("웨지");
 			break;
 		case 6:
-			target = (Button) findViewById(R.id.PutterButton);
+			target.setText("퍼터");
 			break;
 		}
-		target.setBackgroundResource(R.drawable.select_back);
 
-		submitButton = (ImageButton) findViewById(R.id.AnswerButton);
+		submitButton = (Button) findViewById(R.id.AnswerButton);
 		submitButton.setOnTouchListener(submitButtonTouchListener);
 	}
 
@@ -93,7 +94,7 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 
 		setTopImage(1);
 	}
-	
+
 	private OnTouchListener videoButtonTouchListener = new OnTouchListener() {
 		public boolean onTouch(View v, MotionEvent event) {
 
