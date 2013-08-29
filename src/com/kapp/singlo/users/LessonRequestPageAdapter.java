@@ -63,6 +63,8 @@ public class LessonRequestPageAdapter extends ArrayAdapter<Professional> {
 
 		Professional professional = items.get(index);
 		if (professional != null) {
+			WebView profileWebView = (WebView) v
+					.findViewById(R.id.ProfileWebView);
 			TextView nameTextView = (TextView) v
 					.findViewById(R.id.NameTextView);
 			TextView priceTextView = (TextView) v
@@ -71,15 +73,17 @@ public class LessonRequestPageAdapter extends ArrayAdapter<Professional> {
 					.findViewById(R.id.CertificationTextView);
 			TextView scoreTextView = (TextView) v
 					.findViewById(R.id.ScoreTextView);
+			TextView absenceTextView = (TextView) v
+					.findViewById(R.id.AbsenceTextView);
 			ImageView statusImageView = (ImageView) v
 					.findViewById(R.id.StatusImageView);
-			WebView profileWebView = (WebView) v
-					.findViewById(R.id.ProfileWebView);
 			RatingBar scoreRatingbar = (RatingBar) v
 					.findViewById(R.id.ScoreRatingBar);
+			ImageView lessonActiveImageView = (ImageView) v
+					.findViewById(R.id.LessonActiveImageView);
 
-			nameTextView.setText(professional.getName() + "/");
-			priceTextView.setText("￦" + professional.getPrice());
+			nameTextView.setText(professional.getName());
+			priceTextView.setText("" + professional.getPrice());
 			certificationTextView.setText(professional.getCertification());
 			if (checkList.get(professional.getServerId()) == true) {
 				statusImageView.setImageResource(R.drawable.selecton_icon);
@@ -95,6 +99,16 @@ public class LessonRequestPageAdapter extends ArrayAdapter<Professional> {
 			scoreTextView.setText(String.format("%.1f",
 					professional.getEvaluationScore())
 					+ "점 / " + professional.getEvaluationCount() + "명 ");
+
+			if (professional.getStatus() == 1) {
+				lessonActiveImageView
+						.setImageResource(R.drawable.lessonon_icon);
+				absenceTextView.setText("");
+			} else {
+				lessonActiveImageView
+						.setImageResource(R.drawable.lessonoff_icon);
+				absenceTextView.setText(professional.getStatusMessage());
+			}
 
 			profileWebView.setBackgroundResource(R.anim.shape);
 			profileWebView.setPadding(1, 1, 1, 1);

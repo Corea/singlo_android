@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.kapp.singlo.R;
@@ -24,9 +23,6 @@ import com.kapp.singlo.util.Utility;
 public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 
 	private ArrayList<Lesson> items;
-
-	LinearLayout likestar;
-	ImageView inlike;
 
 	public Mylesson_Adapter(Context context, int textViewResourceId,
 			List<Lesson> items) {
@@ -53,44 +49,46 @@ public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 		}
 
 		if (lesson != null) {
-			WebView profileWebView = (WebView) v.findViewById(R.id.webView1);
-			TextView nameTextView = (TextView) v.findViewById(R.id.TextView_01);
-			TextView priceTextView = (TextView) v
-					.findViewById(R.id.TextView_02);
-			TextView certifcateTextView = (TextView) v
-					.findViewById(R.id.TextView_03);
+			WebView profileWebView = (WebView) v
+					.findViewById(R.id.ProfileWebView);
+			TextView nameTextView = (TextView) v
+					.findViewById(R.id.NameTextView);
+			TextView companyTextView = (TextView) v
+					.findViewById(R.id.CompanyTextView);
 			TextView datetimeTextView = (TextView) v
 					.findViewById(R.id.DatetimeTextView);
-			TextView scoreTextView = (TextView) v
-					.findViewById(R.id.TextView_00);
-			inlike = (ImageView) v.findViewById(R.id.ImageView_9);
-			RatingBar scoreRatingbar = (RatingBar) v
-					.findViewById(R.id.ScoreRatingBar);
+			ImageView inlike = (ImageView) v
+					.findViewById(R.id.LessonStatusImageView);
+			ImageView lessonTypeImageView = (ImageView) v
+					.findViewById(R.id.LessonTypeImageView);
+			Button clubTypeButton = (Button) v
+					.findViewById(R.id.ClubTypeButton);
+			TextView questionTextView = (TextView) v
+					.findViewById(R.id.QuestionTextView);
 
 			if (professional == null) {
 				profileWebView.loadDataWithBaseURL(null,
 						Utility.getImageHtmlCode(Const.PROFILE_NONE_URL),
 						"text/html", "utf-8", null);
-				nameTextView.setText("신속 레슨 /");
-				priceTextView.setText("￦ 9000");
-				certifcateTextView.setText("");
-				scoreTextView.setText("");
+				nameTextView.setText("신속 레슨");
+				companyTextView.setText("");
 			} else {
 				profileWebView.loadDataWithBaseURL(
 						null,
 						Utility.getImageHtmlCode(Const.PROFILE_URL
 								+ professional.getPhoto()), "text/html",
 						"utf-8", null);
-				nameTextView.setText(professional.getName() + "/");
-				priceTextView.setText("￦ " + professional.getPrice());
-				certifcateTextView.setText(professional.getCertification());
-				scoreTextView.setText(professional.getEvaluationCount()
-						+ "명 "
-						+ String.format("%.1f",
-								professional.getEvaluationScore()) + "점");
-				scoreRatingbar.setRating((float) professional
-						.getEvaluationScore());
+				nameTextView.setText(professional.getName());
+				companyTextView.setText(" / " + professional.getCompany());
 			}
+			if (lesson.getLessonType() == 1) {
+				lessonTypeImageView
+						.setImageResource(R.drawable.fast_lesson_image);
+			} else {
+				lessonTypeImageView
+						.setImageResource(R.drawable.slow_lesson_image);
+			}
+			clubTypeButton.setText(Utility.getClubName(lesson.getClubType()));
 
 			if (lesson.getStatus() == 0) {
 				inlike.setImageResource(R.drawable.watinglesson_icon);
@@ -98,6 +96,7 @@ public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 				inlike.setImageResource(R.drawable.completelesson_icon);
 			}
 			datetimeTextView.setText(lesson.getCreatedDatetime());
+			questionTextView.setText(lesson.getQuestion());
 
 			profileWebView.setBackgroundResource(R.anim.shape);
 			profileWebView.setPadding(1, 1, 1, 1);
@@ -112,14 +111,7 @@ public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 			profileWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
 			nameTextView.setFocusable(false);
-			priceTextView.setFocusable(false);
-			certifcateTextView.setFocusable(false);
 			datetimeTextView.setFocusable(false);
-			scoreRatingbar.setFocusable(false);
-			scoreRatingbar.setClickable(false);
-			scoreRatingbar.setLongClickable(false);
-			scoreRatingbar.setFocusableInTouchMode(false);
-			scoreRatingbar.setIsIndicator(true);
 		}
 
 		return v;

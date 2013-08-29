@@ -11,6 +11,7 @@ public class Const {
 	public static final String REGISTER_URL = url_prefix + "/auth/register";
 	public static final String LOGIN_URL = url_prefix + "/auth/login";
 	public static final String LOGOUT_URL = url_prefix + "/auth/logout";
+	public static final String CHANGE_PROFILE_URL = url_prefix + "/auth/profile";
 	
 	public static final String LESSON_ASK_FAST_URL = url_prefix + "/lesson/ask_fast";
 	public static final String LESSON_ASK_SLOW_URL = url_prefix + "/lesson/ask_slow";
@@ -24,6 +25,7 @@ public class Const {
 	public static final String TEACHER_GET_LIST_URL = url_prefix + "/teacher/get_list";
 	public static final String TEACHER_LIKE_URL = url_prefix + "/teacher/like";
 	public static final String TEACHER_LESSON_STATUS_URL = url_prefix + "/teacher/lesson_status";
+	public static final String TEACHER_UPDATE_ABSENCE_URL = url_prefix + "/teacher/update_absence";
 	
 	public static final String VIDEO_URL = url_prefix + "/video/";
 	public static final String CAPTURE_URL = url_prefix + "/capture/";
@@ -34,4 +36,7 @@ public class Const {
 	public static final String lineEnd = "\r\n";
 	public static final String twoHyphens = "--";
 	public static final String boundary = "*****";
+	
+	public static final int STROKE_LINE_FACTOR = 150;
+	public static final int RADIUS_CIRCLE_FACTOR = 20;
 }

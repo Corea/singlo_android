@@ -47,12 +47,16 @@ public class TeacherLessonAudioRecord extends Activity {
 	private List<Bitmap> paintBitmapList;
 	private List<Canvas> canvasList;
 	private List<ArrayList<Coord>> saveLineList;
+	private List<Boolean> selectedList;
+	private List<AudioRecorder> audioRecorderList;
+	private ArrayList<Paint> paintList;
+	private List<Long> changeTimeList;
 
 	private List<ImageView> captureImageViewList;
 	private List<ImageView> selectImageViewList;
+	private List<ImageView> MICImageViewList;
 	private List<RelativeLayout> relativeLayoutList;
 	private List<TextView> captureTextViewList;
-	private List<Boolean> selectedList;
 
 	private ImageButton deleteImageButton;
 	private ImageButton changeOrderImageButton;
@@ -65,14 +69,20 @@ public class TeacherLessonAudioRecord extends Activity {
 	private String url;
 	private int width, height;
 	private int recordTime;
-	private Paint paint;
+
+	private Paint redPaint;
+	private Paint yellowPaint;
+	private Paint bluePaint;
 
 	private ProgressDialog processDialog;
-	private AudioRecorder audioRecorder;
 
 	private GetCapture getCapture;
 	private int server_id;
 	private int changeOrderIndex;
+	private int now_record;
+
+	private long start_time;
+	private long pause_time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,12 +94,16 @@ public class TeacherLessonAudioRecord extends Activity {
 		saveLineList = new ArrayList<ArrayList<Coord>>();
 		canvasList = new ArrayList<Canvas>();
 		paintBitmapList = new ArrayList<Bitmap>();
+		paintList = new ArrayList<Paint>();
+		changeTimeList = new ArrayList<Long>();
 
 		captureImageViewList = new ArrayList<ImageView>();
 		selectImageViewList = new ArrayList<ImageView>();
+		MICImageViewList = new ArrayList<ImageView>();
 		relativeLayoutList = new ArrayList<RelativeLayout>();
 		captureTextViewList = new ArrayList<TextView>();
 		selectedList = new ArrayList<Boolean>();
+		audioRecorderList = new ArrayList<AudioRecorder>();
 
 		Intent intent = this.getIntent();
 		url = intent.getStringExtra("url");
@@ -101,6 +115,8 @@ public class TeacherLessonAudioRecord extends Activity {
 			ArrayList<Coord> tmp = intent
 					.getParcelableArrayListExtra("lineList" + i);
 			saveLineList.add(tmp);
+			audioRecorderList.add(new AudioRecorder(
+					TeacherLessonAudioRecord.this, i));
 		}
 
 		captureImageViewList
@@ -154,6 +170,15 @@ public class TeacherLessonAudioRecord extends Activity {
 		selectImageViewList
 				.add((ImageView) findViewById(R.id.selectedImageView8));
 
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView1));
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView2));
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView3));
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView4));
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView5));
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView6));
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView7));
+		MICImageViewList.add((ImageView) findViewById(R.id.MICImageView8));
+
 		captureTextViewList.add((TextView) findViewById(R.id.CaptureTextView1));
 		captureTextViewList.add((TextView) findViewById(R.id.CaptureTextView2));
 		captureTextViewList.add((TextView) findViewById(R.id.CaptureTextView3));
@@ -179,6 +204,7 @@ public class TeacherLessonAudioRecord extends Activity {
 
 		getCapture = new GetCapture(this);
 		getCapture.execute();
+		now_record = -1;
 	}
 
 	@Override
@@ -186,30 +212,70 @@ public class TeacherLessonAudioRecord extends Activity {
 		super.onWindowFocusChanged(hasFocus);
 	}
 
+	private boolean isRecording() {
+		return (now_record != -1 && audioRecorderList.get(now_record)
+				.isRecording());
+	}
+
+	private void addTiming() {
+		changeTimeList.add((Long) System.currentTimeMillis() - start_time);
+	}
+
 	private OnClickListener relativeLayoutListOnClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
+
 			for (int i = 0; i < bitmapList.size(); i++) {
 				if (((RelativeLayout) v).getId() == relativeLayoutList.get(i)
 						.getId()) {
-					if (selectedList.get(i)) {
-						selectImageViewList.get(i).setImageResource(
-								android.R.color.transparent);
-						selectedList.set(i, false);
+					if (isRecording()) {
+						if (now_record + 1 == i) {
+							MICImageViewList.get(now_record).setImageResource(
+									R.drawable.mic_opacity_btn);
+							audioRecorderList.get(now_record).pauseRecording();
+
+							now_record = i;
+							if (audioRecorderList.get(i) == null) {
+								audioRecorderList.set(i, new AudioRecorder(
+										TeacherLessonAudioRecord.this, i));
+							}
+
+							audioRecorderList.get(i).startRecording();
+							addTiming();
+							MICImageViewList.get(now_record).setImageResource(
+									R.drawable.mic_btn);
+						} else {
+							Toast.makeText(TeacherLessonAudioRecord.this,
+									"녹음은 순서대로 진행하여야 합니다.", Toast.LENGTH_SHORT)
+									.show();
+						}
 					} else {
-						selectImageViewList.get(i).setImageResource(
-								R.drawable.selected_icon);
-						selectedList.set(i, true);
+						if (selectedList.get(i)) {
+							selectImageViewList.get(i).setImageResource(
+									android.R.color.transparent);
+							selectedList.set(i, false);
+						} else {
+							selectImageViewList.get(i).setImageResource(
+									R.drawable.selected_icon);
+							selectedList.set(i, true);
+						}
 					}
 				}
 			}
+
 		}
 	};
 	OnClickListener deleteImageButtonOnClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
+			if (isRecording()) {
+				Toast.makeText(TeacherLessonAudioRecord.this,
+						"음성 녹음을 일시 정지한 상태에서만 사진을 삭제하실 수 있습니다.",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			int count = 0;
 			for (int i = 0; i < selectedList.size(); i++) {
 				if (selectedList.get(i)) {
@@ -228,7 +294,7 @@ public class TeacherLessonAudioRecord extends Activity {
 				return;
 			}
 
-			for (int i = 0; i < selectedList.size(); i++) {
+			for (int i = selectedList.size() - 1; i >= 0; i--) {
 				if (selectedList.get(i)) {
 					selectImageViewList.get(i).setImageResource(
 							android.R.color.transparent);
@@ -236,6 +302,7 @@ public class TeacherLessonAudioRecord extends Activity {
 					bitmapList.remove(i);
 					bitmapFilenameList.remove(i);
 					saveLineList.remove(i);
+					audioRecorderList.remove(i);
 				}
 			}
 			drawImage();
@@ -245,12 +312,19 @@ public class TeacherLessonAudioRecord extends Activity {
 
 		@Override
 		public void onClick(View v) {
+			if (isRecording()) {
+				Toast.makeText(TeacherLessonAudioRecord.this,
+						"음성 녹음을 일시 정지한 상태에서만 사진을 이동하실 수 있습니다.",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 
 			if (selectedList.size() == 1) {
 				Toast.makeText(TeacherLessonAudioRecord.this, "사진이 하나뿐입니다.",
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
+
 			int count = 0, tmp = 0;
 			for (int i = 0; i < selectedList.size(); i++) {
 				if (selectedList.get(i)) {
@@ -261,12 +335,12 @@ public class TeacherLessonAudioRecord extends Activity {
 
 			if (count == 0) {
 				Toast.makeText(TeacherLessonAudioRecord.this,
-						"위치를 옮길 사진을 하나만 선택해주세요.", Toast.LENGTH_SHORT).show();
+						"위치를 이동시킬 사진을 하나만 선택해주세요.", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			if (count > 1) {
 				Toast.makeText(TeacherLessonAudioRecord.this,
-						"위치를 옮길 사진을 하나만 선택해주세요.", Toast.LENGTH_SHORT).show();
+						"위치를 이동시킬 사진을 하나만 선택해주세요.", Toast.LENGTH_SHORT).show();
 				return;
 			}
 
@@ -298,6 +372,12 @@ public class TeacherLessonAudioRecord extends Activity {
 						public void onClick(DialogInterface dialog,
 								int whichButton) {
 							Log.i("whichButton", "" + whichButton);
+
+							for (int i = 0; i < selectedList.size(); i++) {
+								audioRecorderList.set(i, new AudioRecorder(
+										TeacherLessonAudioRecord.this, i));
+							}
+
 							Bitmap tmpBitmap = bitmapList.get(changeOrderIndex);
 							String tmpBitmapFilename = bitmapFilenameList
 									.get(changeOrderIndex);
@@ -311,10 +391,6 @@ public class TeacherLessonAudioRecord extends Activity {
 											bitmapFilenameList.get(i - 1));
 									saveLineList.set(i, saveLineList.get(i - 1));
 								}
-								bitmapList.set(whichButton, tmpBitmap);
-								bitmapFilenameList.set(whichButton,
-										tmpBitmapFilename);
-								saveLineList.set(whichButton, tmpSaveLine);
 							} else {
 								for (int i = changeOrderIndex; i < whichButton; i++) {
 									bitmapList.set(i, bitmapList.get(i + 1));
@@ -322,12 +398,11 @@ public class TeacherLessonAudioRecord extends Activity {
 											bitmapFilenameList.get(i + 1));
 									saveLineList.set(i, saveLineList.get(i + 1));
 								}
-								bitmapList.set(whichButton, tmpBitmap);
-								bitmapFilenameList.set(whichButton,
-										tmpBitmapFilename);
-								saveLineList.set(whichButton, tmpSaveLine);
-
 							}
+							bitmapList.set(whichButton, tmpBitmap);
+							bitmapFilenameList.set(whichButton,
+									tmpBitmapFilename);
+							saveLineList.set(whichButton, tmpSaveLine);
 							drawImage();
 							dialog.cancel();
 						}
@@ -339,7 +414,8 @@ public class TeacherLessonAudioRecord extends Activity {
 	Handler mProgressHandler = new Handler();
 	Runnable updateTime = new Runnable() {
 		public void run() {
-			if (audioRecorder != null && audioRecorder.isRecording()) {
+			if (now_record != -1 && audioRecorderList.get(now_record) != null
+					&& audioRecorderList.get(now_record).isRecording()) {
 				recordTime += 1;
 				recordTimeTextView.setText(String.format("%02d : %02d : %02d",
 						recordTime / 3600, (recordTime / 60) % 60,
@@ -353,24 +429,37 @@ public class TeacherLessonAudioRecord extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			if (audioRecorder == null) {
-				audioRecorder = new AudioRecorder(TeacherLessonAudioRecord.this);
+			int k = now_record;
+			if (now_record == -1) {
+				k = 0;
 			}
 
-			if (audioRecorder.isRecording()) {
+			if (audioRecorderList.get(k) == null) {
+				audioRecorderList.set(k, new AudioRecorder(
+						TeacherLessonAudioRecord.this, k));
+			}
+
+			if (audioRecorderList.get(k).isRecording()) {
 				// pause
-				audioRecorder.pauseRecording();
+				audioRecorderList.get(k).pauseRecording();
 				recordImageButton.setImageResource(R.drawable.record_btn);
+				pause_time = System.currentTimeMillis();
 			} else {
+				now_record = k;
 				// start Recording
-				if (audioRecorder.isStarted()) {
-					audioRecorder.resumeRecording();
+				if (audioRecorderList.get(k).isStarted()) {
+					audioRecorderList.get(k).resumeRecording();
+					start_time += (System.currentTimeMillis() - pause_time);
 				} else {
-					audioRecorder.startRecording();
+					start_time = System.currentTimeMillis();
+					audioRecorderList.get(k).startRecording();
+					addTiming();
 
 					recordTime = 0;
 					recordTimeTextView.setText("00 : 00 : 00");
 				}
+				MICImageViewList.get(now_record).setImageResource(
+						R.drawable.mic_btn);
 				recordImageButton.setImageResource(R.drawable.recordpause_btn);
 				mProgressHandler.postDelayed(updateTime, 1000);
 			}
@@ -380,30 +469,27 @@ public class TeacherLessonAudioRecord extends Activity {
 
 		@Override
 		public void onClick(View v) {
-
-			if (audioRecorder == null) {
-				Toast.makeText(TeacherLessonAudioRecord.this, "레슨 녹음을 해주세요.",
-						Toast.LENGTH_SHORT).show();
-				return;
+			for (int i = 0; i < audioRecorderList.size(); i++) {
+				if (!audioRecorderList.get(i).isStarted()) {
+					Toast.makeText(TeacherLessonAudioRecord.this,
+							"레슨 녹음을 모두 마쳐야 합니다.", Toast.LENGTH_SHORT).show();
+					return;
+				}
 			}
 
-			try {
-				audioRecorder.stopRecording();
-			} catch (Exception e) {
-				Log.e("Exception", e.toString());
-			}
-
+			AudioRecorder.mergeRecorder(TeacherLessonAudioRecord.this,
+					audioRecorderList);
 			Intent intent = new Intent();
 			intent.putExtra("bitmapCount", bitmapList.size());
 			for (int i = 0; i < bitmapList.size(); i++) {
 				intent.putParcelableArrayListExtra("lineList" + i,
 						saveLineList.get(i));
 				intent.putExtra("bitmapList" + i, bitmapFilenameList.get(i));
+				intent.putExtra("timingList" + i, changeTimeList.get(i));
 			}
 
 			setResult(RESULT_OK, intent);
 			finish();
-
 		}
 	};
 	OnClickListener cancelImageButtonOnClickListener = new OnClickListener() {
@@ -412,14 +498,21 @@ public class TeacherLessonAudioRecord extends Activity {
 		public void onClick(View v) {
 			AlertDialog.Builder ab = new AlertDialog.Builder(
 					TeacherLessonAudioRecord.this);
-			ab.setTitle("취소");
-			ab.setMessage("녹음이 취소되고 파일은 저장되지 않습니다.");
+			ab.setTitle("녹음 취소");
+			ab.setMessage("모든 그림의 녹음이 취소되고 파일은 저장되지 않습니다.");
 			ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					audioRecorder = null;
 
+					for (int i = 0; i < selectedList.size(); i++) {
+
+						audioRecorderList.set(i, new AudioRecorder(
+								TeacherLessonAudioRecord.this, i));
+						MICImageViewList.get(i).setImageResource(
+								android.R.color.transparent);
+					}
+					now_record = -1;
 					recordTime = 0;
 					recordTimeTextView.setText("00 : 00 : 00");
 					recordImageButton.setImageResource(R.drawable.record_btn);
@@ -484,8 +577,8 @@ public class TeacherLessonAudioRecord extends Activity {
 					cacheDir.mkdirs();
 					File cacheFile = new File(cacheDir, ""
 							+ bitmapFilenameList.get(i).hashCode());
-					if (!cacheFile.exists()) {
 
+					if (!cacheFile.exists()) {
 						String url = Const.CAPTURE_URL
 								+ bitmapFilenameList.get(i);
 						URLConnection cn = new URL(url).openConnection();
@@ -511,6 +604,7 @@ public class TeacherLessonAudioRecord extends Activity {
 					bitmapList.add(bitmap);
 				} catch (Exception e) {
 
+					e.printStackTrace();
 				}
 			}
 			return null;
@@ -518,7 +612,6 @@ public class TeacherLessonAudioRecord extends Activity {
 
 		@Override
 		protected void onPostExecute(Void args) {
-
 			drawImage();
 
 			processDialog.dismiss();
@@ -526,12 +619,14 @@ public class TeacherLessonAudioRecord extends Activity {
 	}
 
 	private void drawImage() {
-
 		paintBitmapList.clear();
 		canvasList.clear();
 		selectedList.clear();
+		changeTimeList.clear();
 
-		paint = new Paint();
+		redPaint = new Paint();
+		bluePaint = new Paint();
+		yellowPaint = new Paint();
 		for (int i = 0; i < bitmapFilenameList.size(); i++) {
 			if (Build.VERSION.SDK_INT >= 16) {
 				relativeLayoutList.get(i).setBackground(
@@ -556,26 +651,54 @@ public class TeacherLessonAudioRecord extends Activity {
 
 			canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
-			paint.setARGB(255, 255, 0, 0);
-			paint.setStrokeWidth(width / 75);
-			paint.setAntiAlias(true);
+			redPaint.setARGB(255, 255, 0, 0);
+			redPaint.setStrokeWidth(width / Const.STROKE_LINE_FACTOR);
+			redPaint.setAntiAlias(true);
+			redPaint.setStyle(Paint.Style.STROKE);
 
-			for (int j = 1; j < saveLineList.get(i).size(); j++) {
-				if (saveLineList.get(i).get(j - 1).stop) {
-					continue;
+			bluePaint.setARGB(255, 0, 0, 255);
+			bluePaint.setStrokeWidth(width / Const.STROKE_LINE_FACTOR);
+			bluePaint.setAntiAlias(true);
+			bluePaint.setStyle(Paint.Style.STROKE);
+
+			yellowPaint.setARGB(255, 255, 255, 0);
+			yellowPaint.setStrokeWidth(width / Const.STROKE_LINE_FACTOR);
+			yellowPaint.setAntiAlias(true);
+			yellowPaint.setStyle(Paint.Style.STROKE);
+
+			paintList.clear();
+			paintList.add(redPaint);
+			paintList.add(yellowPaint);
+			paintList.add(bluePaint);
+
+			for (int j = 0; j < saveLineList.get(i).size(); j++) {
+				if (saveLineList.get(i).get(j).draw_type == 0) {
+					canvas.drawLine((float) saveLineList.get(i).get(j + 1).x
+							* width, (float) saveLineList.get(i).get(j + 1).y
+							* height, (float) saveLineList.get(i).get(j).x
+							* width, (float) saveLineList.get(i).get(j).y
+							* height, paintList
+							.get(saveLineList.get(i).get(j).paint_type));
+					j++;
+				} else if (saveLineList.get(i).get(j).draw_type == 1) {
+					canvas.drawCircle((float) saveLineList.get(i).get(j).x
+							* width, (float) saveLineList.get(i).get(j).y
+							* height, (float) width
+							/ Const.RADIUS_CIRCLE_FACTOR, paintList
+							.get(saveLineList.get(i).get(j).paint_type));
 				}
-				canvas.drawLine((float) saveLineList.get(i).get(j - 1).x
-						* width, (float) saveLineList.get(i).get(j - 1).y
-						* height, (float) saveLineList.get(i).get(j).x * width,
-						(float) saveLineList.get(i).get(j).y * height, paint);
 			}
 			captureImageViewList.get(i).invalidate();
 			captureTextViewList.get(i).setText(
 					(i + 1) + "/" + bitmapFilenameList.size());
 			relativeLayoutList.get(i).setOnClickListener(
 					relativeLayoutListOnClickListener);
-
 			selectedList.add(false);
+			selectImageViewList.get(i).setImageResource(
+					android.R.color.transparent);
+
+			MICImageViewList.get(i).setImageResource(
+					android.R.color.transparent);
 		}
 
 		for (int i = bitmapFilenameList.size(); i < 8; i++) {
@@ -584,7 +707,13 @@ public class TeacherLessonAudioRecord extends Activity {
 					android.R.color.transparent);
 			captureImageViewList.get(i).setBackgroundResource(
 					android.R.color.transparent);
+			relativeLayoutList.get(i).setBackgroundResource(
+					android.R.color.transparent);
 			relativeLayoutList.get(i).setOnClickListener(null);
+			MICImageViewList.get(i).setImageResource(
+					android.R.color.transparent);
+			selectImageViewList.get(i).setImageResource(
+					android.R.color.transparent);
 		}
 	}
 }

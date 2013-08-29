@@ -242,6 +242,7 @@ public class Home extends SingloUserActivity {
 			DBConnector dbConnector = new DBConnector(Home.this);
 			Log.d("loading_teacher_list", "loading_teacher_list");
 
+			dbConnector.removeProfessionalAll();
 			try {
 				String url = Const.TEACHER_GET_LIST_URL;
 				HttpClient httpClient = new DefaultHttpClient();
@@ -289,18 +290,20 @@ public class Home extends SingloUserActivity {
 						boolean like = teacher.getBoolean("like");
 						boolean active = teacher.getBoolean("active");
 						boolean status = teacher.getBoolean("status");
-						String status_message = teacher
-								.getString("status_message");
+						String status_message = URLDecoder.decode(
+								teacher.getString("status_message"), "UTF-8");
 						int evaluation_count = teacher
 								.getInt("evaluation_count");
 						double evaluation_score = teacher
 								.getDouble("evaluation_score");
+						String company = URLDecoder.decode(
+								teacher.getString("company"), "UTF-8");
 
 						Professional professional = new Professional(server_id,
 								name, certification, price, profile, photo,
 								url_info, (like ? 1 : 0), (active ? 1 : 0),
 								(status ? 1 : 0), status_message,
-								evaluation_count, evaluation_score);
+								evaluation_count, evaluation_score, company);
 						dbConnector.addProfessional(professional);
 						Log.d("loading_teacher_list", "add " + name);
 					}

@@ -7,34 +7,29 @@ public class Coord implements Parcelable {
 
 	public double x;
 	public double y;
-	public boolean stop;
+	public int draw_type;
+	public int paint_type;
 
-	public Coord(double x, double y, boolean stop) {
+	public Coord(double x, double y, int draw_type, int paint_type) {
 		this.x = x;
 		this.y = y;
-		this.stop = stop;
+		this.draw_type = draw_type;
+		this.paint_type = paint_type;
 	}
 
 	@Override
 	public void writeToParcel(Parcel out, int flags) {
 		out.writeDouble(x);
 		out.writeDouble(y);
-		if (stop) {
-			out.writeInt(1);
-		} else {
-			out.writeInt(0);
-		}
+		out.writeInt(draw_type);
+		out.writeInt(paint_type);
 	}
 
 	public Coord(Parcel in) {
 		x = in.readDouble();
 		y = in.readDouble();
-		int tmp = in.readInt();
-		if (tmp == 1) {
-			stop = true;
-		} else {
-			stop = false;
-		}
+		draw_type = in.readInt();
+		paint_type = in.readInt();
 	}
 
 	public static final Parcelable.Creator<Coord> CREATOR = new Parcelable.Creator<Coord>() {
@@ -49,7 +44,6 @@ public class Coord implements Parcelable {
 
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

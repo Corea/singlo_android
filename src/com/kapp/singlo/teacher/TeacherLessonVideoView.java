@@ -22,7 +22,6 @@ import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Coord;
 import com.kapp.singlo.util.JSONParser;
 
-import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.AsyncTask;
@@ -37,6 +36,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -62,8 +62,6 @@ public class TeacherLessonVideoView extends Activity {
 	private List<String> captureURLList;
 	private List<ArrayList<Coord>> saveLineList;
 
-	private MediaMetadataRetriever mediaMetadataRetriever;
-
 	private ProgressDialog pDialog;
 	private VideoView videoView;
 	private SeekBar seekBar;
@@ -80,16 +78,34 @@ public class TeacherLessonVideoView extends Activity {
 	private ImageButton rewindImageButton;
 	private ImageButton forwardImageButton;
 
+	private ImageButton nowDrawImageButton;
+	private ImageButton lineDrawImageButton;
+	private ImageButton circleDrawImageButton;
+	private ImageButton rectDrawImageButton;
+
+	private ImageButton nowColorImageButton;
+	private ImageButton redColorImageButton;
+	private ImageButton yellowColorImageButton;
+	private ImageButton blueColorImageButton;
+
 	private Canvas canvas;
 	private Canvas cacheCanvas;
 	private Bitmap bitmap;
 	private Bitmap cacheBitmap;
+
+	private Paint redPaint;
+	private Paint yellowPaint;
+	private Paint bluePaint;
 	private Paint paint;
+
 	private boolean stopHandler;
 
+	private ArrayList<Paint> paintList;
 	private ArrayList<Coord> lineList;
 
 	private int width, height;
+	private int screen_height;
+	private int draw_type, paint_type;
 
 	private boolean saveState;
 
@@ -109,6 +125,7 @@ public class TeacherLessonVideoView extends Activity {
 		captureURLList = new ArrayList<String>();
 		lineList = new ArrayList<Coord>();
 		saveLineList = new ArrayList<ArrayList<Coord>>();
+		paintList = new ArrayList<Paint>();
 
 		boolean audio = intent.getBooleanExtra("audio", false);
 		if (audio) {
@@ -124,7 +141,7 @@ public class TeacherLessonVideoView extends Activity {
 				saveLineList.add(tmp);
 			}
 		}
-		
+
 		stopHandler = false;
 
 		videoView = (VideoView) findViewById(R.id.VideoView);
@@ -153,11 +170,42 @@ public class TeacherLessonVideoView extends Activity {
 		forwardImageButton
 				.setOnClickListener(forwardImageButtonOnClickListener);
 
+		draw_type = 0;
+		nowDrawImageButton = (ImageButton) findViewById(R.id.NowDrawImageButton);
+		nowDrawImageButton
+				.setOnClickListener(nowDrawImageButtonOnClickListener);
+		lineDrawImageButton = (ImageButton) findViewById(R.id.LineDrawImageButton);
+		lineDrawImageButton
+				.setOnClickListener(lineDrawImageButtonOnClickListener);
+		circleDrawImageButton = (ImageButton) findViewById(R.id.CircleDrawImageButton);
+		circleDrawImageButton
+				.setOnClickListener(circleDrawImageButtonOnClickListener);
+		rectDrawImageButton = (ImageButton) findViewById(R.id.RectDrawImageButton);
+		rectDrawImageButton
+				.setOnClickListener(rectDrawImageButtonOnClickListener);
+
+		nowColorImageButton = (ImageButton) findViewById(R.id.NowColorImageButton);
+		nowColorImageButton
+				.setOnClickListener(nowColorImageButtonOnClickListener);
+		redColorImageButton = (ImageButton) findViewById(R.id.RedColorImageButton);
+		redColorImageButton
+				.setOnClickListener(redColorImageButtonOnClickListener);
+		yellowColorImageButton = (ImageButton) findViewById(R.id.YellowColorImageButton);
+		yellowColorImageButton
+				.setOnClickListener(yellowColorImageButtonOnClickListener);
+		blueColorImageButton = (ImageButton) findViewById(R.id.BlueColorImageButton);
+		blueColorImageButton
+				.setOnClickListener(blueColorImageButtonOnClickListener);
+
 		ImageCountTextView.setText(captureURLList.size() + " / 8");
 		saveState = false;
 		streamVideo = new StreamVideo(this);
 		streamVideo.execute(videoURL);
 
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+		screen_height = displayMetrics.heightPixels;
 	}
 
 	private float downx = 0, downy = 0, upx = 0, upy = 0;
@@ -176,22 +224,37 @@ public class TeacherLessonVideoView extends Activity {
 				upx = event.getX();
 				upy = event.getY();
 				cacheCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
-				cacheCanvas.drawLine(downx, downy, upx, upy, paint);
+				if (draw_type == 0) {
+					cacheCanvas.drawLine(downx, downy, upx, upy, paint);
+				} else if (draw_type == 1) {
+					upy -= screen_height / 20;
+					cacheCanvas.drawCircle(upx, upy, width
+							/ Const.RADIUS_CIRCLE_FACTOR, paint);
+				}
 				drawingCacheCanvasImageView.invalidate();
 				break;
 			case MotionEvent.ACTION_UP:
 				Log.i("ACTION_UP", event.getX() + " " + event.getY());
-				canvas.drawLine(downx, downy, upx, upy, paint);
 				cacheCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
 				drawingCacheCanvasImageView.invalidate();
-				drawingCanvasImageView.invalidate();
+
 				upx = event.getX();
 				upy = event.getY();
+				if (draw_type == 0) {
+					canvas.drawLine(downx, downy, upx, upy, paint);
+				} else if (draw_type == 1) {
+					upy -= screen_height / 20;
+					canvas.drawCircle(upx, upy, width
+							/ Const.RADIUS_CIRCLE_FACTOR, paint);
+				}
+				drawingCanvasImageView.invalidate();
 
-				lineList.add(new Coord(downx / (double) width, downy
-						/ (double) height, false));
-				lineList.add(new Coord(event.getX() / (double) width, event
-						.getY() / (double) height, true));
+				if (draw_type == 0 || draw_type == 2) {
+					lineList.add(new Coord(downx / (double) width, downy
+							/ (double) height, draw_type, paint_type));
+				}
+				lineList.add(new Coord(upx / (double) width, upy
+						/ (double) height, draw_type, paint_type));
 				break;
 			}
 			return true;
@@ -255,9 +318,35 @@ public class TeacherLessonVideoView extends Activity {
 
 		@Override
 		public void onClick(View v) {
+			if (lineList.size() == 0) {
+				Toast.makeText(TeacherLessonVideoView.this,
+						"하나 이상의 그림을 그려야 합니다.", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 			drawingCanvasImageView.invalidate();
-			lineList.clear();
+			if (lineList.get(lineList.size() - 1).draw_type != 1) {
+				lineList.remove(lineList.size() - 1);
+			}
+			lineList.remove(lineList.size() - 1);
+
+			for (int i = 0; i < lineList.size(); i++) {
+				if (lineList.get(i).draw_type == 0) {
+					canvas.drawLine((float) lineList.get(i).x * width,
+							(float) lineList.get(i).y * height,
+							(float) lineList.get(i + 1).x * width,
+							(float) lineList.get(i + 1).y * height,
+							paintList.get(lineList.get(i).paint_type));
+					i++;
+				} else if (lineList.get(i).draw_type == 1) {
+					canvas.drawCircle((float) lineList.get(i).x * width,
+							(float) lineList.get(i).y * height, width
+									/ Const.RADIUS_CIRCLE_FACTOR,
+							paintList.get(lineList.get(i).paint_type));
+
+				}
+			}
+			drawingCanvasImageView.invalidate();
 		}
 	};
 
@@ -315,6 +404,111 @@ public class TeacherLessonVideoView extends Activity {
 		public void onClick(View v) {
 			videoView.seekTo(videoView.getDuration());
 
+		}
+	};
+
+	private void showDrawImageButton() {
+		nowDrawImageButton.setVisibility(View.INVISIBLE);
+		lineDrawImageButton.setVisibility(View.VISIBLE);
+		circleDrawImageButton.setVisibility(View.VISIBLE);
+		rectDrawImageButton.setVisibility(View.VISIBLE);
+	}
+
+	private void hideDrawImageButton() {
+		rectDrawImageButton.setVisibility(View.GONE);
+		circleDrawImageButton.setVisibility(View.GONE);
+		lineDrawImageButton.setVisibility(View.GONE);
+		nowDrawImageButton.setVisibility(View.VISIBLE);
+	}
+
+	private void showColorImageButton() {
+		nowColorImageButton.setVisibility(View.INVISIBLE);
+		redColorImageButton.setVisibility(View.VISIBLE);
+		blueColorImageButton.setVisibility(View.VISIBLE);
+		yellowColorImageButton.setVisibility(View.VISIBLE);
+	}
+
+	private void hideColorImageButton() {
+		redColorImageButton.setVisibility(View.GONE);
+		blueColorImageButton.setVisibility(View.GONE);
+		yellowColorImageButton.setVisibility(View.GONE);
+		nowColorImageButton.setVisibility(View.VISIBLE);
+	}
+
+	OnClickListener nowDrawImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			showDrawImageButton();
+		}
+	};
+	OnClickListener lineDrawImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			draw_type = 0;
+			nowDrawImageButton.setImageResource(R.drawable.line_btn);
+			hideDrawImageButton();
+		}
+	};
+	OnClickListener circleDrawImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			draw_type = 1;
+			nowDrawImageButton.setImageResource(R.drawable.circle_btn);
+			hideDrawImageButton();
+		}
+	};
+
+	OnClickListener rectDrawImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			draw_type = 2;
+			nowDrawImageButton.setImageResource(R.drawable.rect_btn);
+			hideDrawImageButton();
+		}
+	};
+
+	OnClickListener nowColorImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			showColorImageButton();
+		}
+	};
+
+	OnClickListener redColorImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			paint = redPaint;
+			paint_type = 0;
+			nowColorImageButton.setImageResource(R.drawable.redpen_icon);
+			hideColorImageButton();
+		}
+	};
+
+	OnClickListener yellowColorImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			paint = yellowPaint;
+			paint_type = 1;
+			nowColorImageButton.setImageResource(R.drawable.yellowpen_icon);
+			hideColorImageButton();
+		}
+	};
+
+	OnClickListener blueColorImageButtonOnClickListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			paint = bluePaint;
+			paint_type = 2;
+			nowColorImageButton.setImageResource(R.drawable.bluepen_icon);
+			hideColorImageButton();
 		}
 	};
 
@@ -425,6 +619,14 @@ public class TeacherLessonVideoView extends Activity {
 		}
 	}
 
+	Handler videoTrickHandler = new Handler() {
+		public void handleMessage(Message msg) {
+			videoView.seekTo(0);
+			videoView.pause();
+			pDialog.dismiss();
+		}
+	};
+
 	// StreamVideo AsyncTask
 	private class StreamVideo extends AsyncTask<String, Void, Void> {
 
@@ -457,8 +659,9 @@ public class TeacherLessonVideoView extends Activity {
 
 				URLConnection cn = new URL(params[0]).openConnection();
 				cn.connect();
-				
-				if (cacheFile.exists() && cn.getContentLength() == cacheFile.length()) {
+
+				if (cacheFile.exists()
+						&& cn.getContentLength() == cacheFile.length()) {
 					Runtime.getRuntime().exec(
 							"chmod 777 " + cacheFile.getAbsolutePath());
 					return null;
@@ -501,16 +704,9 @@ public class TeacherLessonVideoView extends Activity {
 				videoView.setOnPreparedListener(new OnPreparedListener() {
 					// Close the progress bar and play the video
 					public void onPrepared(MediaPlayer mp) {
-						pDialog.dismiss();
 						seekBar.setMax(videoView.getDuration());
 						progressHandler.sendEmptyMessageDelayed(0, 100);
 
-						mediaMetadataRetriever = new MediaMetadataRetriever();
-						mediaMetadataRetriever.setDataSource(cacheFile
-								.getAbsolutePath());
-
-						mediaMetadataRetriever
-								.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION);
 						width = videoView.getWidth();
 						height = videoView.getHeight();
 						Log.d("height", "" + height);
@@ -526,11 +722,34 @@ public class TeacherLessonVideoView extends Activity {
 						cacheCanvas = new Canvas(cacheBitmap);
 						drawingCacheCanvasImageView.setImageBitmap(cacheBitmap);
 
-						paint = new Paint();
-						paint.setARGB(255, 255, 0, 0);
-						paint.setStrokeWidth(width / 75);
-						paint.setAntiAlias(true);
+						redPaint = new Paint();
+						redPaint.setARGB(255, 255, 0, 0);
+						redPaint.setStrokeWidth(width
+								/ Const.STROKE_LINE_FACTOR);
+						redPaint.setAntiAlias(true);
+						redPaint.setStyle(Paint.Style.STROKE);
 
+						bluePaint = new Paint();
+						bluePaint.setARGB(255, 0, 0, 255);
+						bluePaint.setStrokeWidth(width
+								/ Const.STROKE_LINE_FACTOR);
+						bluePaint.setAntiAlias(true);
+						bluePaint.setStyle(Paint.Style.STROKE);
+
+						yellowPaint = new Paint();
+						yellowPaint.setARGB(255, 255, 255, 0);
+						yellowPaint.setStrokeWidth(width
+								/ Const.STROKE_LINE_FACTOR);
+						yellowPaint.setAntiAlias(true);
+						yellowPaint.setStyle(Paint.Style.STROKE);
+
+						paintList.add(redPaint);
+						paintList.add(yellowPaint);
+						paintList.add(bluePaint);
+						paint = redPaint;
+
+						videoView.start();
+						videoTrickHandler.sendEmptyMessageDelayed(0, 300);
 					}
 				});
 				videoView
@@ -540,8 +759,6 @@ public class TeacherLessonVideoView extends Activity {
 							public void onCompletion(MediaPlayer arg0) {
 								playImageButton
 										.setImageResource(R.drawable.play_btn);
-								videoView.start();
-								videoView.pause();
 
 							}
 						});
@@ -551,6 +768,5 @@ public class TeacherLessonVideoView extends Activity {
 			}
 
 		}
-
 	}
 }

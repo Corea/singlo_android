@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class LikeTeacherAsyncTask extends AsyncTask<Integer, Void, Void> {
 
-	Context context;
+	private Context context;
 
 	private int user_id;
 	private int teacher_id;

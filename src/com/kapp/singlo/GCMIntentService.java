@@ -8,7 +8,6 @@ import com.kapp.singlo.R;
 import com.kapp.singlo.users.Main;
 
 import android.app.ActivityManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ActivityManager.RunningAppProcessInfo;

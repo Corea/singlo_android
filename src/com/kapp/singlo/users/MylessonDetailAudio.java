@@ -2,10 +2,13 @@ package com.kapp.singlo.users;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kapp.singlo.R;
@@ -25,6 +28,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Point;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,10 +53,14 @@ public class MylessonDetailAudio extends Activity {
 	private LessonAnswer lessonAnswer;
 
 	private List<LessonAnswerImage> lessonAnswerImageList;
+	private List<Paint> paintList;
 
 	private Bitmap drawingBitmap;
 	private Canvas drawingCanvas;
-	private Paint drawingPaint;
+
+	private Paint redPaint;
+	private Paint yellowPaint;
+	private Paint bluePaint;
 
 	private ImageButton backImageButton;
 	private ImageButton leftImageButton;
@@ -106,6 +114,8 @@ public class MylessonDetailAudio extends Activity {
 		imageCountTextView = (TextView) findViewById(R.id.ImageCountTextView);
 		imageCountTextView.setText("1 / " + lessonAnswerImageList.size());
 
+		paintList = new ArrayList<Paint>();
+
 		progressDialog = ProgressDialog.show(MylessonDetailAudio.this, "",
 				"준비중입니다.", true, false);
 		getFileTask = new GetFileTask();
@@ -118,20 +128,19 @@ public class MylessonDetailAudio extends Activity {
 			if (mediaPlayer == null) {
 				return;
 			}
-			
+
 			int current_position = mediaPlayer.getCurrentPosition();
 			audioTimeTextView.setText(String.format("%02d : %02d : %02d",
-					current_position / 60000,
-					(current_position / 1000) % 60,
+					current_position / 60000, (current_position / 1000) % 60,
 					(current_position / 10) % 100));
 			playSeekBar.setProgress(current_position);
-			
+
 			if (mediaPlayer.isPlaying()) {
 				playImageButton.setImageResource(R.drawable.pause_btn);
 			} else {
 				playImageButton.setImageResource(R.drawable.play_btn);
 			}
-			mProgressHandler.postDelayed(updateTime, 30);
+			mProgressHandler.postDelayed(updateTime, 100);
 		}
 	};
 
@@ -213,6 +222,16 @@ public class MylessonDetailAudio extends Activity {
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
 			mediaPlayer.seekTo(seekBar.getProgress());
+			now_index = 0;
+			for (int i = 0; i < lessonAnswerImageList.size(); i++) {
+				if (lessonAnswerImageList.get(i).getTiming() >= seekBar
+						.getProgress()) {
+					break;
+				}
+				now_index = i;
+			}
+			setNowImage();
+			setNowLine();
 		}
 
 		@Override
@@ -222,6 +241,16 @@ public class MylessonDetailAudio extends Activity {
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
+			int before = 1;
+			while (lessonAnswerImageList.size() > before
+					&& lessonAnswerImageList.get(before).getTiming() <= progress) {
+				before++;
+			}
+			if (before - 1 != now_index) {
+				now_index = before - 1;
+				setNowImage();
+				setNowLine();
+			}
 
 		}
 	};
@@ -271,8 +300,6 @@ public class MylessonDetailAudio extends Activity {
 	private void setNowLine() {
 		String line = lessonAnswerImageList.get(now_index).getLine();
 		String[] lineInfo = line.split("-");
-		double x = 0, y = 0;
-		int stop = 1;
 
 		imageCountTextView.setText((now_index + 1) + " / "
 				+ lessonAnswerImageList.size());
@@ -282,19 +309,40 @@ public class MylessonDetailAudio extends Activity {
 		for (int i = 0; i < lineInfo.length; i++) {
 			double tx = Double.parseDouble(lineInfo[i].split("_")[0]);
 			double ty = Double.parseDouble(lineInfo[i].split("_")[1]);
-			int tstop = Integer.parseInt(lineInfo[i].split("_")[2]);
-			if (stop == 0) {
-				drawingCanvas.drawLine((float) x * width, (float) y * height,
-						(float) tx * width, (float) ty * height, drawingPaint);
+			int draw_type = Integer.parseInt(lineInfo[i].split("_")[2]);
+			int paint_type = 0;
+			if (lineInfo[i].split("_").length == 4) {
+				paint_type = Integer.parseInt(lineInfo[i].split("_")[3]);
 			}
-			x = tx;
-			y = ty;
-			stop = tstop;
+			if (draw_type == 0) {
+				double x = tx;
+				double y = ty;
+				i++;
+				ty = Double.parseDouble(lineInfo[i].split("_")[1]);
+				tx = Double.parseDouble(lineInfo[i].split("_")[0]);
 
+				drawingCanvas.drawLine((float) x * width, (float) y * height,
+						(float) tx * width, (float) ty * height,
+						paintList.get(paint_type));
+			} else if (draw_type == 1) {
+				drawingCanvas.drawCircle((float) tx * width, (float) ty
+						* height, (float) width / Const.RADIUS_CIRCLE_FACTOR,
+						paintList.get(paint_type));
+			}
 		}
 
 		drawingCanvasImageView.invalidate();
 	}
+
+	private OnPreparedListener mediaPlayerOnPreparedListener = new OnPreparedListener() {
+
+		@Override
+		public void onPrepared(MediaPlayer mp) {
+			Log.d("duration", "" + mp.getDuration());
+			playSeekBar.setMax(mp.getDuration());
+			mProgressHandler.postDelayed(updateTime, 100);
+		}
+	};
 
 	private class GetFileTask extends AsyncTask<Void, Void, Void> {
 		protected void onPreExecute() {
@@ -333,12 +381,15 @@ public class MylessonDetailAudio extends Activity {
 				cacheDir.mkdirs();
 				File cacheFile = new File(cacheDir, "" + path.hashCode());
 
-				mediaPlayer.setDataSource(cacheFile.getAbsolutePath());
+				FileInputStream fis = new FileInputStream(
+						cacheFile.getAbsolutePath());
+				FileDescriptor fd = fis.getFD();
+				// fis.close();
+
+				mediaPlayer.setDataSource(fd);
 				mediaPlayer.prepare();
-
-				playSeekBar.setMax(mediaPlayer.getDuration());
-
-				mProgressHandler.postDelayed(updateTime, 30);
+				mediaPlayer
+						.setOnPreparedListener(mediaPlayerOnPreparedListener);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -351,10 +402,29 @@ public class MylessonDetailAudio extends Activity {
 					Bitmap.Config.ARGB_8888);
 			drawingCanvas = new Canvas(drawingBitmap);
 			drawingCanvasImageView.setImageBitmap(drawingBitmap);
-			drawingPaint = new Paint();
-			drawingPaint.setARGB(255, 255, 0, 0);
-			drawingPaint.setStrokeWidth(width / 75);
-			drawingPaint.setAntiAlias(true);
+
+			redPaint = new Paint();
+			redPaint.setARGB(255, 255, 0, 0);
+			redPaint.setStrokeWidth(width / Const.STROKE_LINE_FACTOR);
+			redPaint.setAntiAlias(true);
+			redPaint.setStyle(Paint.Style.STROKE);
+
+			bluePaint = new Paint();
+			bluePaint.setARGB(255, 0, 0, 255);
+			bluePaint.setStrokeWidth(width / Const.STROKE_LINE_FACTOR);
+			bluePaint.setAntiAlias(true);
+			bluePaint.setStyle(Paint.Style.STROKE);
+
+			yellowPaint = new Paint();
+			yellowPaint.setARGB(255, 255, 255, 0);
+			yellowPaint.setStrokeWidth(width / Const.STROKE_LINE_FACTOR);
+			yellowPaint.setAntiAlias(true);
+			yellowPaint.setStyle(Paint.Style.STROKE);
+
+			paintList.add(redPaint);
+			paintList.add(yellowPaint);
+			paintList.add(bluePaint);
+
 			setNowLine();
 			progressDialog.dismiss();
 		}

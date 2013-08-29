@@ -24,25 +24,21 @@ import com.kapp.singlo.util.Utility;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
+import android.util.TimingLogger;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -50,7 +46,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 @SuppressLint("NewApi")
 public class TeacherLessonAnswer2 extends SingloTeacherActivity {
@@ -59,6 +54,7 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 	private List<String> bitmapFilenameList;
 	private List<Bitmap> bitmapList;
 	private List<ArrayList<Coord>> saveLineList;
+	private List<Long> changeTimeList;
 
 	private List<SeekBar> seekBarList;
 	private List<Button> causeButtonList;
@@ -67,9 +63,10 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 	private Spinner recommendSpinner1;
 	private Spinner recommendSpinner2;
 
-	private TextView questionText;
-	private TextView questionUsernameTextView;
-	private TextView scoreTextView;
+	private WebView profileWebView;
+	private TextView questionTextView;
+	private TextView nameTextView;
+	private TextView datetimeTextView;
 	private Lesson lesson;
 
 	private int user_id;
@@ -78,9 +75,7 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 	private boolean complete;
 
 	private ImageButton downloadVideoButton;
-	private ImageButton uploadVideoButton;
-	private ImageButton submitButton;
-	private ImageButton cameraVideoButton;
+	private Button submitButton;
 
 	Uri selected_video;
 
@@ -103,39 +98,41 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 
 		complete = false;
 
-		questionText = (TextView) findViewById(R.id.QuestionText);
-		questionText.setText(lesson.getQuestion());
-		questionUsernameTextView = (TextView) findViewById(R.id.QuestionUsernameTextView);
-		questionUsernameTextView.setText(lesson.getUserName() + "님");
+		questionTextView = (TextView) findViewById(R.id.QuestionTextView);
+		questionTextView.setText(lesson.getQuestion());
+		nameTextView = (TextView) findViewById(R.id.NameTextView);
+		nameTextView.setText(lesson.getUserName());
+		datetimeTextView = (TextView) findViewById(R.id.DatetimeTextView);
+		datetimeTextView.setText(lesson.getCreatedDatetime());
+		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
 
 		downloadVideoButton = (ImageButton) findViewById(R.id.AnswerPlayButton);
 		downloadVideoButton.setOnTouchListener(videoButtonTouchListener);
 
-		Button target = null;
+		Button target = (Button) findViewById(R.id.ClubTypeButton);
 		switch (lesson.getClubType()) {
 		case 1:
-			target = (Button) findViewById(R.id.DriverButton);
+			target.setText("드라이버");
 			break;
 		case 2:
-			target = (Button) findViewById(R.id.WoodButton);
+			target.setText("우드");
 			break;
 		case 3:
-			target = (Button) findViewById(R.id.UtilityButton);
+			target.setText("유틸리티");
 			break;
 		case 4:
-			target = (Button) findViewById(R.id.IronButton);
+			target.setText("아이언");
 			break;
 		case 5:
-			target = (Button) findViewById(R.id.WedgeButton);
+			target.setText("웨지");
 			break;
 		case 6:
-			target = (Button) findViewById(R.id.PutterButton);
+			target.setText("퍼터");
 			break;
 		}
-		target.setBackgroundResource(R.drawable.select_back);
 
-		submitButton = (ImageButton) findViewById(R.id.AnswerButton);
-		submitButton.setOnTouchListener(submitButtonTouchListener);
+		submitButton = (Button) findViewById(R.id.AnswerButton);
+		submitButton.setOnClickListener(submitButtonOnClickListener);
 
 		scoreList = new ArrayList<Integer>();
 
@@ -151,7 +148,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 		for (int i = 0; i < 8; i++) {
 			scoreList.add(0);
 			seekBarList.get(i).setMax(10);
-			seekBarList.get(i).setOnSeekBarChangeListener(seekBarListener);
 		}
 
 		causeButtonList = new ArrayList<Button>();
@@ -172,8 +168,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 					cause1ButtonOnClickListener);
 		}
 		cause = -1;
-
-		scoreTextView = (TextView) findViewById(R.id.scoreTextView);
 
 		recommendSpinner1 = (Spinner) findViewById(R.id.RecommendSpinner1);
 		ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this,
@@ -197,56 +191,16 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 		public void onClick(View v) {
 			for (int i = 0; i < 12; i++) {
 				causeButtonList.get(i).setBackgroundResource(
-						R.drawable.option_off_btn);
+						R.drawable.noselect_back);
 				if (causeButtonList.get(i).getId() == ((Button) v).getId()) {
 					cause = i;
 				}
 			}
 
-			((Button) v).setBackgroundResource(R.drawable.option_on_btn);
-
-			// TODO Auto-generated method stub
-
-		}
-	};
-	private OnSeekBarChangeListener seekBarListener = new OnSeekBarChangeListener() {
-
-		@Override
-		public void onStopTrackingTouch(SeekBar seekBar) {
-			int sum = 0;
-			for (int i = 0; i < 8; i++) {
-				if (seekBarList.get(i).getId() == seekBar.getId()) {
-					scoreList.set(i, seekBar.getProgress());
-				}
-				sum += scoreList.get(i);
-			}
-			scoreTextView.setText(sum / 8 + "." + (int) (sum / 8 * 10) % 10);
-		}
-
-		@Override
-		public void onStartTrackingTouch(SeekBar seekBar) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser) {
-			// TODO Auto-generated method stub
-
+			((Button) v).setBackgroundResource(R.drawable.select_back);
 		}
 	};
 
-	private OnClickListener cameraVideoButtonClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			Intent intent = new Intent(
-					android.provider.MediaStore.ACTION_VIDEO_CAPTURE);
-			intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-			startActivityForResult(intent, 2);
-		}
-	};
 	private OnTouchListener videoButtonTouchListener = new OnTouchListener() {
 		public boolean onTouch(View v, MotionEvent event) {
 
@@ -262,23 +216,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 
 			}
 			return true;
-		}
-	};
-
-	private OnTouchListener uploadVideoButtonTouchListener = new OnTouchListener() {
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-
-				Intent mediaChooser = new Intent(Intent.ACTION_GET_CONTENT);
-				// comma-separated MIME types
-				mediaChooser.setType("video/*");
-				startActivityForResult(mediaChooser, 1);
-			default:
-				break;
-			}
-			return false;
 		}
 	};
 
@@ -307,6 +244,7 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 				bitmapFilenameList = new ArrayList<String>();
 				bitmapList = new ArrayList<Bitmap>();
 				saveLineList = new ArrayList<ArrayList<Coord>>();
+				changeTimeList = new ArrayList<Long>();
 
 				int bitmapCount = data.getIntExtra("bitmapCount", 0);
 				for (int i = 0; i < bitmapCount; i++) {
@@ -319,28 +257,8 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 					ArrayList<Coord> tmp = data
 							.getParcelableArrayListExtra("lineList" + i);
 					saveLineList.add(tmp);
+					changeTimeList.add(data.getLongExtra("timingList" + i, 0));
 				}
-			} else {
-				selected_video = data.getData();
-
-				ContentResolver crThumb = getContentResolver();
-				BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inSampleSize = 1;
-				Bitmap bmThumbnail;
-				try {
-					String[] splited = selected_video.getPath().split("/");
-					int id = Integer.parseInt(splited[splited.length - 1]);
-					bmThumbnail = MediaStore.Video.Thumbnails.getThumbnail(
-							crThumb, id, MediaStore.Video.Thumbnails.MINI_KIND,
-							options);
-				} catch (Exception e) {
-					bmThumbnail = ThumbnailUtils.createVideoThumbnail(
-							selected_video.getPath(), Thumbnails.MINI_KIND);
-				}
-
-				Drawable d = new BitmapDrawable(bmThumbnail);
-				// uploadVideoButton.setBackgroundDrawable(d);
-				Log.d("debug", selected_video.getPath());
 			}
 		}
 	};
@@ -412,9 +330,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 
 			// write data
 			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-
-			// uploadedfile 파일이 ashx 핸들러에서 파일을 찾을 때 사용함으로 이름이 반드시 동일해야함..
-			// 이름을 바꾸면 ashx 파일에서도 바꿀것.
 
 			dos.writeBytes(Const.twoHyphens + Const.boundary + Const.lineEnd);
 			dos.writeBytes("Content-Disposition:form-data; name=\"lesson_id\""
@@ -492,7 +407,8 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 				for (int j = 0; j < saveLineList.get(i).size(); j++) {
 					dos.writeBytes(saveLineList.get(i).get(j).x + "_"
 							+ saveLineList.get(i).get(j).y + "_"
-							+ (saveLineList.get(i).get(j).stop ? 1 : 0));
+							+ saveLineList.get(i).get(j).draw_type + "_"
+							+ saveLineList.get(i).get(j).paint_type);
 					if (j + 1 != saveLineList.get(i).size()) {
 						dos.writeBytes("-");
 					}
@@ -528,6 +444,14 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 				dos.writeBytes(Const.lineEnd);
 			}
 
+			for (int i = 0; i < changeTimeList.size(); i++) {
+				dos.writeBytes(Const.twoHyphens + Const.boundary
+						+ Const.lineEnd); 
+				dos.writeBytes("Content-Disposition:form-data; name=\"timing"
+						+ i + "\"" + Const.lineEnd + Const.lineEnd
+						+ changeTimeList.get(i) + Const.lineEnd);
+			}
+
 			dos.writeBytes(Const.twoHyphens + Const.boundary + Const.twoHyphens
 					+ Const.lineEnd);
 			dos.flush();
@@ -549,39 +473,35 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 
 	}
 
-	private OnTouchListener submitButtonTouchListener = new OnTouchListener() {
-		public boolean onTouch(View v, MotionEvent event) {
+	private OnClickListener submitButtonOnClickListener = new OnClickListener() {
 
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				if (cause == -1) {
-					Toast.makeText(TeacherLessonAnswer2.this,
-							"증상을 진단하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
-					return false;
-				}
-				if (recommendSpinner1.getSelectedItemPosition() == Spinner.INVALID_POSITION
-						|| recommendSpinner1.getSelectedItemPosition() == 0
-						|| recommendSpinner2.getSelectedItemPosition() == Spinner.INVALID_POSITION
-						|| recommendSpinner2.getSelectedItemPosition() == 0) {
-					Toast.makeText(TeacherLessonAnswer2.this,
-							"추천 훈련을 선택하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
-					return false;
-				}
-				if (complete == false) {
-					Toast.makeText(TeacherLessonAnswer2.this,
-							"레슨을 진행하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
-					return false;
-				}
-
-				progressDialog.setMessage("잠시 기다려주세요.");
-				progressDialog.setCancelable(false);
-				progressDialog.show();
-
-				new SubmitAnswer().execute();
-
-				break;
+		@Override
+		public void onClick(View v) {
+			if (cause == -1) {
+				Toast.makeText(TeacherLessonAnswer2.this, "증상을 진단하지 않으셨습니다.",
+						Toast.LENGTH_SHORT).show();
+				return;
 			}
-			return true;
+			if (recommendSpinner1.getSelectedItemPosition() == Spinner.INVALID_POSITION
+					|| recommendSpinner1.getSelectedItemPosition() == 0
+					|| recommendSpinner2.getSelectedItemPosition() == Spinner.INVALID_POSITION
+					|| recommendSpinner2.getSelectedItemPosition() == 0) {
+				Toast.makeText(TeacherLessonAnswer2.this,
+						"추천 훈련을 선택하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (complete == false) {
+				Toast.makeText(TeacherLessonAnswer2.this, "레슨을 진행하지 않으셨습니다.",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+
+			progressDialog.setMessage("잠시 기다려주세요.");
+			progressDialog.setCancelable(false);
+			progressDialog.show();
+
+			new SubmitAnswer().execute();
+
 		}
 	};
 }

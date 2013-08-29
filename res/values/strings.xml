@@ -6,8 +6,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="using_term"><u>이용약관</u></string>
     <string name="using_personal_info"><u>개인정보활용</u></string>
-    <string name="down_the_line"><i><u>다운 더 라인</u></i></string>
-    <string name="front"><i><u>프론트</u></i></string>
+    <string name="down_the_line">다운 더 라인</string>
+    <string name="front">프론트</string>
     <string name="cause_1">어드레스 시 꼬리뼈를 과도하게 뒤로 내밀며 허리에 과도한 아치를 만드는 자세를 말한다. 등 근육의 과도한 경직은 복근의 이완을 가져오고 이 경우 백 스윙 중 자세가 흐트러질 수 있는 확률이 증가한다. 이 증상을 완화하기 위해서는 우선 척추의 중립적인 위치는 유지하고 고관절만을 사용하여 몸을 앞으로 굽히는 것이 도움이 된다. 이 자세를 유지하기 위해서는 복근을 포함한 코어 근력이 좋아야 하며, 척추를 감싸고 있는 기립근의 근력도 필요하다.</string>
     <string name="cause_2">어드레스 시 양쪽 어깨가 앞쪽으로 구부러져 새우등 모습을 한 자세를 의미한다. 새우등 자세의 경우 보통 견갑의 근력 부족, 흉추의 유연성 부족, 코어의 근력 부족 등이 원인이 되어 나타난다. 결과적으로는 스윙 아크가 작아져 비거리 손실이 일어나며, 임팩트 시 팔이 지나가는 공간이 협소해져 효율적인 스윙 경로를 만들어내기가 힘들어진다. </string>
     <string name="cause_3">탑 스윙에서의 척추 각이 어드레스 시와 비교하였을 때 크게 바뀌는 것을 의미한다. 일반적으로 이 증상은 고관절의 유연성 부족, 상체와 하체의 밸런스 무너짐, 복부 근력 부족, 전반적인 유연성 부족 등이 원인으로 여겨진다. 스윙의 가장 중심 축인 척추 각이 틀어지는 것이기 떄문에, 일정한 샷 메이킹이 힘든 것이 특징이고, 일반적으로 아마추어 들은 이러한 증상은 임팩트 시 손목의 변형으로 커버하려 하기 때문에 손목 엘보우 등의 부상을 수반하기도 한다. </string>
@@ -38,8 +38,8 @@
     <string name="description_profile_image">Profile Image</string>
     <string name="text_name">이름</string>
     <string name="text_hint_name">한글</string>
-    <string name="text_birthday">생일</string>
-    <string name="text_hint_birthday">주민등록번호 앞자리</string>
+    <string name="text_birthday">생년월일</string>
+    <string name="text_hint_birthday">주민등록번호 앞 6자리</string>
     <string name="text_phone">전화번호</string>
     <string name="text_hint_phone">01012345678</string>
     <string name="description_null"/>

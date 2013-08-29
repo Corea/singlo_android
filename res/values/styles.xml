@@ -17,7 +17,7 @@
     </style>
 
     <style name="SingloSmallRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/singlo_ratingbar_full</item>
+        <item name="android:progressDrawable">@drawable/singlo_ratingbar_small_full</item>
         <item name="android:minHeight">10dp</item>
         <item name="android:maxHeight">10dp</item>
     </style>

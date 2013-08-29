@@ -19,16 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <TextView
+            <ImageView
+                android:id="@+id/ImageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginBottom="10dp"
                 android:layout_marginRight="14dp"
-                android:text="프로골퍼모드"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitEnd"
+                android:src="@drawable/promode_image" />
 
             <ImageView
                 android:id="@+id/imageView1"

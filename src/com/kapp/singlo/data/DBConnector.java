@@ -63,6 +63,8 @@ public class DBConnector extends SQLiteOpenHelper {
 	private static final String KEY_STATUS_MESSAGE = "status_message";
 	private static final String KEY_EVALUATION_COUNT = "evaluation_count";
 	private static final String KEY_EVALUATION_SCORE = "evaluation_score";
+	private static final String KEY_COMPANY = "company";
+	private static final String KEY_TIMING = "timing";
 
 	public DBConnector(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -71,27 +73,27 @@ public class DBConnector extends SQLiteOpenHelper {
 	// Creating Tables
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		String CREATE_PROFESSIONAL_TABLE = "CREATE TABLE " + TABLE_PROFESSIONAL
-				+ "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID
-				+ " INTEGER," + KEY_NAME + " TEXT," + KEY_CERTIFICATION
-				+ " TEXT," + KEY_PRICE + " INTEGER," + KEY_PROFILE + " TEXT,"
-				+ KEY_PHOTO + " TEXT," + KEY_URL + " TEXT," + KEY_LIKE
-				+ " INTEGER," + KEY_ACTIVE + " INTEGER," + KEY_STATUS
-				+ " INTEGER," + KEY_STATUS_MESSAGE + " TEXT,"
+		String CREATE_PROFESSIONAL_TABLE = "CREATE TABLE IF NOT EXISTS "
+				+ TABLE_PROFESSIONAL + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+				+ KEY_SERVER_ID + " INTEGER," + KEY_NAME + " TEXT,"
+				+ KEY_CERTIFICATION + " TEXT," + KEY_PRICE + " INTEGER,"
+				+ KEY_PROFILE + " TEXT," + KEY_PHOTO + " TEXT," + KEY_URL
+				+ " TEXT," + KEY_LIKE + " INTEGER," + KEY_ACTIVE + " INTEGER,"
+				+ KEY_STATUS + " INTEGER," + KEY_STATUS_MESSAGE + " TEXT,"
 				+ KEY_EVALUATION_COUNT + " INTEGER," + KEY_EVALUATION_SCORE
-				+ " REAL" + ")";
+				+ " REAL," + KEY_COMPANY + " TEXT" + ")";
 		db.execSQL(CREATE_PROFESSIONAL_TABLE);
 
-		String CREATE_LESSON_TABLE = "CREATE TABLE " + TABLE_LESSON + "("
-				+ KEY_ID + " INTEGER PRIMARY KEY," + KEY_SERVER_ID
-				+ " INTEGER," + KEY_USER_ID + " INTEGER," + KEY_TEACHER_ID
-				+ " INTEGER," + KEY_LESSON_TYPE + " INTEGER," + KEY_VIDEO
-				+ " TEXT," + KEY_CLUB_TYPE + " INTEGER, " + KEY_QUESTION
-				+ " TEXT," + KEY_CREATED_DATETIME + " TEXT," + KEY_STATUS
-				+ " INTEGER," + KEY_USER_NAME + " TEXT" + ")";
+		String CREATE_LESSON_TABLE = "CREATE TABLE IF NOT EXISTS "
+				+ TABLE_LESSON + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+				+ KEY_SERVER_ID + " INTEGER," + KEY_USER_ID + " INTEGER,"
+				+ KEY_TEACHER_ID + " INTEGER," + KEY_LESSON_TYPE + " INTEGER,"
+				+ KEY_VIDEO + " TEXT," + KEY_CLUB_TYPE + " INTEGER, "
+				+ KEY_QUESTION + " TEXT," + KEY_CREATED_DATETIME + " TEXT,"
+				+ KEY_STATUS + " INTEGER," + KEY_USER_NAME + " TEXT" + ")";
 		db.execSQL(CREATE_LESSON_TABLE);
 
-		String CREATE_LESSON_ANSWER_TABLE = "CREATE TABLE "
+		String CREATE_LESSON_ANSWER_TABLE = "CREATE TABLE IF NOT EXISTS "
 				+ TABLE_LESSON_ANSWER + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
 				+ KEY_LESSON_ID + " INTEGER," + KEY_SERVER_ID + " INTEGER,"
 				+ KEY_SCORE1 + " INTEGER," + KEY_SCORE2 + " INTEGER,"
@@ -103,11 +105,11 @@ public class DBConnector extends SQLiteOpenHelper {
 				+ KEY_CREATED_DATETIME + " TEXT" + ")";
 		db.execSQL(CREATE_LESSON_ANSWER_TABLE);
 
-		String CREATE_LESSON_ANSWER_IMAGE_TABLE = "CREATE TABLE "
+		String CREATE_LESSON_ANSWER_IMAGE_TABLE = "CREATE TABLE IF NOT EXISTS "
 				+ TABLE_LESSON_ANSWER_IMAGE + "(" + KEY_ID
 				+ " INTEGER PRIMARY KEY," + KEY_ANSWER_ID + " INTEGER,"
 				+ KEY_SERVER_ID + " INTEGER," + KEY_IMAGE + " TEXT," + KEY_LINE
-				+ " TEXT" + ")";
+				+ " TEXT," + KEY_TIMING + " INTEGER" + ")";
 		db.execSQL(CREATE_LESSON_ANSWER_IMAGE_TABLE);
 	}
 
@@ -130,6 +132,20 @@ public class DBConnector extends SQLiteOpenHelper {
 		onUpgrade(db, 0, 0);
 	}
 
+	public void removeProfessionalAll() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFESSIONAL);
+		onCreate(db);
+	}
+
+	public void removeLessonAll() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LESSON);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LESSON_ANSWER);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LESSON_ANSWER_IMAGE);
+		onCreate(db);
+	}
+
 	public void addProfessional(Professional professional) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -148,6 +164,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_STATUS_MESSAGE, professional.getStatusMessage());
 		values.put(KEY_EVALUATION_COUNT, professional.getEvaluationCount());
 		values.put(KEY_EVALUATION_SCORE, professional.getEvaluationScore());
+		values.put(KEY_COMPANY, professional.getCompany());
 
 		// Inserting Row
 		db.insert(TABLE_PROFESSIONAL, null, values);
@@ -161,7 +178,7 @@ public class DBConnector extends SQLiteOpenHelper {
 				KEY_SERVER_ID, KEY_NAME, KEY_CERTIFICATION, KEY_PRICE,
 				KEY_PROFILE, KEY_PHOTO, KEY_URL, KEY_LIKE, KEY_ACTIVE,
 				KEY_STATUS, KEY_STATUS_MESSAGE, KEY_EVALUATION_COUNT,
-				KEY_EVALUATION_SCORE }, KEY_ID + "=?",
+				KEY_EVALUATION_SCORE, KEY_COMPANY }, KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 
 		if (cursor != null) {
@@ -172,7 +189,7 @@ public class DBConnector extends SQLiteOpenHelper {
 					cursor.getInt(4), cursor.getString(5), cursor.getString(6),
 					cursor.getString(7), cursor.getInt(8), cursor.getInt(9),
 					cursor.getInt(10), cursor.getString(11), cursor.getInt(12),
-					cursor.getDouble(13));
+					cursor.getDouble(13), cursor.getString(14));
 			db.close();
 			return professional;
 		}
@@ -187,7 +204,7 @@ public class DBConnector extends SQLiteOpenHelper {
 				KEY_SERVER_ID, KEY_NAME, KEY_CERTIFICATION, KEY_PRICE,
 				KEY_PROFILE, KEY_PHOTO, KEY_URL, KEY_LIKE, KEY_ACTIVE,
 				KEY_STATUS, KEY_STATUS_MESSAGE, KEY_EVALUATION_COUNT,
-				KEY_EVALUATION_SCORE }, KEY_SERVER_ID + "=?",
+				KEY_EVALUATION_SCORE, KEY_COMPANY }, KEY_SERVER_ID + "=?",
 				new String[] { String.valueOf(server_id) }, null, null, null,
 				null);
 
@@ -199,7 +216,7 @@ public class DBConnector extends SQLiteOpenHelper {
 					cursor.getInt(4), cursor.getString(5), cursor.getString(6),
 					cursor.getString(7), cursor.getInt(8), cursor.getInt(9),
 					cursor.getInt(10), cursor.getString(11), cursor.getInt(12),
-					cursor.getDouble(13));
+					cursor.getDouble(13), cursor.getString(14));
 
 			db.close();
 			return professional;
@@ -213,7 +230,8 @@ public class DBConnector extends SQLiteOpenHelper {
 	public List<Professional> getAllProfessional() {
 		List<Professional> professionalList = new ArrayList<Professional>();
 		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_PROFESSIONAL;
+		String selectQuery = "SELECT * FROM " + TABLE_PROFESSIONAL
+				+ " ORDER BY " + KEY_NAME + " ASC";
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);
@@ -228,7 +246,7 @@ public class DBConnector extends SQLiteOpenHelper {
 						cursor.getString(7), cursor.getInt(8),
 						cursor.getInt(9), cursor.getInt(10),
 						cursor.getString(11), cursor.getInt(12),
-						cursor.getDouble(13));
+						cursor.getDouble(13), cursor.getString(14));
 
 				professionalList.add(professional);
 			} while (cursor.moveToNext());
@@ -256,6 +274,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_STATUS_MESSAGE, professional.getStatusMessage());
 		values.put(KEY_EVALUATION_COUNT, professional.getEvaluationCount());
 		values.put(KEY_EVALUATION_SCORE, professional.getEvaluationScore());
+		values.put(KEY_COMPANY, professional.getCompany());
 
 		// updating row
 		int result = db.update(TABLE_PROFESSIONAL, values, KEY_ID + " = ?",
@@ -442,6 +461,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_SERVER_ID, lessonAnswerImage.getServerID());
 		values.put(KEY_IMAGE, lessonAnswerImage.getImage());
 		values.put(KEY_LINE, lessonAnswerImage.getLine());
+		values.put(KEY_TIMING, lessonAnswerImage.getTiming());
 
 		// Inserting Row
 		db.insert(TABLE_LESSON_ANSWER_IMAGE, null, values);
@@ -454,8 +474,8 @@ public class DBConnector extends SQLiteOpenHelper {
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_LESSON_ANSWER_IMAGE, new String[] {
-				KEY_ID, KEY_ANSWER_ID, KEY_SERVER_ID, KEY_IMAGE, KEY_LINE },
-				KEY_ANSWER_ID + "=?",
+				KEY_ID, KEY_ANSWER_ID, KEY_SERVER_ID, KEY_IMAGE, KEY_LINE,
+				KEY_TIMING }, KEY_ANSWER_ID + "=?",
 				new String[] { String.valueOf(lessonAnswer.getServerID()) },
 				null, null, null, null);
 
@@ -464,7 +484,8 @@ public class DBConnector extends SQLiteOpenHelper {
 			do {
 				LessonAnswerImage lessonAnswerImage = new LessonAnswerImage(
 						cursor.getInt(0), cursor.getInt(1), cursor.getInt(2),
-						cursor.getString(3), cursor.getString(4));
+						cursor.getString(3), cursor.getString(4),
+						cursor.getLong(5));
 				lessonAnswerImageList.add(lessonAnswerImage);
 			} while (cursor.moveToNext());
 		}

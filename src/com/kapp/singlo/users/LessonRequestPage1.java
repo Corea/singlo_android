@@ -16,13 +16,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.kapp.singlo.R;
 import com.kapp.singlo.util.Utility;
@@ -30,26 +33,25 @@ import com.kapp.singlo.util.Utility;
 @SuppressLint("NewApi")
 public class LessonRequestPage1 extends Activity {
 
-	ImageButton nextImageButton;
-	ImageButton movieImageButton;
+	public static Activity lessonRequestPage1Activity;
 
-	Button driverButton;
-	Button woodButton;
-	Button utilityButton;
-	Button ironButton;
-	Button wedgeButton;
-	Button putterButton;
+	private ImageButton nextImageButton;
+	private ImageButton movieImageButton;
 
-	EditText questionText;
+	private Button driverButton;
+	private Button woodButton;
+	private Button utilityButton;
+	private Button ironButton;
+	private Button wedgeButton;
+	private Button putterButton;
 
-	TextView limit_text;
+	private EditText questionEditText;
 
-	int id;
-	String choice_movie_mode = "";
-	String choice_mode = "", select_device = "";
-	int sw_device;
-	String questiontext = "";
-	Uri selected_video;
+	private String choice_movie_mode = "";
+	private String choice_mode = "";
+	private int sw_device;
+	private String questionText;
+	private Uri selected_video;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,8 +59,9 @@ public class LessonRequestPage1 extends Activity {
 
 		nextImageButton = (ImageButton) findViewById(R.id.NextImageButton);
 		nextImageButton.setOnClickListener(nextbuttonClickListener);
-		questionText = (EditText) findViewById(R.id.QuestionText);
-		questionText.setText("");
+		questionEditText = (EditText) findViewById(R.id.QuestionEditText);
+		questionEditText
+				.setOnEditorActionListener(questionEditTextOnEditorActionListener);
 
 		driverButton = (Button) findViewById(R.id.DriverButton);
 		driverButton.setOnClickListener(golf_device01ClickListener);
@@ -77,7 +80,20 @@ public class LessonRequestPage1 extends Activity {
 		movieImageButton.setOnClickListener(movieButtonClickListener);
 
 		sw_device = 0;
+
+		lessonRequestPage1Activity = LessonRequestPage1.this;
 	}
+
+	private OnEditorActionListener questionEditTextOnEditorActionListener = new OnEditorActionListener() {
+
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(LessonRequestPage1.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(questionEditText.getWindowToken(), 0);
+
+			return true;
+		}
+	};
 
 	// 아이템 하나만 선택하는 리스트형 다이얼로그
 	private void DialogSelectOption() {
@@ -107,19 +123,17 @@ public class LessonRequestPage1 extends Activity {
 							return;
 						}
 						intent.putExtra("swing_device", sw_device);
-						intent.putExtra("question", questiontext);
+						intent.putExtra("question", questionText);
 						intent.putExtra("video", selected_video.toString());
 						overridePendingTransition(0, 0);
 						startActivity(intent);
 					}
 				})
-				.setNegativeButton("취소",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								// Cancel 버튼 클릭시
-							}
-						});
+				.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Cancel 버튼 클릭시
+					}
+				});
 		ab.show();
 	}
 
@@ -214,14 +228,13 @@ public class LessonRequestPage1 extends Activity {
 		@Override
 		public void onClick(View v) {
 			try {
-				questiontext = URLEncoder.encode(questionText.getText()
+				questionText = URLEncoder.encode(questionEditText.getText()
 						.toString(), "UTF-8");
 			} catch (Exception e) {
-				questiontext = questionText.getText().toString();
+				questionText = questionEditText.getText().toString();
 			}
-			select_device = String.valueOf(sw_device);
 
-			if (questionText.getText().toString().equals("")) {
+			if (questionEditText.getText().toString().equals("")) {
 				Toast.makeText(LessonRequestPage1.this, "질문을 작성해 주시기 바랍니다.",
 						Toast.LENGTH_SHORT).show();
 				return;
@@ -238,7 +251,15 @@ public class LessonRequestPage1 extends Activity {
 				return;
 			}
 
-			DialogSelectOption();
+			Intent intent = new Intent(LessonRequestPage1.this,
+					LessonRequestPage2Slow.class);
+			intent.putExtra("swing_device", sw_device);
+			intent.putExtra("question", questionText);
+			intent.putExtra("video", selected_video.toString());
+			overridePendingTransition(0, 0);
+			startActivity(intent);
+			// 신속레슨 비활성화
+			// DialogSelectOption();
 		}
 	};
 
@@ -276,7 +297,7 @@ public class LessonRequestPage1 extends Activity {
 												10 * 1024 * 1024);
 										intent.putExtra(
 												MediaStore.EXTRA_DURATION_LIMIT,
-												8);
+												6);
 										startActivityForResult(intent, 2);
 									} else if (choice_movie_mode
 											.equals("동영상 선택")) {
@@ -307,10 +328,10 @@ public class LessonRequestPage1 extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (data == null) {
 			selected_video = null;
-			movieImageButton.setImageResource(R.drawable.novideo);
+			movieImageButton.setImageResource(R.drawable.uploadvideo_btn);
 			return;
-		} 
-		
+		}
+
 		selected_video = data.getData();
 
 		if (Utility.getFileSize(selected_video.getPath()) > 10 * 1024) {

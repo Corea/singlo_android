@@ -85,11 +85,6 @@ public class Mylesson extends SingloUserActivity {
 
 		completeLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
 		completeLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
-
-		progressDialog = ProgressDialog.show(Mylesson.this, "", "준비중입니다.",
-				true, false);
-		userLessonTask = new UserLessonTask();
-		userLessonTask.execute();
 	}
 
 	OnClickListener completeLessonImageButtonOnClickListener = new OnClickListener() {
@@ -131,7 +126,7 @@ public class Mylesson extends SingloUserActivity {
 			waitingLessonButton
 					.setBackgroundResource(R.drawable.shorttabon_btn);
 			waitingLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
-			
+
 			DBConnector db = new DBConnector(Mylesson.this);
 			showingLessons.clear();
 
@@ -153,6 +148,12 @@ public class Mylesson extends SingloUserActivity {
 		super.onResume();
 
 		setTopImage(1);
+		
+		showingLessons.clear();
+		progressDialog = ProgressDialog.show(Mylesson.this, "",
+				"레슨을 가져오고 있습니다.", false, false);
+		userLessonTask = new UserLessonTask();
+		userLessonTask.execute();
 	}
 
 	// 각 리스트 클릭시
@@ -201,12 +202,7 @@ public class Mylesson extends SingloUserActivity {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			onCancelled();
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
+			super.onPostExecute(result);
 
 			DBConnector db = new DBConnector(Mylesson.this);
 			lessons = db.getAllLesson();
@@ -230,12 +226,20 @@ public class Mylesson extends SingloUserActivity {
 			progressDialog.dismiss();
 		}
 
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+
+			progressDialog.dismiss();
+		}
+
 		void getLesson() {
 			DBConnector dbConnector = new DBConnector(Mylesson.this);
 			String url = Const.LESSON_GET_LIST_USER_URL;
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 
+			dbConnector.removeLessonAll();
 			Log.d("loading_lesson_list_user", "loading_lesson_list_user");
 
 			try {

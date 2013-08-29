@@ -2,220 +2,252 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ececec"
     android:orientation="vertical" >
 
     <include layout="@layout/teacher_top_menu" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="15dp" >
+        android:layout_height="wrap_content" >
 
-        <WebView
-            android:id="@+id/ProfileWebView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/white"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:longClickable="false"
-            android:padding="5dp" />
-
-        <RelativeLayout
-            android:id="@+id/RelativeLayout1"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="6dp"
-            android:background="@drawable/pro_introduce_back"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp" >
+            android:orientation="vertical" >
 
-            <LinearLayout
-                android:id="@+id/linearLayout1"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:orientation="vertical" >
+                android:background="@drawable/singlo_subtitle"
+                android:paddingBottom="5dp"
+                android:paddingLeft="100dp"
+                android:paddingTop="33dp" >
+
+                <LinearLayout
+                    android:id="@+id/NameLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center_vertical"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/pro_icon" />
+
+                    <TextView
+                        android:id="@+id/NameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:text="이름"
+                        android:textColor="#484848"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/NameLinearLayout"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/NameLinearLayout" >
 
-                    <TextView
-                        android:id="@+id/TextView_01"
+                    <Button
+                        android:id="@+id/RecommendVideoButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:longClickable="false"
-                        android:text="이름/"
-                        android:textColor="#000000"
-                        android:textSize="15sp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/gray_btn"
+                        android:gravity="center"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="7dp"
+                        android:paddingRight="7dp"
+                        android:paddingTop="3dp"
+                        android:text="추천영상"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/AbsenceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/NameLinearLayout"
+                    android:layout_marginTop="5dp"
+                    android:text="부재 중 메시지"
+                    android:textColor="#ff727272"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="33dp"
+                android:paddingLeft="100dp"
+                android:paddingRight="8dp"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:id="@+id/PriceTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="￦6000"
+                    android:textColor="#ff303030"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/ClassTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="Class A"
+                        android:textColor="#ff303030"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/TextView_02"
+                        android:id="@+id/CertificationTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        android:text="￦6,000"
-                        android:textColor="#858585"
-                        android:textSize="15sp" />
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="LPGA"
+                        android:textColor="#ff7c7c7c"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
-                <RatingBar
-                    android:id="@+id/ScoreRatingBar"
-                    style="@style/SingloSmallRatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:isIndicator="true"
-                    android:longClickable="false"
-                    android:numStars="5"
-                    android:stepSize="0.1" />
-
-                <TextView
-                    android:id="@+id/ScoreTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    android:background="@android:color/transparent"
-                    android:gravity="center_vertical"
-                    android:longClickable="false"
-                    android:text="100명 5.0점"
-                    android:textColor="#858585"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/TextView_03"
-                    android:layout_width="fill_parent"
-                    android:layout_height="15dp"
-                    android:background="@android:color/transparent"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:text="certification"
-                    android:textColor="#858585"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout1"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal" >
-
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@android:color/transparent" />
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
-                <ImageButton
-                    android:id="@+id/RecommendVideoImageButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/pro_button_video01" />
+                    <RatingBar
+                        android:id="@+id/ScoreRatingBar"
+                        style="@style/SingloSmallRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:isIndicator="true"
+                        android:longClickable="false"
+                        android:numStars="5"
+                        android:stepSize="0.1" />
+
+                    <TextView
+                        android:id="@+id/ScoreTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@android:color/transparent"
+                        android:gravity="center_horizontal"
+                        android:text="5.0점 / 100명"
+                        android:textColor="#858585"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp" >
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@drawable/detail_bar_back" />
+        </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="33dp" >
+            android:id="@+id/FavoriteRelativeLayout"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="33dp"
+            android:background="@android:color/white" >
 
-            <Button
-                android:id="@+id/ImageView04"
-                android:layout_width="87dp"
-                android:layout_height="33dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/button_selected_back"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="경력사항"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+            <WebView
+                android:id="@+id/ProfileWebView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:longClickable="false" />
 
             <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="2px"
+                android:id="@+id/FavoriteImageView"
+                android:layout_width="16dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/ImageView04"
-                android:src="@drawable/detail_line_bar" />
-
-            <Button
-                android:id="@+id/DriverButton"
-                android:layout_width="87dp"
-                android:layout_height="33dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="2dp"
-                android:layout_toRightOf="@+id/imageView2"
-                android:background="@android:color/transparent"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="레슨내역"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:layout_alignRight="@+id/ProfileWebView"
+                android:layout_alignTop="@+id/ProfileWebView"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/addfavorite_btn" />
         </RelativeLayout>
     </FrameLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" >
+
+        <Button
+            android:id="@+id/ProfileTabButton"
+            android:layout_width="66dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:adjustViewBounds="true"
+            android:background="@drawable/tabon_btn"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:text="경력사항"
+            android:textColor="#ff34a93a"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/CommentTabButton"
+            android:layout_width="66dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/taboff_btn"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:text="레슨후기"
+            android:textColor="#ff434343"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/singlo_border" >
 
         <TextView
             android:id="@+id/ProfileTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:padding="15dp"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:text="&apos;비밀 SNS 계정&apos; 파문을 일으킨 기성용(24·스완지시티)에 대한 대한축구협회(KFA)의 징계여부가 이르면 10일 결정될 것으로 보인다.
-
-국제축구연맹(FIFA) 20세 이하(U-20) 월드컵에 한국 선수단 단장 자격으로 동행했던 허정무 대한축구협회 부회장이 9일 선수단과 함께 귀국했다. 축구협회는 그동안 기성용 파문에 대해 허 부회장이 귀국한 후 부회장단 회의를 통해 본격적인 논의가 진행될 것이라고 밝혀왔다.
-
-대한축구협회 관계자는 이날 뉴스1과의 통화에서 &apos;허 부회장이 귀국했지만 부회장단 모임은 없었다&apos;며 &apos;정확하게 언제 열릴지는 모르지만 10일이나 11일 안으로 협의가 있을 것&apos;이라고 말했다.
-"
+            android:padding="10dp"
+            android:text="프로필"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
     </ScrollView>

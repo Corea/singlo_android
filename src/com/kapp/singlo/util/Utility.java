@@ -70,4 +70,22 @@ public class Utility {
 		Log.d("sb", sb.toString());
 		return sb.toString();
 	}
+
+	public static String getClubName(int clubType) {
+		switch (clubType) {
+		case 1:
+			return "드라이버";
+		case 2:
+			return "우드";
+		case 3:
+			return "유틸리티";
+		case 4:
+			return "아이언";
+		case 5:
+			return "웨지";
+		case 6:
+			return "퍼터";
+		}
+		return "";
+	}
 }

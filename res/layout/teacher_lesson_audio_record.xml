@@ -1,50 +1,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@android:color/black" >
 
     <LinearLayout
         android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="56.7dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:background="@drawable/record_back"
         android:orientation="horizontal" >
 
         <ImageButton
             android:id="@+id/StopImageButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_weight="31"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
-            android:padding="5dp"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/save_btn" />
 
         <ImageButton
             android:id="@+id/RecordImageButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_weight="37"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
-            android:padding="5dp"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/record_btn" />
 
         <ImageButton
             android:id="@+id/CancelImageButton"
-            android:layout_width="27dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_weight="34.5"
+            android:layout_weight="1"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
-            android:padding="5dp"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/cancel_btn" />
     </LinearLayout>
@@ -53,6 +53,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginBottom="56dp"
+        android:background="@android:color/white"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -64,7 +65,7 @@
                 android:id="@+id/RelativeLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -87,7 +88,7 @@
                     android:layout_marginRight="5dp"
                     android:text="1/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView1"
@@ -98,8 +99,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView1"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
 
@@ -107,7 +118,7 @@
                 android:id="@+id/RelativeLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -130,7 +141,7 @@
                     android:layout_marginRight="5dp"
                     android:text="2/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView2"
@@ -141,8 +152,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
 
@@ -150,7 +171,6 @@
                 android:id="@+id/RelativeLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -173,7 +193,7 @@
                     android:layout_marginRight="5dp"
                     android:text="3/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView3"
@@ -184,8 +204,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
         </LinearLayout>
@@ -193,13 +223,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:paddingTop="1dp" >
 
             <RelativeLayout
                 android:id="@+id/RelativeLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -222,7 +253,7 @@
                     android:layout_marginRight="5dp"
                     android:text="4/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView4"
@@ -233,8 +264,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView4"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
 
@@ -242,7 +283,7 @@
                 android:id="@+id/RelativeLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -265,7 +306,7 @@
                     android:layout_marginRight="5dp"
                     android:text="5/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView5"
@@ -276,8 +317,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView5"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
 
@@ -285,7 +336,6 @@
                 android:id="@+id/RelativeLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -308,7 +358,7 @@
                     android:layout_marginRight="5dp"
                     android:text="6/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView6"
@@ -319,8 +369,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView6"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
         </LinearLayout>
@@ -328,13 +388,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:paddingTop="1dp" >
 
             <RelativeLayout
                 android:id="@+id/RelativeLayout7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -357,7 +418,7 @@
                     android:layout_marginRight="5dp"
                     android:text="7/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView7"
@@ -368,8 +429,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView7"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
 
@@ -377,7 +448,7 @@
                 android:id="@+id/RelativeLayout8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1" >
 
                 <ImageView
@@ -400,7 +471,7 @@
                     android:layout_marginRight="5dp"
                     android:text="8/8"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/selectedImageView8"
@@ -411,8 +482,18 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:adjustViewBounds="true"
-                    android:maxWidth="32dp"
+                    android:maxWidth="17dp"
                     android:scaleType="fitXY"
+                    android:src="@android:color/transparent" />
+
+                <ImageView
+                    android:id="@+id/MICImageView8"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@android:color/transparent" />
             </RelativeLayout>
 
@@ -420,61 +501,53 @@
                 android:id="@+id/RelativeLayout9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
                 android:layout_weight="1"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_above="@+id/RecordTimeTextView"
-                    android:layout_marginBottom="5dp"
                     android:orientation="vertical" >
 
                     <ImageButton
                         android:id="@+id/RemoveImageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/delete_btn" />
+                        android:background="#ff31aa39"
+                        android:padding="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/trashcan" />
 
                     <ImageButton
                         android:id="@+id/ChangeOrderImageButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="1px"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
-                        android:background="@android:color/transparent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/changeorder_btn" />
-                </LinearLayout>
+                        android:background="#ff89c518"
+                        android:padding="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/changeorder" />
 
-                <TextView
-                    android:id="@+id/RecordTimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="5dp"
-                    android:text="00 : 00 : 00"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/RecordTimeTextView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="1px"
+                        android:layout_weight="1"
+                        android:background="#ff444854"
+                        android:gravity="center"
+                        android:text="00 : 00 : 00"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp" >
-    </RelativeLayout>
 
 </RelativeLayout>

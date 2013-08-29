@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kapp.singlo.R;
+import com.kapp.singlo.teacher.TeacherGolfbag;
 import com.kapp.singlo.teacher.TeacherHome;
 import com.kapp.singlo.teacher.TeacherLesson;
 import com.kapp.singlo.teacher.TeacherSetting;
@@ -119,13 +120,17 @@ public class SingloTeacherActivity extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			/*
-			 * setTopImage(2);
-			 * 
-			 * Intent intent = new Intent(context, Golfbag.class);
-			 * intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			 * startActivity(intent); finish(); overridePendingTransition(0, 0);
-			 */
+			setTopImage(2);
+
+			if (context.getClass() == TeacherGolfbag.class) {
+				return;
+			}
+			Intent intent = new Intent(context, TeacherGolfbag.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			startActivity(intent);
+			finish();
+			overridePendingTransition(0, 0);
+
 		}
 	};
 

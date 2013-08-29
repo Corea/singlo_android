@@ -14,11 +14,15 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.webkit.WebView;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,15 +35,17 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 
 	private TextView nameTextView;
 	private TextView priceTextView;
+	private TextView classTextView;
 	private TextView certificateTextView;
 	private TextView profileTextView;
 	private TextView scoreTextView;
+	private TextView absenceTextView;
 
 	private WebView profileWebView;
-	private TextView imageCountTextView;
-	private ImageButton recommendVideoImageButton;
-	private ImageButton favoriteImageButton;
+	private Button recommendVideoButton;
+	private ImageView favoriteImageView;
 	private RatingBar scoreRatingbar;
+	private RelativeLayout favoriteRelativeLayout;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,27 +75,40 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 			return;
 		}
 
-		nameTextView = (TextView) findViewById(R.id.TextView_01);
-		priceTextView = (TextView) findViewById(R.id.TextView_02);
-		certificateTextView = (TextView) findViewById(R.id.TextView_03);
-		profileTextView = (TextView) findViewById(R.id.TextView_04);
-		scoreTextView = (TextView) findViewById(R.id.TextView_00);
+		nameTextView = (TextView) findViewById(R.id.NameTextView);
+		priceTextView = (TextView) findViewById(R.id.PriceTextView);
+		classTextView = (TextView) findViewById(R.id.ClassTextView);
+		certificateTextView = (TextView) findViewById(R.id.CertificationTextView);
+		profileTextView = (TextView) findViewById(R.id.ProfileTextView);
+		scoreTextView = (TextView) findViewById(R.id.ScoreTextView);
+		absenceTextView = (TextView) findViewById(R.id.AbsenceTextView);
 		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
 
-		nameTextView.setText(professional.getName() + "/");
+		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
-		certificateTextView.setText(professional.getCertification());
+		try {
+			classTextView.setText(professional.getCertification().split("/")[1]
+					.trim());
+			certificateTextView.setText(professional.getCertification().split(
+					"/")[0].trim());
+		} catch (Exception e) {
+			classTextView.setText(professional.getCertification().trim());
+			certificateTextView.setText("");
+		}
 		profileTextView.setText(professional.getProfile());
-		scoreTextView.setText(professional.getEvaluationCount() + "명 "
-				+ String.format("%.1f", professional.getEvaluationScore())
-				+ "점");
+		scoreTextView.setText(String.format("%.1f",
+				professional.getEvaluationScore())
+				+ "점 / " + professional.getEvaluationCount() + "명 ");
 		scoreRatingbar.setRating((float) professional.getEvaluationScore());
-
-		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
-		imageCountTextView = (TextView) findViewById(R.id.ImageCountTextView);
-		
 		scoreRatingbar.setIsIndicator(true);
 
+		if (professional.getStatus() == 0) {
+			absenceTextView.setText(professional.getStatusMessage());
+		} else {
+			absenceTextView.setText("");
+		}
+
+		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
 		if (professional.getPhoto() == null
 				|| professional.getPhoto().trim().isEmpty()) {
 			profileWebView.loadDataWithBaseURL(null,
@@ -102,18 +121,19 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 							+ professional.getPhoto()), "text/html", "utf-8",
 					null);
 		}
+		profileWebView.setOnTouchListener(profileWebViewOnTouchListener);
 
-		imageCountTextView.setText(professional.getProfile());
-		recommendVideoImageButton = (ImageButton) findViewById(R.id.RecommendVideoImageButton);
-		recommendVideoImageButton
+		recommendVideoButton = (Button) findViewById(R.id.RecommendVideoButton);
+		recommendVideoButton
 				.setOnClickListener(recommendVideoImageButtonOnClickListener);
-		favoriteImageButton = (ImageButton) findViewById(R.id.FavoriteImageButton);
-		favoriteImageButton
-				.setOnClickListener(favoriteImageButtonOnClickListener);
+		favoriteRelativeLayout = (RelativeLayout) findViewById(R.id.FavoriteRelativeLayout);
+		favoriteRelativeLayout
+				.setOnClickListener(favoriteRelativeLayoutOnClickListener);
+		favoriteImageView = (ImageView) findViewById(R.id.FavoriteImageView);
 		if (professional.getLike() == 1) {
-			favoriteImageButton.setImageResource(R.drawable.prolist_fav01);
+			favoriteImageView.setImageResource(R.drawable.addfavorite_btn);
 		} else {
-			favoriteImageButton.setImageResource(R.drawable.prolist_fav02);
+			favoriteImageView.setImageResource(R.drawable.removefavorite_btn);
 		}
 	}
 
@@ -132,7 +152,21 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 
 	private LikeTeacherAsyncTask likeTeacherAsyncTask;
 
-	private OnClickListener favoriteImageButtonOnClickListener = new OnClickListener() {
+	private OnTouchListener profileWebViewOnTouchListener = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				likeTeacherAsyncTask = new LikeTeacherAsyncTask();
+				likeTeacherAsyncTask.setContext(HomeDetail.this);
+				likeTeacherAsyncTask.setListener(HomeDetail.this);
+				likeTeacherAsyncTask.execute(user_id,
+						professional.getServerId(), professional.getLike());
+			}
+			return false;
+		}
+	};
+	private OnClickListener favoriteRelativeLayoutOnClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
@@ -167,9 +201,9 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 	public void callback(Object... params) {
 		Professional professional = (Professional) params[0];
 		if (professional.getLike() == 1) {
-			favoriteImageButton.setImageResource(R.drawable.prolist_fav01);
+			favoriteImageView.setImageResource(R.drawable.addfavorite_btn);
 		} else {
-			favoriteImageButton.setImageResource(R.drawable.prolist_fav02);
+			favoriteImageView.setImageResource(R.drawable.removefavorite_btn);
 		}
 	}
 }
