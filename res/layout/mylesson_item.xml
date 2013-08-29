@@ -11,13 +11,18 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:longClickable="false"
-        android:padding="8dp" >
+        android:paddingBottom="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp" >
 
         <WebView
             android:id="@+id/ProfileWebView"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -38,6 +43,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/LessonStatusImageView"
             android:layout_toRightOf="@+id/ProfileWebView"
@@ -46,14 +52,58 @@
             android:longClickable="false"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/TitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="제 자세좀 봐주세요~"
-                android:textColor="#ff303030"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/LessonTypeImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/fast_lesson_image" />
+
+                <Button
+                    android:id="@+id/ClubTypeButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/ProfileWebView"
+                    android:background="@drawable/noselect_back"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:text="클럽 종류"
+                    android:textColor="@android:color/white"
+                    android:textSize="9sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/clock_icon" />
+
+                <TextView
+                    android:id="@+id/DatetimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:longClickable="false"
+                    android:text="2013.05.31. 16:21"
+                    android:textColor="#ff626262"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -96,37 +146,13 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/clock_icon" />
-
-                <TextView
-                    android:id="@+id/DatetimeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:longClickable="false"
-                    android:text="2013.05.31. 16:21"
-                    android:textColor="#ff626262"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
             <TextView
-                android:id="@+id/TextView_03"
+                android:id="@+id/QuestionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:longClickable="false"

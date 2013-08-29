@@ -502,7 +502,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="과도한 등긴장 자세"
+                                android:text="S - 자세"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -516,7 +516,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="새우등 자세"
+                                android:text="C - 자세"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -536,7 +536,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="척추 각 이탈"
+                                android:text="로스 오브 포스처"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -550,7 +550,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="어깨 일어서기"
+                                android:text="플랫 숄더 플레인"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -569,7 +569,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="골반 일어서기"
+                                android:text="얼리 익스텐션"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -583,7 +583,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="엎어 치기"
+                                android:text="오버 더 탑"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -679,7 +679,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="역 피봇"
+                                android:text="리버스 스파인 앵글"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -712,7 +712,7 @@
                                 android:adjustViewBounds="true"
                                 android:background="@drawable/noselect_back"
                                 android:scaleType="fitXY"
-                                android:text="손목 풀림"
+                                android:text="얼리 릴리즈"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />

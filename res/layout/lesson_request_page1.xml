@@ -176,7 +176,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/QuestionText"
+                android:id="@+id/QuestionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_margin="5dp"
@@ -185,7 +185,10 @@
                 android:gravity="top"
                 android:hint="동영상을 등록 후 질문을 작성해 주세요"
                 android:imeOptions="actionDone"
-                android:inputType="textEmailAddress|textEmailSubject"
+                android:inputType="textEmailAddress|textEmailSubject|textMultiLine"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:singleLine="false"
                 android:textSize="12sp" >
 
                 <requestFocus />

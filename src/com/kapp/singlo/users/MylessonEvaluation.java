@@ -20,19 +20,27 @@ import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.data.Professional;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
+import com.kapp.singlo.util.Utility;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView.OnEditorActionListener;
 
 public class MylessonEvaluation extends SingloUserActivity {
 
@@ -42,17 +50,21 @@ public class MylessonEvaluation extends SingloUserActivity {
 	private Lesson lesson;
 	private Professional professional;
 
-	private TextView nameAndCompanyTextView;
-	private TextView certificationTextView;
+	private TextView nameTextView;
 	private TextView priceTextView;
+	private TextView classTextView;
+	private TextView certificateTextView;
+	private TextView scoreTextView;
 
+	private RatingBar scoreRatingbar;
 	private RatingBar speedRatingBar;
 	private RatingBar accuracyRatingBar;
 	private RatingBar priceRatingBar;
 
+	private WebView profileWebView;
 	private ImageButton recommendYesImageButton;
 	private ImageButton recommendNoImageButton;
-	private ImageButton completeImageButton;
+	private Button completeButton;
 
 	private EditText reviewEditText;
 
@@ -60,6 +72,9 @@ public class MylessonEvaluation extends SingloUserActivity {
 
 	private ProgressDialog progressDialog;
 	private EvaluationTask evaluationTask;
+	
+	private RelativeLayout recommendYesRelativeLayout;
+	private RelativeLayout recommendNoRelativeLayout;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,38 +98,87 @@ public class MylessonEvaluation extends SingloUserActivity {
 		professional = db.getProfessionalByServerID(lesson.getTeacherID());
 		db.close();
 
-		nameAndCompanyTextView = (TextView) findViewById(R.id.NameAndCompanyTextView);
-		nameAndCompanyTextView.setText(professional.getName());
-		certificationTextView = (TextView) findViewById(R.id.CertificationTextView);
-		certificationTextView.setText(professional.getCertification());
+		nameTextView = (TextView) findViewById(R.id.NameTextView);
 		priceTextView = (TextView) findViewById(R.id.PriceTextView);
+		classTextView = (TextView) findViewById(R.id.ClassTextView);
+		certificateTextView = (TextView) findViewById(R.id.CertificationTextView);
+		scoreTextView = (TextView) findViewById(R.id.ScoreTextView);
+		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
+		
+		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
+		try {
+			classTextView.setText(professional.getCertification().split("/")[1]
+					.trim());
+			certificateTextView.setText(professional.getCertification().split(
+					"/")[0].trim());
+		} catch (Exception e) {
+			classTextView.setText(professional.getCertification().trim());
+			certificateTextView.setText("");
+		}
+		scoreTextView.setText(String.format("%.1f",
+				professional.getEvaluationScore())
+				+ "점 / " + professional.getEvaluationCount() + "명 ");
+		scoreRatingbar.setRating((float) professional.getEvaluationScore());
+		scoreRatingbar.setIsIndicator(true);
+
+		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
+		if (professional.getPhoto() == null
+				|| professional.getPhoto().trim().isEmpty()) {
+			profileWebView.loadDataWithBaseURL(null,
+					Utility.getImageHtmlCode(Const.PROFILE_NONE_URL),
+					"text/html", "utf-8", null);
+		} else {
+			profileWebView.loadDataWithBaseURL(
+					null,
+					Utility.getImageHtmlCode(Const.PROFILE_URL
+							+ professional.getPhoto()), "text/html", "utf-8",
+					null);
+		}
 
 		speedRatingBar = (RatingBar) findViewById(R.id.SpeedRatingBar);
 		accuracyRatingBar = (RatingBar) findViewById(R.id.AccuracyRatingBar);
 		priceRatingBar = (RatingBar) findViewById(R.id.PriceRatingBar);
 
+		recommendYesRelativeLayout = (RelativeLayout) findViewById(R.id.RecommendYesRelativeLayout);
+		recommendYesRelativeLayout.setOnClickListener(recommendYesImageButtonOnClickListener);
+		recommendNoRelativeLayout = (RelativeLayout) findViewById(R.id.RecommendNoRelativeLayout);
+		recommendNoRelativeLayout.setOnClickListener(recommendNoImageButtonOnClickListener);
+
+        
 		recommendYesImageButton = (ImageButton) findViewById(R.id.RecommendYesImageButton);
 		recommendYesImageButton
 				.setOnClickListener(recommendYesImageButtonOnClickListener);
 		recommendNoImageButton = (ImageButton) findViewById(R.id.RecommendNoImageButton);
 		recommendNoImageButton
 				.setOnClickListener(recommendNoImageButtonOnClickListener);
-		completeImageButton = (ImageButton) findViewById(R.id.CompleteImageButton);
-		completeImageButton
-				.setOnClickListener(completeImageButtonOnClickListener);
+		completeButton = (Button) findViewById(R.id.CompleteButton);
+		completeButton.setOnClickListener(completeImageButtonOnClickListener);
 
 		reviewEditText = (EditText) findViewById(R.id.ReviewEditText);
+		reviewEditText.setOnEditorActionListener(reviewEditTextOnEditorActionListener);
 	}
+
+	private OnEditorActionListener reviewEditTextOnEditorActionListener = new OnEditorActionListener() {
+
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			InputMethodManager imm = (InputMethodManager) getSystemService(LessonRequestPage1.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(reviewEditText.getWindowToken(), 0);
+
+			return true;
+		}
+	};
+
 
 	OnClickListener recommendYesImageButtonOnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			recommend = true;
 			recommendYesImageButton
-					.setImageResource(R.drawable.recommendation_checkon);
+					.setImageResource(R.drawable.checkboxgrayon_icon);
 			recommendNoImageButton
-					.setImageResource(R.drawable.recommendation_checkoff);
+					.setImageResource(R.drawable.checkboxoff_icon);
 		}
 	};
 	OnClickListener recommendNoImageButtonOnClickListener = new OnClickListener() {
@@ -122,9 +186,9 @@ public class MylessonEvaluation extends SingloUserActivity {
 		public void onClick(View v) {
 			recommend = false;
 			recommendYesImageButton
-					.setImageResource(R.drawable.recommendation_checkoff);
+					.setImageResource(R.drawable.checkboxoff_icon);
 			recommendNoImageButton
-					.setImageResource(R.drawable.recommendation_checkon);
+					.setImageResource(R.drawable.checkboxgrayon_icon);
 		}
 	};
 

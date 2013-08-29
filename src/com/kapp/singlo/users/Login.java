@@ -53,6 +53,12 @@ public class Login extends Activity implements CallbackListener {
 			phone = spLogin.getString("phone", "");
 			birthday = spLogin.getString("birthday", "");
 
+			try {
+				name = URLEncoder.encode(name, "UTF-8");
+			} catch (Exception e) {
+
+			}
+
 			loginAsyncTask = new LoginAsyncTask();
 			loginAsyncTask.setContext(Login.this);
 			loginAsyncTask.setCallbackListener(Login.this);
@@ -124,11 +130,19 @@ public class Login extends Activity implements CallbackListener {
 		SharedPreferences.Editor editor = spLogin.edit();
 		editor.putInt("id", loginAsyncTask.getID());
 		editor.putBoolean("type", isProfessional);
-		editor.putString("name", name);
+		editor.putString("name", loginAsyncTask.getName());
 		editor.putString("birthday", birthday);
 		editor.putString("phone", phone);
 		editor.putString("photo", loginAsyncTask.getPhoto());
 		editor.putInt("count", loginAsyncTask.getCount());
+		editor.commit();
+	}
+
+	private void removeLoginPreferences() {
+		SharedPreferences spLogin;
+		spLogin = getSharedPreferences("login", MODE_PRIVATE);
+		SharedPreferences.Editor editor = spLogin.edit();
+		editor.clear();
 		editor.commit();
 	}
 
@@ -145,7 +159,6 @@ public class Login extends Activity implements CallbackListener {
 			} else {
 				intent = new Intent(Login.this, Home.class);
 			}
-
 			if (Main.mainActivity != null) {
 				Main.mainActivity.finish();
 			}
@@ -164,6 +177,7 @@ public class Login extends Activity implements CallbackListener {
 						}
 					}).create().show();
 			if (autoLogin) {
+				removeLoginPreferences();
 				setContentView(R.layout.login);
 
 				phoneNumberEditText = (EditText) findViewById(R.id.PhoneNumberEditText);

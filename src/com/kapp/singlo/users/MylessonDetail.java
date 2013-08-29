@@ -52,9 +52,11 @@ import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.data.LessonAnswer;
 import com.kapp.singlo.data.LessonAnswerImage;
+import com.kapp.singlo.data.Professional;
 import com.kapp.singlo.ui.SingloVideoView;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
+import com.kapp.singlo.util.Utility;
 
 @SuppressLint("NewApi")
 public class MylessonDetail extends SingloUserActivity {
@@ -78,6 +80,8 @@ public class MylessonDetail extends SingloUserActivity {
 
 	private ProgressDialog progressDialog;
 
+	private TextView nameTextView;
+	private TextView datetimeTextView;
 	private TextView scoreTextView;
 	private TextView causeTitleTextView;
 	private TextView causeDetailTextView;
@@ -85,9 +89,9 @@ public class MylessonDetail extends SingloUserActivity {
 
 	private int lesson_id;
 
+	private Professional professional;
 	private Lesson lesson;
 	private LessonAnswer lessonAnswer;
-
 	private LessonDetailTask lessonDetailTask;
 
 	private int active_tab;
@@ -102,32 +106,12 @@ public class MylessonDetail extends SingloUserActivity {
 		lesson_id = intent.getIntExtra("lesson_id", 0);
 
 		DBConnector db = new DBConnector(this);
-
 		lesson = db.getLesson(lesson_id);
-
+		professional = db.getProfessionalByServerID(lesson.getTeacherID());
 		db.close();
 
 		Button target = (Button) findViewById(R.id.ClubTypeButton);
-		switch (lesson.getClubType()) {
-		case 1:
-			target.setText("드라이버");
-			break;
-		case 2:
-			target.setText("우드");
-			break;
-		case 3:
-			target.setText("유틸리티");
-			break;
-		case 4:
-			target.setText("아이언");
-			break;
-		case 5:
-			target.setText("웨지");
-			break;
-		case 6:
-			target.setText("퍼터");
-			break;
-		}
+		target.setText(Utility.getClubName(lesson.getClubType()));
 
 		causeIDList = new ArrayList<Integer>();
 		causeIDList.add(R.drawable.cause_1);
@@ -232,6 +216,8 @@ public class MylessonDetail extends SingloUserActivity {
 		evaluationButton
 				.setOnClickListener(evaluationImageButtonOnClickListener);
 
+		nameTextView = (TextView) findViewById(R.id.NameTextView);
+		datetimeTextView = (TextView) findViewById(R.id.DatetimeTextView);
 		causeTitleTextView = (TextView) findViewById(R.id.CauseTitleTextView);
 		causeDetailTextView = (TextView) findViewById(R.id.CauseDetailTextView);
 		question_text = (TextView) findViewById(R.id.QuestionTextView);
@@ -241,6 +227,9 @@ public class MylessonDetail extends SingloUserActivity {
 		} catch (Exception e) {
 
 		}
+
+		nameTextView.setText(professional.getName());
+		datetimeTextView.setText(lesson.getCreatedDatetime());
 
 		seekBarList = new ArrayList<SeekBar>();
 		seekBarList.add((SeekBar) findViewById(R.id.SeekBar1));
@@ -266,6 +255,17 @@ public class MylessonDetail extends SingloUserActivity {
 		recommendImageView1 = (ImageView) findViewById(R.id.RecommendImageView1);
 		recommendImageView2 = (ImageView) findViewById(R.id.RecommendImageView2);
 		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
+		if (professional.getPhoto() == null) {
+			profileWebView.loadDataWithBaseURL(null,
+					Utility.getImageHtmlCode(Const.PROFILE_NONE_URL),
+					"text/html", "utf-8", null);
+		} else {
+			profileWebView.loadDataWithBaseURL(
+					null,
+					Utility.getImageHtmlCode(Const.PROFILE_URL
+							+ professional.getPhoto()), "text/html", "utf-8",
+					null);
+		}
 
 		progressDialog = ProgressDialog.show(MylessonDetail.this, "",
 				"준비중입니다.", true, false);

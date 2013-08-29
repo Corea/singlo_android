@@ -18,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,8 +43,7 @@ public class TeacherLesson extends SingloTeacherActivity {
 	private ListView Custom_List;
 
 	// 핵심 contents 들을 ListView로 뿌리기 위한 변수 선언.
-	private ArrayList<TeacherLesson_List_Data> Array_Data;
-	private TeacherLesson_List_Data data;
+	private ArrayList<Lesson> showingLessons;
 	private TeacherLesson_Adapter adapter;
 
 	private List<Lesson> lessons;
@@ -67,8 +67,8 @@ public class TeacherLesson extends SingloTeacherActivity {
 				TeacherLesson.MODE_PRIVATE);
 		teacher_id = spLogin.getInt("id", 0);
 
-		Array_Data = new ArrayList<TeacherLesson_List_Data>();
-		Array_Data.clear();
+		showingLessons = new ArrayList<Lesson>();
+		showingLessons.clear();
 
 		fastLessonButton = (Button) findViewById(R.id.FastLessonButton);
 		fastLessonButton.setOnClickListener(fastLessonButtonOnClickListener);
@@ -120,9 +120,6 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 		@Override
 		public void onClick(View v) {
-			fastLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
-			slowLessonButton.setBackgroundResource(R.drawable.shorttaboff_btn);
-
 			lesson_type = 1;
 			setLessonType();
 		}
@@ -131,44 +128,52 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 		@Override
 		public void onClick(View v) {
-			fastLessonButton.setBackgroundResource(R.drawable.shorttaboff_btn);
-			slowLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
-
 			lesson_type = 0;
 			setLessonType();
 		}
 	};
 
 	private void setLessonType() {
+		if (lesson_type == 1) {
+			fastLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
+			fastLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
+			slowLessonButton.setBackgroundResource(R.drawable.shorttaboff_btn);
+			slowLessonButton.setTextColor(Color.parseColor("#FF000000"));
+		} else {
+			fastLessonButton.setBackgroundResource(R.drawable.shorttaboff_btn);
+			fastLessonButton.setTextColor(Color.parseColor("#FF000000"));
+			slowLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
+			slowLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
+		}
 
-		Array_Data.clear();
+		showingLessons.clear();
 		DBConnector db = new DBConnector(TeacherLesson.this);
 		lessons = db.getAllLesson();
 		db.close();
 
 		for (int k = 0; k < lessons.size(); k++) {
 			if (lessons.get(k).getLessonType() == lesson_type) {
-				String image_url = Const.PROFILE_URL + "user_"
-						+ lessons.get(k).getUserID() + ".png";
-
-				if (lessons.get(k).getStatus() == 1) {
-					data = new TeacherLesson_List_Data(image_url, "문의자 : ",
-							lessons.get(k).getUserName(), "등록시간 : "
-									+ lessons.get(k).getCreatedDatetime(), "",
-							R.drawable.completelesson_icon);
-				} else {
-					data = new TeacherLesson_List_Data(image_url, "문의자 : ",
-							lessons.get(k).getUserName(), "등록시간 : "
-									+ lessons.get(k).getCreatedDatetime(), "",
-							R.drawable.watinglesson_icon);
-				}
-				Array_Data.add(data);
+				showingLessons.add(lessons.get(k));
+				/*
+				 * String image_url = Const.PROFILE_URL + "user_" +
+				 * lessons.get(k).getUserID() + ".png";
+				 * 
+				 * if (lessons.get(k).getStatus() == 1) { data = new
+				 * TeacherLesson_List_Data(image_url, "문의자 : ",
+				 * lessons.get(k).getUserName(), "등록시간 : " +
+				 * lessons.get(k).getCreatedDatetime(), "",
+				 * R.drawable.completelesson_icon); } else { data = new
+				 * TeacherLesson_List_Data(image_url, "문의자 : ",
+				 * lessons.get(k).getUserName(), "등록시간 : " +
+				 * lessons.get(k).getCreatedDatetime(), "",
+				 * R.drawable.watinglesson_icon); }
+				 */
 			}
 		}
 
 		adapter = null;
 		adapter = new TeacherLesson_Adapter(getBaseContext(),
-				android.R.layout.simple_list_item_1, Array_Data);
+				android.R.layout.simple_list_item_1, showingLessons);
 		Custom_List.setAdapter(adapter);
 	}
 
@@ -196,17 +201,17 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			onCancelled();
+			Custom_List = (ListView) findViewById(R.id.listView5);
+			Custom_List.setOnItemClickListener(CustomListItemClickListener);
+			lesson_type = 0;
+			setLessonType();
+
+			progressDialog.dismiss();
 		}
 
 		@Override
 		protected void onCancelled() {
 			super.onCancelled();
-
-			Custom_List = (ListView) findViewById(R.id.listView5);
-			Custom_List.setOnItemClickListener(CustomListItemClickListener);
-			lesson_type = 1;
-			setLessonType();
 
 			progressDialog.dismiss();
 		}

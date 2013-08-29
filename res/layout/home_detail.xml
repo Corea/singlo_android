@@ -90,7 +90,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/AbsenceTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/NameLinearLayout"
@@ -115,6 +115,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:background="@drawable/singlo_border_right"
                     android:gravity="center"
                     android:text="￦6000"
                     android:textColor="#ff303030"
@@ -125,6 +126,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/singlo_border_right"
                     android:orientation="vertical" >
 
                     <TextView
@@ -215,86 +217,54 @@
         </RelativeLayout>
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp" >
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" >
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
+        <Button
+            android:id="@+id/ProfileTabButton"
+            android:layout_width="66dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
             android:adjustViewBounds="true"
+            android:background="@drawable/tabon_btn"
+            android:gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/detail_bar_back" />
+            android:text="경력사항"
+            android:textColor="#ff34a93a"
+            android:textSize="12sp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="33dp" >
-
-            <Button
-                android:id="@+id/ImageView04"
-                android:layout_width="87dp"
-                android:layout_height="33dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/button_selected_back"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="경력사항"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="2px"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/ImageView04"
-                android:src="@drawable/detail_line_bar" />
-
-            <Button
-                android:id="@+id/DriverButton"
-                android:layout_width="87dp"
-                android:layout_height="33dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="2dp"
-                android:layout_toRightOf="@+id/imageView2"
-                android:background="@android:color/transparent"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="레슨내역"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-    </FrameLayout>
+        <Button
+            android:id="@+id/CommentTabButton"
+            android:layout_width="66dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/taboff_btn"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:text="레슨후기"
+            android:textColor="#ff434343"
+            android:textSize="12sp" />
+    </LinearLayout>
 
     <ScrollView
-        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/singlo_border" >
 
         <TextView
             android:id="@+id/ProfileTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/white"
-            android:padding="15dp"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            android:text="&apos;비밀 SNS 계정&apos; 파문을 일으킨 기성용(24·스완지시티)에 대한 대한축구협회(KFA)의 징계여부가 이르면 10일 결정될 것으로 보인다.
-
-국제축구연맹(FIFA) 20세 이하(U-20) 월드컵에 한국 선수단 단장 자격으로 동행했던 허정무 대한축구협회 부회장이 9일 선수단과 함께 귀국했다. 축구협회는 그동안 기성용 파문에 대해 허 부회장이 귀국한 후 부회장단 회의를 통해 본격적인 논의가 진행될 것이라고 밝혀왔다.
-
-대한축구협회 관계자는 이날 뉴스1과의 통화에서 &apos;허 부회장이 귀국했지만 부회장단 모임은 없었다&apos;며 &apos;정확하게 언제 열릴지는 모르지만 10일이나 11일 안으로 협의가 있을 것&apos;이라고 말했다.
-"
+            android:padding="10dp"
+            android:text="프로필"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
     </ScrollView>

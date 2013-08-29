@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -58,6 +59,12 @@ public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 					.findViewById(R.id.DatetimeTextView);
 			ImageView inlike = (ImageView) v
 					.findViewById(R.id.LessonStatusImageView);
+			ImageView lessonTypeImageView = (ImageView) v
+					.findViewById(R.id.LessonTypeImageView);
+			Button clubTypeButton = (Button) v
+					.findViewById(R.id.ClubTypeButton);
+			TextView questionTextView = (TextView) v
+					.findViewById(R.id.QuestionTextView);
 
 			if (professional == null) {
 				profileWebView.loadDataWithBaseURL(null,
@@ -74,6 +81,14 @@ public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 				nameTextView.setText(professional.getName());
 				companyTextView.setText(" / " + professional.getCompany());
 			}
+			if (lesson.getLessonType() == 1) {
+				lessonTypeImageView
+						.setImageResource(R.drawable.fast_lesson_image);
+			} else {
+				lessonTypeImageView
+						.setImageResource(R.drawable.slow_lesson_image);
+			}
+			clubTypeButton.setText(Utility.getClubName(lesson.getClubType()));
 
 			if (lesson.getStatus() == 0) {
 				inlike.setImageResource(R.drawable.watinglesson_icon);
@@ -81,6 +96,7 @@ public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 				inlike.setImageResource(R.drawable.completelesson_icon);
 			}
 			datetimeTextView.setText(lesson.getCreatedDatetime());
+			questionTextView.setText(lesson.getQuestion());
 
 			profileWebView.setBackgroundResource(R.anim.shape);
 			profileWebView.setPadding(1, 1, 1, 1);

@@ -9,122 +9,148 @@
         android:id="@+id/list_item_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:clickable="false"
-        android:longClickable="false" >
+        android:longClickable="false"
+        android:paddingBottom="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp" >
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_margin="3dp"
-            android:layout_weight="25" >
-
-            <WebView
-                android:id="@+id/webView1"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="25"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:longClickable="false" />
-        </RelativeLayout>
+        <WebView
+            android:id="@+id/ThumbnailWebView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:longClickable="false" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="2dp"
             android:layout_weight="55"
             android:clickable="false"
             android:focusable="false"
+            android:gravity="center_vertical"
             android:longClickable="false"
-            android:orientation="vertical" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="레슨 회신 만료" />
+            android:orientation="vertical"
+            android:paddingLeft="10dp" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/TextView_01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:text="레슨 회신 만료 "
+                    android:textColor="#ff3f3f3f"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/RemainTimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0분 전"
+                    android:textColor="#ffe60019"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:longClickable="false"
+                    android:text="[레슨신청 - "
+                    android:textColor="#ff3f3f3f"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/NameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:inputType="textMultiLine"
                     android:longClickable="false"
-                    android:text="제목 부분"
-                    android:textColor="#000000"
-                    android:textSize="15dp"
+                    android:text="이름"
+                    android:textColor="#ff3f3f3f"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/TextView_02"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
                     android:clickable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:inputType="textMultiLine"
                     android:longClickable="false"
-                    android:paddingLeft="5dp"
-                    android:text="소제목"
-                    android:textColor="#000000"
-                    android:textSize="15dp" />
+                    android:text=" 회원님]"
+                    android:textColor="#ff3f3f3f"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/clock_icon" />
+
+                <TextView
+                    android:id="@+id/DatetimeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:longClickable="false"
+                    android:text="2013.05.31. 16:21"
+                    android:textColor="#ff626262"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/TextView_03"
-                android:layout_width="fill_parent"
-                android:layout_height="15dp"
-                android:layout_marginTop="3dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="textMultiLine"
-                android:longClickable="false"
-                android:text="소제목"
-                android:textColor="#000000"
-                android:textSize="12dp" />
-
-            <TextView
-                android:id="@+id/TextView_04"
-                android:layout_width="fill_parent"
-                android:layout_height="15dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="textMultiLine"
-                android:longClickable="false"
-                android:text="소제목"
-                android:textColor="#000000"
-                android:textSize="12dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/likestar"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="8dp"
-            android:layout_weight="15" >
-
-            <ImageView
-                android:id="@+id/ImageView_9"
-                android:layout_width="50dp"
+                android:id="@+id/QuestionTextView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/watinglesson_icon" />
+                android:clickable="false"
+                android:ellipsize="end"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:longClickable="false"
+                android:maxLines="1"
+                android:text="요약"
+                android:textColor="#ff626262"
+                android:textSize="12sp" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/LessonStatusImageView"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:scaleType="fitXY"
+            android:src="@drawable/watinglesson_icon" />
     </LinearLayout>
 
 </LinearLayout>

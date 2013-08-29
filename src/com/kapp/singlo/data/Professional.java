@@ -2,22 +2,22 @@ package com.kapp.singlo.data;
 
 public class Professional {
 
-	int id;
-	int server_id;
-	String name;
-	String certification;
-	int price;
-	String profile;
-	String photo;
-	String url;
-	int like;
-	int active;
-	int status;
-	String status_message;
-	String company;
+	private int id;
+	private int server_id;
+	private String name;
+	private String certification;
+	private int price;
+	private String profile;
+	private String photo;
+	private String url;
+	private int like;
+	private int active;
+	private int status;
+	private String status_message;
+	private String company;
 
-	int evaluation_count;
-	double evaluation_score;
+	private int evaluation_count;
+	private double evaluation_score;
 
 	public Professional() {
 	}

@@ -290,13 +290,14 @@ public class Home extends SingloUserActivity {
 						boolean like = teacher.getBoolean("like");
 						boolean active = teacher.getBoolean("active");
 						boolean status = teacher.getBoolean("status");
-						String status_message = teacher
-								.getString("status_message");
+						String status_message = URLDecoder.decode(
+								teacher.getString("status_message"), "UTF-8");
 						int evaluation_count = teacher
 								.getInt("evaluation_count");
 						double evaluation_score = teacher
 								.getDouble("evaluation_score");
-						String company = URLDecoder.decode(teacher.getString("company"), "UTF-8");
+						String company = URLDecoder.decode(
+								teacher.getString("company"), "UTF-8");
 
 						Professional professional = new Professional(server_id,
 								name, certification, price, profile, photo,

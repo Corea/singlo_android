@@ -25,6 +25,7 @@ public class Const {
 	public static final String TEACHER_GET_LIST_URL = url_prefix + "/teacher/get_list";
 	public static final String TEACHER_LIKE_URL = url_prefix + "/teacher/like";
 	public static final String TEACHER_LESSON_STATUS_URL = url_prefix + "/teacher/lesson_status";
+	public static final String TEACHER_UPDATE_ABSENCE_URL = url_prefix + "/teacher/update_absence";
 	
 	public static final String VIDEO_URL = url_prefix + "/video/";
 	public static final String CAPTURE_URL = url_prefix + "/capture/";

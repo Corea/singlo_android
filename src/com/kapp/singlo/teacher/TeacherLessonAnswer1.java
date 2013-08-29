@@ -5,6 +5,7 @@ import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.ui.SingloVideoView;
+import com.kapp.singlo.util.Utility;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -64,27 +65,8 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 		downloadVideoButton.setOnTouchListener(videoButtonTouchListener);
 
 		Button target = (Button) findViewById(R.id.ClubTypeButton);
-		switch (lesson.getClubType()) {
-		case 1:
-			target.setText("드라이버");
-			break;
-		case 2:
-			target.setText("우드");
-			break;
-		case 3:
-			target.setText("유틸리티");
-			break;
-		case 4:
-			target.setText("아이언");
-			break;
-		case 5:
-			target.setText("웨지");
-			break;
-		case 6:
-			target.setText("퍼터");
-			break;
-		}
-
+		target.setText(Utility.getClubName(lesson.getClubType()));
+		
 		submitButton = (Button) findViewById(R.id.AnswerButton);
 		submitButton.setOnTouchListener(submitButtonTouchListener);
 	}

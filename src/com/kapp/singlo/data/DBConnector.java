@@ -230,7 +230,8 @@ public class DBConnector extends SQLiteOpenHelper {
 	public List<Professional> getAllProfessional() {
 		List<Professional> professionalList = new ArrayList<Professional>();
 		// Select All Query
-		String selectQuery = "SELECT * FROM " + TABLE_PROFESSIONAL;
+		String selectQuery = "SELECT * FROM " + TABLE_PROFESSIONAL
+				+ " ORDER BY " + KEY_NAME + " ASC";
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectQuery, null);

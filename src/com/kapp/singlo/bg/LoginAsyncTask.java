@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -79,6 +80,10 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Void> {
 		return id;
 	}
 
+	public String getName() {
+		return name;
+	}
+
 	public String getPhoto() {
 		return photo;
 	}
@@ -99,12 +104,18 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Void> {
 		HttpPost httpPost = new HttpPost(url);
 		InputStream is;
 
+		SharedPreferences prefs = context.getSharedPreferences("Singlo",
+				Context.MODE_PRIVATE);
+		String pushtoken = prefs.getString("pushtoken", "");
+
+		Log.d("Login", "pushtoken : " + pushtoken);
 		Log.d("Login", url);
 		try {
 			List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair("name", name));
 			nameValuePairs.add(new BasicNameValuePair("birthday", birthday));
 			nameValuePairs.add(new BasicNameValuePair("phone", phone));
+			nameValuePairs.add(new BasicNameValuePair("pushtoken", pushtoken));
 
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -129,12 +140,13 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Void> {
 						URLDecoder.decode(json.getString("photo"), "UTF-8"),
 						URLDecoder.decode(json.getString("url"), "UTF-8"), 0,
 						json.getBoolean("active") ? 1 : 0,
-						json.getBoolean("status") ? 1 : 0,
-						json.getString("status_message"),
+						json.getBoolean("status") ? 1 : 0, URLDecoder.decode(
+								json.getString("status_message"), "UTF-8"),
 						json.getInt("evaluation_count"),
 						json.getDouble("evaluation_score"), URLDecoder.decode(
 								json.getString("company"), "UTF-8"));
 				DBConnector db = new DBConnector(context);
+				db.removeProfessionalAll();
 				db.addProfessional(professional);
 				db.close();
 			} else {

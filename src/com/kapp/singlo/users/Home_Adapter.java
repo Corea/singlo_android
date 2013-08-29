@@ -78,6 +78,8 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 					.findViewById(R.id.PriceTextView);
 			TextView certificateTextView = (TextView) v
 					.findViewById(R.id.CertificationTextView);
+			TextView absenceTextView = (TextView) v
+					.findViewById(R.id.AbsenceTextView);
 			likeImageView = (ImageView) v.findViewById(R.id.LikeImageView);
 			RatingBar scoreRatingbar = (RatingBar) v
 					.findViewById(R.id.ScoreRatingBar);
@@ -108,9 +110,11 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 			if (professional.getStatus() == 1) {
 				lessonActiveImageView
 						.setImageResource(R.drawable.lessonon_icon);
+				absenceTextView.setText("");
 			} else {
 				lessonActiveImageView
 						.setImageResource(R.drawable.lessonoff_icon);
+				absenceTextView.setText(professional.getStatusMessage());
 			}
 
 			// focus disable

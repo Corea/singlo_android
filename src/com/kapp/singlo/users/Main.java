@@ -1,8 +1,8 @@
 package com.kapp.singlo.users;
 
+import com.google.android.gcm.GCMRegistrar;
+import com.kapp.singlo.GCMIntentService;
 import com.kapp.singlo.R;
-import com.kapp.singlo.teacher.TeacherHome;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,9 +13,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Main extends Activity {
-
-	Button registerButton;
-	Button loginButton;
+	private Button registerButton;
+	private Button loginButton;
 
 	public static Activity mainActivity;
 
@@ -23,10 +22,15 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		// GCM 등록
+		String regId = GCMRegistrar.getRegistrationId(getApplicationContext());
+		if ("".equals(regId)) {
+			GCMRegistrar.register(getApplicationContext(),
+					GCMIntentService.getProjectId());
+		}
+		
 		SharedPreferences spLogin;
-
 		spLogin = getSharedPreferences("login", Login.MODE_PRIVATE);
-
 		int id = spLogin.getInt("id", 0);
 
 		if (id != 0) {

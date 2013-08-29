@@ -54,6 +54,7 @@ public class TeacherHome extends SingloTeacherActivity {
 	private TextView scoreTextView;
 	private TextView classTextView;
 	private TextView certificateTextView;
+	private TextView absenceTextView;
 
 	private int teacher_id;
 
@@ -83,23 +84,35 @@ public class TeacherHome extends SingloTeacherActivity {
 		scoreTextView = (TextView) findViewById(R.id.ScoreTextView);
 		classTextView = (TextView) findViewById(R.id.ClassTextView);
 		certificateTextView = (TextView) findViewById(R.id.CertificationTextView);
+		profileTextView = (TextView) findViewById(R.id.ProfileTextView);
+		absenceTextView = (TextView) findViewById(R.id.AbsenceTextView);
 		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
 
 		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
-		classTextView.setText(professional.getCertification().split("/")[0]);
-		certificateTextView.setText(professional.getCertification().split("/")[1]);
+		try {
+			classTextView.setText(professional.getCertification().split("/")[1]
+					.trim());
+			certificateTextView.setText(professional.getCertification().split(
+					"/")[0].trim());
+		} catch (Exception e) {
+			classTextView.setText(professional.getCertification().trim());
+			certificateTextView.setText("");
+		}
+		profileTextView.setText(professional.getProfile());
 		scoreTextView.setText(String.format("%.1f",
 				professional.getEvaluationScore())
-				+ "점" + professional.getEvaluationCount() + "명 ");
+				+ "점 / " + professional.getEvaluationCount() + "명 ");
+		scoreRatingbar.setRating((float) professional.getEvaluationScore());
+		scoreRatingbar.setIsIndicator(true);
 
-		recommendVideoButton = (Button) findViewById(R.id.RecommendVideoButton);
-		recommendVideoButton
-				.setOnClickListener(recommendVideoButtonOnClickListener);
+		if (professional.getStatus() == 0) {
+			absenceTextView.setText(professional.getStatusMessage());
+		} else {
+			absenceTextView.setText("");
+		}
 
 		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
-		profileWebView.setOnTouchListener(profileWebViewOnTouchListener);
-
 		if (professional.getPhoto() == null) {
 			profileWebView.loadDataWithBaseURL(null,
 					Utility.getImageHtmlCode(Const.PROFILE_NONE_URL),
@@ -111,9 +124,11 @@ public class TeacherHome extends SingloTeacherActivity {
 							+ professional.getPhoto()), "text/html", "utf-8",
 					null);
 		}
-		profileTextView = (TextView) findViewById(R.id.ProfileTextView);
-		profileTextView.setText(professional.getProfile());
-		scoreRatingbar.setRating((float) professional.getEvaluationScore());
+		profileWebView.setOnTouchListener(profileWebViewOnTouchListener);
+
+		recommendVideoButton = (Button) findViewById(R.id.RecommendVideoButton);
+		recommendVideoButton
+				.setOnClickListener(recommendVideoButtonOnClickListener);
 	}
 
 	private OnClickListener recommendVideoButtonOnClickListener = new OnClickListener() {
@@ -128,6 +143,7 @@ public class TeacherHome extends SingloTeacherActivity {
 			startActivity(intent);
 		}
 	};
+
 	private OnTouchListener profileWebViewOnTouchListener = new OnTouchListener() {
 
 		@Override

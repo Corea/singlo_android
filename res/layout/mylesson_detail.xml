@@ -57,7 +57,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/singlo_subtitle"
+                android:background="@drawable/singlo_border"
                 android:padding="8dp" >
 
                 <ImageView
@@ -149,7 +149,7 @@
                         android:layout_height="21dp"
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@+id/ProfileWebView"
-                        android:background="@drawable/noselect_back"
+                        android:background="@drawable/select_back"
                         android:clickable="false"
                         android:focusable="false"
                         android:gravity="center"

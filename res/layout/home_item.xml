@@ -9,18 +9,19 @@
         android:id="@+id/list_item_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
         android:clickable="false"
         android:longClickable="false"
-        android:paddingBottom="13dp"
+        android:paddingBottom="10dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="13dp" >
+        android:paddingTop="10dp" >
 
         <WebView
             android:id="@+id/ProfileWebView"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
             android:clickable="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -32,6 +33,7 @@
             android:layout_weight="55"
             android:clickable="false"
             android:focusable="false"
+            android:gravity="center_vertical"
             android:longClickable="false"
             android:orientation="vertical"
             android:paddingLeft="10dp" >
@@ -68,7 +70,7 @@
                     android:paddingLeft="5dp"
                     android:text="이름"
                     android:textColor="#ff303030"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -97,7 +99,7 @@
                     android:paddingLeft="5dp"
                     android:text="/ ￦"
                     android:textColor="#ff4e4e4e"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/PriceTextView"
@@ -111,13 +113,12 @@
                     android:longClickable="false"
                     android:text="6000"
                     android:textColor="#ff4e4e4e"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="15dp"
-                android:layout_marginTop="2dp"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false" >
@@ -147,14 +148,13 @@
                     android:paddingLeft="5dp"
                     android:text="5.0점 / 100명"
                     android:textColor="#858585"
-                    android:textSize="10dp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/CertificationTextView"
                 android:layout_width="fill_parent"
                 android:layout_height="15dp"
-                android:layout_marginTop="3dp"
                 android:clickable="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
@@ -162,7 +162,20 @@
                 android:longClickable="false"
                 android:text="certification"
                 android:textColor="#858585"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/AbsenceTextView"
+                android:layout_width="fill_parent"
+                android:layout_height="15dp"
+                android:clickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="textMultiLine"
+                android:longClickable="false"
+                android:text="부재중 메시지"
+                android:textColor="#858585"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <ImageView

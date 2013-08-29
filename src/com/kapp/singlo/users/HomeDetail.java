@@ -39,6 +39,7 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 	private TextView certificateTextView;
 	private TextView profileTextView;
 	private TextView scoreTextView;
+	private TextView absenceTextView;
 
 	private WebView profileWebView;
 	private Button recommendVideoButton;
@@ -80,21 +81,34 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 		certificateTextView = (TextView) findViewById(R.id.CertificationTextView);
 		profileTextView = (TextView) findViewById(R.id.ProfileTextView);
 		scoreTextView = (TextView) findViewById(R.id.ScoreTextView);
+		absenceTextView = (TextView) findViewById(R.id.AbsenceTextView);
 		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
 
 		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
-		classTextView.setText(professional.getCertification().split("/")[0]);
-		certificateTextView.setText(professional.getCertification().split("/")[1]);
+		try {
+			classTextView.setText(professional.getCertification().split("/")[1]
+					.trim());
+			certificateTextView.setText(professional.getCertification().split(
+					"/")[0].trim());
+		} catch (Exception e) {
+			classTextView.setText(professional.getCertification().trim());
+			certificateTextView.setText("");
+		}
 		profileTextView.setText(professional.getProfile());
 		scoreTextView.setText(String.format("%.1f",
 				professional.getEvaluationScore())
 				+ "점 / " + professional.getEvaluationCount() + "명 ");
 		scoreRatingbar.setRating((float) professional.getEvaluationScore());
-		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
-
 		scoreRatingbar.setIsIndicator(true);
 
+		if (professional.getStatus() == 0) {
+			absenceTextView.setText(professional.getStatusMessage());
+		} else {
+			absenceTextView.setText("");
+		}
+
+		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
 		if (professional.getPhoto() == null
 				|| professional.getPhoto().trim().isEmpty()) {
 			profileWebView.loadDataWithBaseURL(null,
@@ -107,16 +121,15 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 							+ professional.getPhoto()), "text/html", "utf-8",
 					null);
 		}
+		profileWebView.setOnTouchListener(profileWebViewOnTouchListener);
 
 		recommendVideoButton = (Button) findViewById(R.id.RecommendVideoButton);
 		recommendVideoButton
 				.setOnClickListener(recommendVideoImageButtonOnClickListener);
 		favoriteRelativeLayout = (RelativeLayout) findViewById(R.id.FavoriteRelativeLayout);
-		profileWebView.setOnTouchListener(profileWebViewOnTouchListener);
 		favoriteRelativeLayout
 				.setOnClickListener(favoriteRelativeLayoutOnClickListener);
 		favoriteImageView = (ImageView) findViewById(R.id.FavoriteImageView);
-
 		if (professional.getLike() == 1) {
 			favoriteImageView.setImageResource(R.drawable.addfavorite_btn);
 		} else {

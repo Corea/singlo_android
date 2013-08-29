@@ -310,6 +310,8 @@ public class Register extends Activity {
 		void register() {
 			try {
 				URL url = new URL(Const.REGISTER_URL);
+				SharedPreferences prefs = getSharedPreferences("Singlo", MODE_PRIVATE);;
+				String pushtoken = prefs.getString("pushtoken", "");
 				HttpURLConnection conn = (HttpURLConnection) url
 						.openConnection();
 				conn.setDoInput(true);
@@ -340,6 +342,11 @@ public class Register extends Activity {
 						+ Const.lineEnd);
 				dos.writeBytes("Content-Disposition:form-data; name=\"phone\""
 						+ Const.lineEnd + Const.lineEnd + phone + Const.lineEnd);
+				
+				dos.writeBytes(Const.twoHyphens + Const.boundary
+						+ Const.lineEnd);
+				dos.writeBytes("Content-Disposition:form-data; name=\"pushtoken\""
+						+ Const.lineEnd + Const.lineEnd + pushtoken + Const.lineEnd);
 
 				dos.writeBytes(Const.twoHyphens + Const.boundary
 						+ Const.lineEnd);
