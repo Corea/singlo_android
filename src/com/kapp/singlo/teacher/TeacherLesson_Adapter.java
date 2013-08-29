@@ -3,6 +3,7 @@ package com.kapp.singlo.teacher;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,14 @@ public class TeacherLesson_Adapter extends ArrayAdapter<Lesson> {
 				.findViewById(R.id.ThumbnailWebView);
 		TextView remainTimeTextView = (TextView) v
 				.findViewById(R.id.RemainTimeTextView);
+		TextView remainTimeTitleTextView = (TextView) v
+				.findViewById(R.id.RemainTimeTitleTextView);
 		TextView nameTextView = (TextView) v.findViewById(R.id.NameTextView);
 		TextView datetimeTextView = (TextView) v
 				.findViewById(R.id.DatetimeTextView);
 		ImageView statusImageView = (ImageView) v
 				.findViewById(R.id.LessonStatusImageView);
-		TextView questionTextView = (TextView) v	
+		TextView questionTextView = (TextView) v
 				.findViewById(R.id.QuestionTextView);
 
 		thumbnailWebView.loadDataWithBaseURL(null,
@@ -58,8 +61,14 @@ public class TeacherLesson_Adapter extends ArrayAdapter<Lesson> {
 		questionTextView.setText(lesson.getQuestion());
 		if (lesson.getStatus() == 0) {
 			statusImageView.setImageResource(R.drawable.watinglesson_icon);
+			remainTimeTitleTextView.setText("레슨 회신 만료 ");
+			remainTimeTextView.setText("0분 전");
+			remainTimeTextView.setTextColor(Color.parseColor("#ffe60019"));
 		} else {
 			statusImageView.setImageResource(R.drawable.completelesson_icon);
+			remainTimeTitleTextView.setText("레슨 회신 ");
+			remainTimeTextView.setText("완료");
+			remainTimeTextView.setTextColor(Color.parseColor("#ff31aa39"));
 		}
 
 		thumbnailWebView.setBackgroundResource(R.anim.shape);

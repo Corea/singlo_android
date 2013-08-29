@@ -298,36 +298,38 @@ public class MylessonDetailAudio extends Activity {
 	}
 
 	private void setNowLine() {
-		String line = lessonAnswerImageList.get(now_index).getLine();
-		String[] lineInfo = line.split("-");
-
 		imageCountTextView.setText((now_index + 1) + " / "
 				+ lessonAnswerImageList.size());
-
 		drawingCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
-		for (int i = 0; i < lineInfo.length; i++) {
-			double tx = Double.parseDouble(lineInfo[i].split("_")[0]);
-			double ty = Double.parseDouble(lineInfo[i].split("_")[1]);
-			int draw_type = Integer.parseInt(lineInfo[i].split("_")[2]);
-			int paint_type = 0;
-			if (lineInfo[i].split("_").length == 4) {
-				paint_type = Integer.parseInt(lineInfo[i].split("_")[3]);
-			}
-			if (draw_type == 0) {
-				double x = tx;
-				double y = ty;
-				i++;
-				ty = Double.parseDouble(lineInfo[i].split("_")[1]);
-				tx = Double.parseDouble(lineInfo[i].split("_")[0]);
+		String line = lessonAnswerImageList.get(now_index).getLine();
+		if (!line.trim().equals("")) {
+			String[] lineInfo = line.split("-");
 
-				drawingCanvas.drawLine((float) x * width, (float) y * height,
-						(float) tx * width, (float) ty * height,
-						paintList.get(paint_type));
-			} else if (draw_type == 1) {
-				drawingCanvas.drawCircle((float) tx * width, (float) ty
-						* height, (float) width / Const.RADIUS_CIRCLE_FACTOR,
-						paintList.get(paint_type));
+			for (int i = 0; i < lineInfo.length; i++) {
+				double tx = Double.parseDouble(lineInfo[i].split("_")[0]);
+				double ty = Double.parseDouble(lineInfo[i].split("_")[1]);
+				int draw_type = Integer.parseInt(lineInfo[i].split("_")[2]);
+				int paint_type = 0;
+				if (lineInfo[i].split("_").length == 4) {
+					paint_type = Integer.parseInt(lineInfo[i].split("_")[3]);
+				}
+				if (draw_type == 0) {
+					double x = tx;
+					double y = ty;
+					i++;
+					ty = Double.parseDouble(lineInfo[i].split("_")[1]);
+					tx = Double.parseDouble(lineInfo[i].split("_")[0]);
+
+					drawingCanvas.drawLine((float) x * width, (float) y
+							* height, (float) tx * width, (float) ty * height,
+							paintList.get(paint_type));
+				} else if (draw_type == 1) {
+					drawingCanvas.drawCircle((float) tx * width, (float) ty
+							* height, (float) width
+							/ Const.RADIUS_CIRCLE_FACTOR,
+							paintList.get(paint_type));
+				}
 			}
 		}
 

@@ -495,31 +495,21 @@
 
                             <Button
                                 android:id="@+id/CauseButton1"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
                                 android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="S - 자세"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_1" />
 
                             <Button
                                 android:id="@+id/CauseButton2"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
-                                android:layout_marginLeft="9dp"
+                                android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="C - 자세"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_2" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -529,31 +519,21 @@
 
                             <Button
                                 android:id="@+id/CauseButton3"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
                                 android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="로스 오브 포스처"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_3" />
 
                             <Button
                                 android:id="@+id/CauseButton4"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
-                                android:layout_marginLeft="9dp"
+                                android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="플랫 숄더 플레인"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_4" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -562,31 +542,21 @@
 
                             <Button
                                 android:id="@+id/CauseButton5"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
                                 android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="얼리 익스텐션"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_5" />
 
                             <Button
                                 android:id="@+id/CauseButton6"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
-                                android:layout_marginLeft="9dp"
+                                android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="오버 더 탑"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_6" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -638,31 +608,21 @@
 
                             <Button
                                 android:id="@+id/CauseButton7"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
                                 android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="스웨이"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_7" />
 
                             <Button
                                 android:id="@+id/CauseButton8"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
-                                android:layout_marginLeft="9dp"
+                                android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="슬라이드"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_8" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -672,31 +632,21 @@
 
                             <Button
                                 android:id="@+id/CauseButton9"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
                                 android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="리버스 스파인 앵글"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_9" />
 
                             <Button
                                 android:id="@+id/CauseButton10"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
-                                android:layout_marginLeft="9dp"
+                                android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="행잉 백"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_10" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -705,31 +655,21 @@
 
                             <Button
                                 android:id="@+id/CauseButton11"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
                                 android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="얼리 릴리즈"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_11" />
 
                             <Button
                                 android:id="@+id/CauseButton12"
+                                style="@style/CauseButton"
                                 android:layout_width="0dp"
                                 android:layout_height="31dp"
-                                android:layout_marginLeft="9dp"
+                                android:layout_marginRight="9dp"
                                 android:layout_weight="1"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/noselect_back"
-                                android:scaleType="fitXY"
-                                android:text="치킨 윙"
-                                android:textColor="@android:color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:text="@string/causeTitle_12" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

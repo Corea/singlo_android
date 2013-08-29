@@ -128,14 +128,15 @@ public class DBConnector extends SQLiteOpenHelper {
 
 	public void RemoveAll() {
 		SQLiteDatabase db = this.getWritableDatabase();
-
 		onUpgrade(db, 0, 0);
+		db.close();
 	}
 
 	public void removeProfessionalAll() {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFESSIONAL);
 		onCreate(db);
+		db.close();
 	}
 
 	public void removeLessonAll() {
@@ -144,6 +145,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LESSON_ANSWER);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_LESSON_ANSWER_IMAGE);
 		onCreate(db);
+		db.close();
 	}
 
 	public void addProfessional(Professional professional) {
