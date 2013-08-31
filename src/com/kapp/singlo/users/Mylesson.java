@@ -354,8 +354,7 @@ public class Mylesson extends SingloUserActivity {
 				Iterator<String> iterator = params.keySet().iterator();
 				while(iterator.hasNext()){
 					String key = (String)iterator.next();					
-					nameValuePairs.add(new BasicNameValuePair(URLEncoder.encode(key, "UTF-8"), 
-							URLEncoder.encode(params.get(key), "UTF-8")));
+					nameValuePairs.add(new BasicNameValuePair((key), params.get(key)));
 					System.out.println("key = " + key);
 					System.out.println("value = " + params.get(key));
 				}
