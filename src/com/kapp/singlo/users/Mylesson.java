@@ -1,8 +1,14 @@
 package com.kapp.singlo.users;
 
+import java.io.DataOutputStream;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -12,6 +18,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -34,6 +41,8 @@ import android.widget.Toast;
 
 import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
+import com.kapp.singlo.bg.APIConnector;
+import com.kapp.singlo.bg.APIConnector.getAPIConnetorResultListener;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.util.Const;
@@ -62,6 +71,17 @@ public class Mylesson extends SingloUserActivity {
 	private int user_id;
 
 	private UserLessonTask userLessonTask;
+	
+	/*private getAPIConnetorResultListener mCaptureListener = new getAPIConnetorResultListener() {
+		
+		@Override
+		public void result(JSONObject object) {
+			// TODO Auto-generated method stub
+			
+			System.out.println("aaa = " + object.length());
+			
+		}
+	};*/
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -269,6 +289,15 @@ public class Mylesson extends SingloUserActivity {
 
 					if (!exists) {
 						int server_id = lesson.getInt("id");
+						
+						HashMap<String, String> params = new HashMap<String, String>();
+						params.put("lesson_id", Integer.toString(server_id));
+						params.put("current_position", "100000");
+						
+						getThumnailUrl(params);
+						
+						//new APIConnector(Const.LESSON_CAPTURE_GET_URL, mCaptureListener).execute(params);
+						
 						int user_id = lesson.getInt("user_id");
 						Integer teacher_id;
 						try {
@@ -289,9 +318,14 @@ public class Mylesson extends SingloUserActivity {
 
 						String user_name = URLDecoder.decode(
 								lesson.getString("user_name"), "UTF-8");
+						/*String thumnail = URLDecoder.decode(
+								lesson.getString("thumnail"), "UTF-8");*/
+						//임시
+						String thumnail = "temp";
+						
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
-								question, created_datetime, status, user_name);
+								question, created_datetime, status, user_name, thumnail);
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}
@@ -302,6 +336,48 @@ public class Mylesson extends SingloUserActivity {
 			}
 			dbConnector.close();
 		}
+		
+		String getThumnailUrl(HashMap<String, String> params){
+			
+			String url = Const.LESSON_CAPTURE_GET_URL;
+			HttpClient httpClient = new DefaultHttpClient();
+			System.out.println("url = " + url);
+			HttpPost httpPost = new HttpPost(url);
+			InputStream is;
+			
+			String result = null;
+			
+			try {				
+				
+				List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
+				
+				Iterator<String> iterator = params.keySet().iterator();
+				while(iterator.hasNext()){
+					String key = (String)iterator.next();					
+					nameValuePairs.add(new BasicNameValuePair(URLEncoder.encode(key, "URF-8"), 
+							URLEncoder.encode(params.get(key), "URF-8")));
+					System.out.println("key = " + key);
+					System.out.println("value = " + params.get(key));
+				}
+				
+				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				HttpResponse httpResponse = httpClient.execute(httpPost);
+				is = httpResponse.getEntity().getContent();	
+				
+				JSONParser jParser = new JSONParser();
+				JSONObject json = jParser.getJSONFromStream(is);
+				
+				result = json.getString("result");
+				System.out.println("result = " + result);
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+		
 	}
 
 }
