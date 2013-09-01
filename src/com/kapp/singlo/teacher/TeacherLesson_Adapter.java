@@ -34,7 +34,7 @@ public class TeacherLesson_Adapter extends ArrayAdapter<Lesson> {
 
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.teacher_lesson_item, null);
+			v = vi.inflate(R.layout.teacher_lesson_item_backup, null);
 		}
 		Lesson lesson = items.get(position);
 

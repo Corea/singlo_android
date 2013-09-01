@@ -1,7 +1,13 @@
 package com.kapp.singlo.users;
 
+import java.util.HashMap;
+
+import org.json.JSONObject;
+
 import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
+import com.kapp.singlo.bg.APIGetAction;
+import com.kapp.singlo.bg.APIGetAction.getAPIConnetorResultListener;
 import com.kapp.singlo.bg.CallbackListener;
 import com.kapp.singlo.bg.LikeTeacherAsyncTask;
 import com.kapp.singlo.data.DBConnector;
@@ -11,6 +17,7 @@ import com.kapp.singlo.util.Utility;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -26,7 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HomeDetail extends SingloUserActivity implements CallbackListener {
+public class HomeDetail extends SingloUserActivity implements CallbackListener, OnClickListener {
 
 	private int user_id;
 	private int teacher_id;
@@ -46,6 +53,18 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 	private ImageView favoriteImageView;
 	private RatingBar scoreRatingbar;
 	private RelativeLayout favoriteRelativeLayout;
+	private Button mCareerBtn;
+	private Button mLessonReviewBtn;
+	
+	private getAPIConnetorResultListener mLessonReviewListener = new getAPIConnetorResultListener() {
+		
+		@Override
+		public void result(JSONObject object) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,6 +102,8 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 		scoreTextView = (TextView) findViewById(R.id.ScoreTextView);
 		absenceTextView = (TextView) findViewById(R.id.AbsenceTextView);
 		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
+		mCareerBtn = (Button)findViewById(R.id.ProfileTabButton);
+		mLessonReviewBtn = (Button)findViewById(R.id.CommentTabButton);
 
 		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
@@ -136,6 +157,20 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 			favoriteImageView.setImageResource(R.drawable.removefavorite_btn);
 		}
 	}
+	
+	private void setTabColor(Button btn){
+		Button[] mBtnArray = {mCareerBtn, mLessonReviewBtn};
+		
+		for(int i = 0; i < mBtnArray.length; i++){			
+			if(btn == mBtnArray[i]){				
+				mBtnArray[i].setBackgroundResource(R.drawable.tabon_btn);	
+				mBtnArray[i].setTextColor(Color.parseColor("#ff34a93a"));
+				continue;
+			}	
+			mBtnArray[i].setBackgroundResource(R.drawable.taboff_btn);
+			mBtnArray[i].setTextColor(Color.parseColor("#ff434343"));
+		}
+	}
 
 	private OnClickListener recommendVideoImageButtonOnClickListener = new OnClickListener() {
 
@@ -148,7 +183,7 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 					Uri.parse(professional.getUrl()));
 			startActivity(intent);
 		}
-	};
+	};	
 
 	private LikeTeacherAsyncTask likeTeacherAsyncTask;
 
@@ -204,6 +239,25 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener {
 			favoriteImageView.setImageResource(R.drawable.addfavorite_btn);
 		} else {
 			favoriteImageView.setImageResource(R.drawable.removefavorite_btn);
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.ProfileTabButton:
+			setTabColor(mCareerBtn);
+			break;
+		case R.id.CommentTabButton:
+			setTabColor(mLessonReviewBtn);
+			HashMap<String, String> mParam = new HashMap<String, String>();
+			mParam.put("teacher_id", Integer.toString(professional.getID()));
+			new APIGetAction(Const.GET_LESSON_REVIEW_EVALUATION, mLessonReviewListener).execute(mParam);
+			break;
+
+		default:
+			break;
 		}
 	}
 }

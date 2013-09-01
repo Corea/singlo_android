@@ -23,13 +23,13 @@ import com.kapp.singlo.util.JSONParser;
 
 import android.os.AsyncTask;
 
-public class APIConnector extends AsyncTask<HashMap<String, String>, Void, JSONObject>{
+public class APIPostAction extends AsyncTask<HashMap<String, String>, Void, JSONObject>{
 	
 	private String URL;
 	
 	private getAPIConnetorResultListener mListener;
 	
-	public APIConnector(String url, getAPIConnetorResultListener listener){
+	public APIPostAction(String url, getAPIConnetorResultListener listener){
 		this.URL = url;
 		this.mListener = listener;
 	}
@@ -40,6 +40,7 @@ public class APIConnector extends AsyncTask<HashMap<String, String>, Void, JSONO
 		
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost httpPost = new HttpPost(URL);
+		System.out.println("URL = " + URL);
 		InputStream is;
 		JSONObject json = null;
 		try {
@@ -62,8 +63,8 @@ public class APIConnector extends AsyncTask<HashMap<String, String>, Void, JSONO
 			JSONParser jParser = new JSONParser();
 			json = jParser.getJSONFromStream(is);
 			
-			String result = json.getString("result");
-			System.out.println("path = " + result);
+			String result = json.getString("path");
+			System.out.println("result = " + result);
 			
 		} catch (Exception e) {
 			// TODO: handle exception

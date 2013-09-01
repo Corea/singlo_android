@@ -36,7 +36,7 @@ public class Mylesson_Adapter extends ArrayAdapter<Lesson> {
 		if (v == null) {
 			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
-			v = vi.inflate(R.layout.mylesson_item, null);
+			v = vi.inflate(R.layout.mylesson_item_backup, null);
 		}
 
 		DBConnector dbConnector = new DBConnector(getContext());
