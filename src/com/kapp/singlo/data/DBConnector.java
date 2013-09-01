@@ -13,7 +13,7 @@ public class DBConnector extends SQLiteOpenHelper {
 
 	// All Static variables
 	// Database Version
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	// Database Name
 	private static final String DATABASE_NAME = "singlo";
@@ -34,7 +34,7 @@ public class DBConnector extends SQLiteOpenHelper {
 	private static final String KEY_PHOTO = "photo";
 	private static final String KEY_URL = "url";
 	private static final String KEY_USER_ID = "user_id";
-	private static final String KEY_TEACHER_ID = "teacher_id";
+	private static final String KEY_TEACHER_ID = "teacher_id";	
 	private static final String KEY_LESSON_TYPE = "lesson_type";
 	private static final String KEY_VIDEO = "video";
 	private static final String KEY_CLUB_TYPE = "club_type";
@@ -65,6 +65,7 @@ public class DBConnector extends SQLiteOpenHelper {
 	private static final String KEY_EVALUATION_SCORE = "evaluation_score";
 	private static final String KEY_COMPANY = "company";
 	private static final String KEY_TIMING = "timing";
+	private static final String KEY_THUMNAIL = "thumnail";
 
 	public DBConnector(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -90,7 +91,8 @@ public class DBConnector extends SQLiteOpenHelper {
 				+ KEY_TEACHER_ID + " INTEGER," + KEY_LESSON_TYPE + " INTEGER,"
 				+ KEY_VIDEO + " TEXT," + KEY_CLUB_TYPE + " INTEGER, "
 				+ KEY_QUESTION + " TEXT," + KEY_CREATED_DATETIME + " TEXT,"
-				+ KEY_STATUS + " INTEGER," + KEY_USER_NAME + " TEXT" + ")";
+				+ KEY_STATUS + " INTEGER," + KEY_USER_NAME + " TEXT," 
+				+ KEY_THUMNAIL + " TEXT" + ")";
 		db.execSQL(CREATE_LESSON_TABLE);
 
 		String CREATE_LESSON_ANSWER_TABLE = "CREATE TABLE IF NOT EXISTS "
@@ -313,13 +315,14 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_SERVER_ID, lesson.getServerID());
 		values.put(KEY_USER_ID, lesson.getUserID());
 		values.put(KEY_TEACHER_ID, lesson.getTeacherID());
-		values.put(KEY_LESSON_TYPE, lesson.getLessonType());
+		values.put(KEY_LESSON_TYPE, lesson.getLessonType());		
 		values.put(KEY_VIDEO, lesson.getVideo());
 		values.put(KEY_CLUB_TYPE, lesson.getClubType());
 		values.put(KEY_QUESTION, lesson.getQuestion());
 		values.put(KEY_CREATED_DATETIME, lesson.getCreatedDatetime());
 		values.put(KEY_STATUS, lesson.getStatus());
 		values.put(KEY_USER_NAME, lesson.getUserName());
+		values.put(KEY_THUMNAIL, lesson.getThumnail());
 
 		// Inserting Row
 		db.insert(TABLE_LESSON, null, values);
@@ -341,7 +344,8 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_CREATED_DATETIME, lesson.getCreatedDatetime());
 		values.put(KEY_STATUS, lesson.getStatus());
 		values.put(KEY_USER_NAME, lesson.getUserName());
-
+		values.put(KEY_THUMNAIL, lesson.getThumnail());
+		
 		// updating row
 		int result = db.update(TABLE_LESSON, values, KEY_ID + " = ?",
 				new String[] { String.valueOf(lesson.getID()) });
@@ -356,7 +360,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		Cursor cursor = db.query(TABLE_LESSON, new String[] { KEY_ID,
 				KEY_SERVER_ID, KEY_USER_ID, KEY_TEACHER_ID, KEY_LESSON_TYPE,
 				KEY_VIDEO, KEY_CLUB_TYPE, KEY_QUESTION, KEY_CREATED_DATETIME,
-				KEY_STATUS, KEY_USER_NAME }, KEY_ID + "=?",
+				KEY_STATUS, KEY_USER_NAME, KEY_THUMNAIL }, KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 
 		if (cursor != null) {
@@ -366,7 +370,7 @@ public class DBConnector extends SQLiteOpenHelper {
 					cursor.getInt(2), (Integer) cursor.getInt(3),
 					cursor.getInt(4), cursor.getString(5), cursor.getInt(6),
 					cursor.getString(7), cursor.getString(8), cursor.getInt(9),
-					cursor.getString(10));
+					cursor.getString(10), cursor.getString(11));
 			db.close();
 			return lesson;
 		}
@@ -391,7 +395,7 @@ public class DBConnector extends SQLiteOpenHelper {
 						cursor.getInt(4), cursor.getString(5),
 						cursor.getInt(6), cursor.getString(7),
 						cursor.getString(8), cursor.getInt(9),
-						cursor.getString(10));
+						cursor.getString(10), cursor.getString(11));
 				lessonList.add(lesson);
 			} while (cursor.moveToNext());
 		}

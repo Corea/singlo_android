@@ -272,9 +272,15 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 						String user_name = URLDecoder.decode(
 								lesson.getString("user_name"), "UTF-8");
+						
+						/*String thumnail = URLDecoder.decode(
+						lesson.getString("thumnail"), "UTF-8");*/
+						//임시
+						String thumnail = "temp";
+						
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
-								question, created_datetime, status, user_name);
+								question, created_datetime, status, user_name, thumnail);
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}

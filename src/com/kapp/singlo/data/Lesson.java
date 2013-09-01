@@ -14,13 +14,14 @@ public class Lesson {
 	String created_datetime;
 	int status;
 	String user_name;
+	String thumnail;
 
 	public Lesson() {
 	}
 
 	public Lesson(int id, int server_id, int user_id, Integer teacher_id,
 			int lesson_type, String video, int club_type, String question,
-			String created_datetime, int status, String user_name) {
+			String created_datetime, int status, String user_name, String thumnail) {
 		this.id = id;
 		this.server_id = server_id;
 		this.user_id = user_id;
@@ -32,11 +33,12 @@ public class Lesson {
 		this.created_datetime = created_datetime;
 		this.status = status;
 		this.user_name = user_name;
+		this.thumnail = thumnail;
 	}
 
 	public Lesson(int server_id, int user_id, Integer teacher_id,
 			int lesson_type, String video, int club_type, String question,
-			String created_datetime, int status, String user_name) {
+			String created_datetime, int status, String user_name, String thumnail) {
 		this.user_id = user_id;
 		this.server_id = server_id;
 		this.teacher_id = teacher_id;
@@ -47,6 +49,7 @@ public class Lesson {
 		this.created_datetime = created_datetime;
 		this.status = status;
 		this.user_name = user_name;
+		this.thumnail = thumnail;
 	}
 
 	public int getID() {
@@ -136,4 +139,12 @@ public class Lesson {
 	public void SetUserName(String user_name) {
 		this.user_name = user_name;
 	}
+
+	public String getThumnail() {
+		return thumnail;
+	}
+
+	public void setThumnail(String thumnail) {
+		this.thumnail = thumnail;
+	}	
 }
