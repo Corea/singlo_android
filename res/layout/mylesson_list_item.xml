@@ -16,13 +16,17 @@
         android:paddingRight="8dp"
         android:paddingTop="10dp" >
 
-        <WebView
-            android:id="@+id/ProfileWebView"
+        <ImageView
+            android:id="@+id/lesson_thumnail_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"            
+            android:layout_marginTop="3dp"
+            android:clickable="false"
+            android:focusable="false"            
+            android:focusableInTouchMode="false"
+            android:scaleType="fitCenter"
             android:longClickable="false" />
 
         <ImageView
@@ -43,7 +47,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/LessonStatusImageView"
-            android:layout_toRightOf="@+id/ProfileWebView"
+            android:layout_toRightOf="@+id/lesson_thumnail_img"
             android:clickable="false"
             android:focusable="false"
             android:longClickable="false"
@@ -66,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@+id/ProfileWebView"
+                    android:layout_toRightOf="@+id/lesson_thumnail_img"
                     android:background="@drawable/noselect_back"
                     android:clickable="false"
                     android:focusable="false"

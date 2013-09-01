@@ -378,8 +378,8 @@ public class DBConnector extends SQLiteOpenHelper {
 		return null;
 	}
 
-	public List<Lesson> getAllLesson() {
-		List<Lesson> lessonList = new ArrayList<Lesson>();
+	public ArrayList<Lesson> getAllLesson() {
+		ArrayList<Lesson> lessonList = new ArrayList<Lesson>();
 		// Select All Query
 		String selectQuery = "SELECT * FROM " + TABLE_LESSON + " ORDER BY "
 				+ KEY_SERVER_ID + " DESC";

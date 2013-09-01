@@ -41,12 +41,17 @@ import android.widget.Toast;
 
 import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
-import com.kapp.singlo.bg.APIConnector;
-import com.kapp.singlo.bg.APIConnector.getAPIConnetorResultListener;
+import com.kapp.singlo.adapter.MyLessonAdapter;
+import com.kapp.singlo.bg.APIAction;
+import com.kapp.singlo.bg.ThumnailUrlAction;
+import com.kapp.singlo.bg.APIAction.getAPIConnetorResultListener;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
+import com.kapp.singlo.data.MyLessonData;
+import com.kapp.singlo.data.Professional;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
+import com.kapp.singlo.util.Utility;
 
 @SuppressLint("NewApi")
 public class Mylesson extends SingloUserActivity {
@@ -58,30 +63,19 @@ public class Mylesson extends SingloUserActivity {
 	ListView Custom_List;
 
 	// 핵심 contents 들을 ListView로 뿌리기 위한 변수 선언.
-	private Mylesson_Adapter adapter;
+	private MyLessonAdapter adapter;
 
 	private ProgressDialog progressDialog;
 	// background process loading
 
-	private List<Lesson> lessons;
-	private List<Lesson> showingLessons;
-
+	private ArrayList<Lesson> lessons;
+	private ArrayList<Lesson> showingLessonsArray;
+	
 	private SharedPreferences spLogin;
 
 	private int user_id;
 
-	private UserLessonTask userLessonTask;
-	
-	/*private getAPIConnetorResultListener mCaptureListener = new getAPIConnetorResultListener() {
-		
-		@Override
-		public void result(JSONObject object) {
-			// TODO Auto-generated method stub
-			
-			System.out.println("aaa = " + object.length());
-			
-		}
-	};*/
+	private UserLessonTask userLessonTask;	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +88,7 @@ public class Mylesson extends SingloUserActivity {
 
 		mylessonActivity = Mylesson.this;
 
-		showingLessons = new ArrayList<Lesson>();
+		
 
 		completeLessonButton = (Button) findViewById(R.id.CompleteLessonButton);
 		completeLessonButton
@@ -105,6 +99,20 @@ public class Mylesson extends SingloUserActivity {
 
 		completeLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
 		completeLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
+		
+		init();
+		
+	}
+	
+	private void init(){
+		
+		showingLessonsArray = new ArrayList<Lesson>();
+		
+		Custom_List = (ListView)findViewById(R.id.listView1);
+		adapter = new MyLessonAdapter(this);
+		Custom_List.setOnItemClickListener(CustomListItemClickListener);
+		Custom_List.setAdapter(adapter);
+		
 	}
 
 	OnClickListener completeLessonImageButtonOnClickListener = new OnClickListener() {
@@ -117,22 +125,17 @@ public class Mylesson extends SingloUserActivity {
 			waitingLessonButton
 					.setBackgroundResource(R.drawable.shorttaboff_btn);
 			waitingLessonButton.setTextColor(Color.parseColor("#FF000000"));
-
-			DBConnector db = new DBConnector(Mylesson.this);
-			showingLessons.clear();
+			
+			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
 				if (lessons.get(i).getStatus() == 1) {
-					showingLessons.add(lessons.get(i));
+					showingLessonsArray.add(lessons.get(i));
 				}
 
 			}
-			db.close();
-
-			adapter = null;
-			adapter = new Mylesson_Adapter(getBaseContext(),
-					android.R.layout.simple_list_item_1, showingLessons);
-			Custom_List.setAdapter(adapter);
+			
+			setList(showingLessonsArray);			
 		}
 	};
 
@@ -146,30 +149,33 @@ public class Mylesson extends SingloUserActivity {
 			waitingLessonButton
 					.setBackgroundResource(R.drawable.shorttabon_btn);
 			waitingLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
-
-			DBConnector db = new DBConnector(Mylesson.this);
-			showingLessons.clear();
+			
+			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
 				if (lessons.get(i).getStatus() == 0) {
-					showingLessons.add(lessons.get(i));
+					showingLessonsArray.add(lessons.get(i));
 				}
 			}
-			db.close();
-
-			adapter = null;
-			adapter = new Mylesson_Adapter(getBaseContext(),
-					android.R.layout.simple_list_item_1, showingLessons);
-			Custom_List.setAdapter(adapter);
+			
+			setList(showingLessonsArray);
 		}
 	};
+	
+	private void setList(ArrayList<Lesson> list){
+		adapter.clear();
+		for(int i = 0; i < list.size(); i++){
+			adapter.add(list.get(i));
+		}
+		adapter.notifyDataSetChanged();
+	}
 
 	protected void onResume() {
 		super.onResume();
 
 		setTopImage(1);
 		
-		showingLessons.clear();
+		showingLessonsArray.clear();
 		progressDialog = ProgressDialog.show(Mylesson.this, "",
 				"레슨을 가져오고 있습니다.", false, false);
 		userLessonTask = new UserLessonTask();
@@ -181,12 +187,12 @@ public class Mylesson extends SingloUserActivity {
 		public void onItemClick(AdapterView<?> adapterView, View v, int pos,
 				long id) {
 
-			if (showingLessons.get(pos).getStatus() == 0) {
+			if (showingLessonsArray.get(pos).getStatus() == 0) {
 				Toast.makeText(Mylesson.this, "진행중입니다.", Toast.LENGTH_SHORT)
 						.show();
 			} else {
 				Intent intent = new Intent(Mylesson.this, MylessonDetail.class);
-				intent.putExtra("lesson_id", showingLessons.get(pos).getID());
+				intent.putExtra("lesson_id", showingLessonsArray.get(pos).getID());
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade, R.anim.hold);
 				finish();
@@ -227,21 +233,15 @@ public class Mylesson extends SingloUserActivity {
 			DBConnector db = new DBConnector(Mylesson.this);
 			lessons = db.getAllLesson();
 
-			showingLessons.clear();
+			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
 				if (lessons.get(i).getStatus() == 1) {
-					showingLessons.add(lessons.get(i));
+					showingLessonsArray.add(lessons.get(i));
 				}
 			}
 
-			adapter = null;
-			adapter = new Mylesson_Adapter(getBaseContext(),
-					android.R.layout.simple_list_item_1, showingLessons);
-			Custom_List = (ListView) findViewById(R.id.listView1);
-
-			Custom_List.setAdapter(adapter);
-			Custom_List.setOnItemClickListener(CustomListItemClickListener);
+			setList(showingLessonsArray);
 
 			progressDialog.dismiss();
 		}
@@ -275,7 +275,9 @@ public class Mylesson extends SingloUserActivity {
 				JSONObject json = jParser.getJSONFromStream(is);
 
 				JSONArray lessons = json.getJSONArray("lessons");
-
+				
+				ThumnailUrlAction mThumnailAction = new ThumnailUrlAction();
+				
 				for (int i = 0; i < lessons.length(); i++) {
 					JSONObject lesson = lessons.getJSONObject(i);
 
@@ -292,11 +294,9 @@ public class Mylesson extends SingloUserActivity {
 						
 						HashMap<String, String> params = new HashMap<String, String>();
 						params.put("lesson_id", Integer.toString(server_id));
-						params.put("current_position", "100000");
+						params.put("current_position", "0");
 						
-						getThumnailUrl(params);
-						
-						//new APIConnector(Const.LESSON_CAPTURE_GET_URL, mCaptureListener).execute(params);
+						String thumnail = mThumnailAction.getThumnailUrl(params);						
 						
 						int user_id = lesson.getInt("user_id");
 						Integer teacher_id;
@@ -316,12 +316,7 @@ public class Mylesson extends SingloUserActivity {
 						String created_datetime = lesson
 								.getString("created_datetime");
 
-						String user_name = URLDecoder.decode(
-								lesson.getString("user_name"), "UTF-8");
-						/*String thumnail = URLDecoder.decode(
-								lesson.getString("thumnail"), "UTF-8");*/
-						//임시
-						String thumnail = "temp";
+						String user_name = Utility.strDecoder(lesson.getString("user_name"));						
 						
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
@@ -335,48 +330,6 @@ public class Mylesson extends SingloUserActivity {
 				Log.d("disp", "err : " + e.getMessage());
 			}
 			dbConnector.close();
-		}
-		
-		String getThumnailUrl(HashMap<String, String> params){
-			
-			String url = Const.LESSON_CAPTURE_GET_URL;
-			HttpClient httpClient = new DefaultHttpClient();
-			System.out.println("url = " + url);
-			HttpPost httpPost = new HttpPost(url);
-			InputStream is;
-			
-			String result = null;
-			
-			try {				
-				
-				List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
-				
-				Iterator<String> iterator = params.keySet().iterator();
-				while(iterator.hasNext()){
-					String key = (String)iterator.next();					
-					nameValuePairs.add(new BasicNameValuePair((key), params.get(key)));
-					System.out.println("key = " + key);
-					System.out.println("value = " + params.get(key));
-				}
-				
-				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				HttpResponse httpResponse = httpClient.execute(httpPost);
-				is = httpResponse.getEntity().getContent();	
-				
-				JSONParser jParser = new JSONParser();
-				JSONObject json = jParser.getJSONFromStream(is);
-				
-				result = json.getString("result");
-				System.out.println("result = " + result);
-				
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace();
-			}
-			
-			return result;
-		}
-		
+		}		
 	}
-
 }
