@@ -1,16 +1,22 @@
 package com.kapp.singlo.users;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
+import com.kapp.singlo.action.LessonReviewAction;
+import com.kapp.singlo.action.LessonReviewAction.lessonReviewListener;
+import com.kapp.singlo.adapter.LessonReviewAdapter;
 import com.kapp.singlo.bg.APIGetAction;
-import com.kapp.singlo.bg.APIGetAction.getAPIConnetorResultListener;
 import com.kapp.singlo.bg.CallbackListener;
 import com.kapp.singlo.bg.LikeTeacherAsyncTask;
 import com.kapp.singlo.data.DBConnector;
+import com.kapp.singlo.data.LessonReviewData;
 import com.kapp.singlo.data.Professional;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Utility;
@@ -28,8 +34,10 @@ import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,12 +64,17 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 	private Button mCareerBtn;
 	private Button mLessonReviewBtn;
 	
-	private getAPIConnetorResultListener mLessonReviewListener = new getAPIConnetorResultListener() {
+	private ScrollView mProfileScroll;
+	private ListView mLessonReviewList;
+	
+	private LessonReviewAdapter mReviewAdapter;
+	
+	private lessonReviewListener mLessonReviewListener = new lessonReviewListener() {
 		
 		@Override
-		public void result(JSONObject object) {
+		public void result(ArrayList<LessonReviewData> list) {
 			// TODO Auto-generated method stub
-			
+			setLessonReviewList(list);
 		}
 	};
 	
@@ -104,6 +117,11 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
 		mCareerBtn = (Button)findViewById(R.id.ProfileTabButton);
 		mLessonReviewBtn = (Button)findViewById(R.id.CommentTabButton);
+		mProfileScroll = (ScrollView)findViewById(R.id.profile_scroll_view);
+		mLessonReviewList = (ListView)findViewById(R.id.lesson_review_list);
+		
+		mReviewAdapter = new LessonReviewAdapter(this);
+		mLessonReviewList.setAdapter(mReviewAdapter);
 
 		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
@@ -156,6 +174,9 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 		} else {
 			favoriteImageView.setImageResource(R.drawable.removefavorite_btn);
 		}
+		
+		mLessonReviewList.setVisibility(View.GONE);
+		
 	}
 	
 	private void setTabColor(Button btn){
@@ -170,6 +191,26 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 			mBtnArray[i].setBackgroundResource(R.drawable.taboff_btn);
 			mBtnArray[i].setTextColor(Color.parseColor("#ff434343"));
 		}
+	}
+	
+	private void setTabContent(View view){
+		View[] mContentView = {mProfileScroll, mLessonReviewList};
+		
+		for(int i = 0; i < mContentView.length; i++){
+			if(view == mContentView[i]){
+				mContentView[i].setVisibility(View.VISIBLE);
+				continue;
+			}
+			mContentView[i].setVisibility(View.GONE);
+		}
+	}	
+	
+	private void setLessonReviewList(ArrayList<LessonReviewData> list){
+		mReviewAdapter.clear();
+		for(int i = 0; i < list.size(); i++){
+			mReviewAdapter.add(list.get(i));			
+		}
+		mReviewAdapter.notifyDataSetChanged();
 	}
 
 	private OnClickListener recommendVideoImageButtonOnClickListener = new OnClickListener() {
@@ -248,12 +289,14 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 		switch (v.getId()) {
 		case R.id.ProfileTabButton:
 			setTabColor(mCareerBtn);
+			setTabContent(mProfileScroll);
 			break;
 		case R.id.CommentTabButton:
 			setTabColor(mLessonReviewBtn);
+			setTabContent(mLessonReviewList);
 			HashMap<String, String> mParam = new HashMap<String, String>();
-			mParam.put("teacher_id", Integer.toString(professional.getID()));
-			new APIGetAction(Const.GET_LESSON_REVIEW_EVALUATION, mLessonReviewListener).execute(mParam);
+			mParam.put("teacher_id", Integer.toString(professional.getServerId()));
+			new LessonReviewAction(Const.GET_LESSON_REVIEW_EVALUATION, mLessonReviewListener).execute(mParam);
 			break;
 
 		default:
