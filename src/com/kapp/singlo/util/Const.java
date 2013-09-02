@@ -33,7 +33,7 @@ public class Const {
 
 	public static final String PROFILE_NONE_URL = "http://garagestory.cafe24.com/img/none.jpg" ;
 	
-	public static final String GET_USER_PROFILE = url_prefix + "/auth" + "/get_user_profile/";
+	public static final String GET_USER_PROFILE = url_prefix + "/auth" + "/get_user_profile";
 	public static final String GET_LESSON_REVIEW_EVALUATION = url_prefix + "/lesson"+ "/get_evaluation";
 		
 	public static final String lineEnd = "\r\n";

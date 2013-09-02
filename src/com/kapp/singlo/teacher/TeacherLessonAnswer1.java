@@ -57,9 +57,8 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 			// TODO Auto-generated method stub
 			JSONObject mData = object;
 			try {
-				String mPath = mData.getString("path");
-				mAq.id(profileWebView).image(Const.PROFILE_URL + mPath);
-				System.out.println("path = " + Const.PROFILE_URL + mPath);
+				String mPath = mData.getString("photo");
+				mAq.id(profileWebView).image(Const.PROFILE_URL + mPath);				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -108,7 +107,7 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 		
 		getUserThumnail();
 	}
-	
+		
 	private void getUserThumnail(){
 		
 		HashMap<String, String> params = new HashMap<String, String>();

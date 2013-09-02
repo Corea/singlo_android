@@ -252,7 +252,7 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 		case R.id.CommentTabButton:
 			setTabColor(mLessonReviewBtn);
 			HashMap<String, String> mParam = new HashMap<String, String>();
-			mParam.put("teacher_id", Integer.toString(professional.getID()));
+			mParam.put("teacher_id", Integer.toString(professional.getServerId()));
 			new APIGetAction(Const.GET_LESSON_REVIEW_EVALUATION, mLessonReviewListener).execute(mParam);
 			break;
 

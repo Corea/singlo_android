@@ -63,8 +63,10 @@ public class APIPostAction extends AsyncTask<HashMap<String, String>, Void, JSON
 			JSONParser jParser = new JSONParser();
 			json = jParser.getJSONFromStream(is);
 			
-			String result = json.getString("path");
-			System.out.println("result = " + result);
+			System.out.println("json = " + json);
+			
+			/*String result = json.getString("photo");
+			System.out.println("result = " + result);*/
 			
 		} catch (Exception e) {
 			// TODO: handle exception

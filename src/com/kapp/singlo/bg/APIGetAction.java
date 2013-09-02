@@ -67,8 +67,8 @@ public class APIGetAction extends AsyncTask<HashMap<String, String>, Void, JSONO
 			JSONParser jParser = new JSONParser();
 			json = jParser.getJSONFromStream(is);
 			
-			String result = json.getString("result");
-			System.out.println("result = " + result);
+			/*String result = json.getString("result");
+			System.out.println("result = " + result);*/
 			
 		} catch (Exception e) {
 			// TODO: handle exception
