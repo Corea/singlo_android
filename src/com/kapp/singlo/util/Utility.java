@@ -1,6 +1,9 @@
 package com.kapp.singlo.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import android.content.Context;
 import android.os.Environment;
@@ -87,5 +90,33 @@ public class Utility {
 			return "퍼터";
 		}
 		return "";
+	}
+	
+	public static String strEncoder(String str){
+		
+		String encodeStr = null;
+		
+		try {
+			encodeStr = URLEncoder.encode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return encodeStr;
+	}
+	
+	public static String strDecoder(String str){
+		
+		String decodeStr = null;
+		
+		try {
+			decodeStr = URLDecoder.decode(str, "UTF-8");			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return decodeStr;
 	}
 }

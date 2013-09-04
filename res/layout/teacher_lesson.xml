@@ -42,7 +42,10 @@
     <ListView
         android:id="@+id/listView5"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:smoothScrollbar="true"
+        android:fastScrollEnabled="true"
+        android:scrollingCache="true" >
     </ListView>
 
 </LinearLayout>
