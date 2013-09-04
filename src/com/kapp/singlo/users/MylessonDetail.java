@@ -46,13 +46,13 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.data.LessonAnswer;
 import com.kapp.singlo.data.LessonAnswerImage;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloUserActivity;
 import com.kapp.singlo.ui.SingloVideoView;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;

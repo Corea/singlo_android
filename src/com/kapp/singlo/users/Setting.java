@@ -9,24 +9,20 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
+import com.kapp.singlo.meta.SingloUserActivity;
 
 @SuppressLint("NewApi")
 public class Setting extends SingloUserActivity {
 
 	public static Activity settingActivity;
 
-	private ImageButton alarmsetting;
 	private LinearLayout noticeLinearLayout;
 	private LinearLayout helpLinearLayout;
 	private LinearLayout logoutLinearLayout;
-
-	private int sw = 1;
 
 	private void removeLoginPreferences() {
 		SharedPreferences spLogin;
@@ -44,20 +40,12 @@ public class Setting extends SingloUserActivity {
 
 		settingActivity = Setting.this;
 
-		alarmsetting = (ImageButton) findViewById(R.id.alarmsetting);
-		alarmsetting.setOnTouchListener(alarmsettingTouchListener);
 		noticeLinearLayout = (LinearLayout) findViewById(R.id.NoticeLinearLayout);
 		noticeLinearLayout.setOnTouchListener(noticeImageButtonTouchListener);
 		helpLinearLayout = (LinearLayout) findViewById(R.id.HelpLinearLayout);
 		helpLinearLayout.setOnTouchListener(helpImageButtonTouchListener);
 		logoutLinearLayout = (LinearLayout) findViewById(R.id.LogoutLinearLayout);
 		logoutLinearLayout.setOnTouchListener(logoutImageButtonTouchListener);
-
-		if (sw == 0) {
-			alarmsetting.setBackgroundResource(R.drawable.switchoff_btn);
-		} else {
-			alarmsetting.setBackgroundResource(R.drawable.switchon_btn);
-		}
 	}
 
 	protected void onResume() {
@@ -66,27 +54,6 @@ public class Setting extends SingloUserActivity {
 		setTopImage(3);
 	}
 
-	private OnTouchListener alarmsettingTouchListener = new OnTouchListener() {
-		public boolean onTouch(View v, MotionEvent event) {
-
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-
-				if (sw == 0) {
-					alarmsetting.setBackgroundResource(R.drawable.switchon_btn);
-					sw = 1;
-				} else {
-					alarmsetting
-							.setBackgroundResource(R.drawable.switchoff_btn);
-					sw = 0;
-				}
-
-				break;
-
-			}
-			return true;
-		}
-	};
 	private OnTouchListener noticeImageButtonTouchListener = new OnTouchListener() {
 		public boolean onTouch(View v, MotionEvent event) {
 

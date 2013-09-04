@@ -1,11 +1,11 @@
 package com.kapp.singlo.users;
 
-import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.bg.CallbackListener;
 import com.kapp.singlo.bg.LikeTeacherAsyncTask;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloUserActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Utility;
 

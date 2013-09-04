@@ -1,4 +1,4 @@
-package com.kapp.sginlo.meta;
+package com.kapp.singlo.meta;
 
 import com.kapp.singlo.R;
 import com.kapp.singlo.users.Golfbag;

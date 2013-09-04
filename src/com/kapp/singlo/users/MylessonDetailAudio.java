@@ -42,7 +42,6 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MylessonDetailAudio extends Activity {
 
@@ -63,8 +62,6 @@ public class MylessonDetailAudio extends Activity {
 	private Paint bluePaint;
 
 	private ImageButton backImageButton;
-	private ImageButton leftImageButton;
-	private ImageButton rightImageButton;
 
 	private ImageView drawingCanvasImageView;
 	private ImageView nowImageView;
@@ -99,10 +96,6 @@ public class MylessonDetailAudio extends Activity {
 		backImageButton.setOnClickListener(backImageButtonOnClickListener);
 		playImageButton = (ImageButton) findViewById(R.id.PlayImageButton);
 		playImageButton.setOnClickListener(playImageButtonOnClickListener);
-		leftImageButton = (ImageButton) findViewById(R.id.LeftImageButton);
-		leftImageButton.setOnClickListener(leftImageButtonOnClickListener);
-		rightImageButton = (ImageButton) findViewById(R.id.RightImageButton);
-		rightImageButton.setOnClickListener(rightImageButtonOnClickListener);
 
 		playSeekBar = (SeekBar) findViewById(R.id.PlaySeekBar);
 		playSeekBar
@@ -167,37 +160,6 @@ public class MylessonDetailAudio extends Activity {
 		}
 		return false;
 	}
-
-	private OnClickListener leftImageButtonOnClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			now_index--;
-			if (now_index < 0) {
-				now_index = 0;
-				Toast.makeText(MylessonDetailAudio.this, "처음 이미지입니다.",
-						Toast.LENGTH_SHORT).show();
-				return;
-			}
-			setNowImage();
-			setNowLine();
-		}
-	};
-	private OnClickListener rightImageButtonOnClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			now_index++;
-			if (now_index >= lessonAnswerImageList.size()) {
-				now_index = lessonAnswerImageList.size() - 1;
-				Toast.makeText(MylessonDetailAudio.this, "마지막 이미지입니다.",
-						Toast.LENGTH_SHORT).show();
-				return;
-			}
-			setNowImage();
-			setNowLine();
-		}
-	};
 
 	private OnClickListener playImageButtonOnClickListener = new OnClickListener() {
 		@Override

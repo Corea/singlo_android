@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import org.json.JSONObject;
 
@@ -380,6 +381,7 @@ public class Register extends Activity {
 
 				JSONParser jParser = new JSONParser();
 				JSONObject json = jParser.getJSONFromStream(is);
+				name = URLDecoder.decode(name, "UTF-8");
 
 				String result = json.getString("result");
 

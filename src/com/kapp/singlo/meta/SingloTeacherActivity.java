@@ -1,4 +1,4 @@
-package com.kapp.sginlo.meta;
+package com.kapp.singlo.meta;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

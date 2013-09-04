@@ -12,10 +12,10 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
+import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Coord;
 import com.kapp.singlo.util.JSONParser;

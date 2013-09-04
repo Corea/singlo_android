@@ -34,10 +34,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;
