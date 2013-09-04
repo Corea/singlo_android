@@ -3,6 +3,7 @@ package com.kapp.singlo.teacher;
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -33,6 +34,8 @@ import android.widget.Toast;
 
 import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
+import com.kapp.singlo.adapter.TeacherMyLessonAdapter;
+import com.kapp.singlo.bg.ThumnailUrlAction;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.util.Const;
@@ -44,7 +47,7 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 	// 핵심 contents 들을 ListView로 뿌리기 위한 변수 선언.
 	private ArrayList<Lesson> showingLessons;
-	private TeacherLesson_Adapter adapter;
+	private TeacherMyLessonAdapter adapter;
 
 	private List<Lesson> lessons;
 
@@ -61,14 +64,13 @@ public class TeacherLesson extends SingloTeacherActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.teacher_lesson);
 
+		init();
+		
 		setTopMenu(1);
 
 		SharedPreferences spLogin = getSharedPreferences("login",
 				TeacherLesson.MODE_PRIVATE);
 		teacher_id = spLogin.getInt("id", 0);
-
-		showingLessons = new ArrayList<Lesson>();
-		showingLessons.clear();
 
 		fastLessonButton = (Button) findViewById(R.id.FastLessonButton);
 		fastLessonButton.setOnClickListener(fastLessonButtonOnClickListener);
@@ -79,6 +81,17 @@ public class TeacherLesson extends SingloTeacherActivity {
 				false, false);
 		lessonTask = new LessonTask();
 		lessonTask.execute();
+		
+		
+	}
+	
+	private void init(){
+		showingLessons = new ArrayList<Lesson>();
+		
+		Custom_List = (ListView)findViewById(R.id.listView5);
+		adapter = new TeacherMyLessonAdapter(this);
+		Custom_List.setOnItemClickListener(CustomListItemClickListener);
+		Custom_List.setAdapter(adapter);
 	}
 
 	protected void onResume() {
@@ -98,9 +111,10 @@ public class TeacherLesson extends SingloTeacherActivity {
 					pos--;
 					if (pos < 0) {
 						if (lessons.get(i).getStatus() == 0) {
-							Intent intent = new Intent(TeacherLesson.this,
-									TeacherLessonAnswer1.class);
+							Intent intent = new Intent(TeacherLesson.this, TeacherLessonAnswer1.class);
 							intent.putExtra("lesson_id", lessons.get(i).getID());
+							intent.putExtra("thumnail", lessons.get(i).getThumnail());
+							intent.putExtra("userId", lessons.get(i).getUserID());							
 							startActivity(intent);
 							overridePendingTransition(0, 0);
 							finish();
@@ -171,10 +185,15 @@ public class TeacherLesson extends SingloTeacherActivity {
 			}
 		}
 
-		adapter = null;
-		adapter = new TeacherLesson_Adapter(getBaseContext(),
-				android.R.layout.simple_list_item_1, showingLessons);
-		Custom_List.setAdapter(adapter);
+		setList(showingLessons);
+	}
+	
+	private void setList(ArrayList<Lesson> list){
+		adapter.clear();
+		for(int i = 0; i < list.size(); i++){
+			adapter.add(list.get(i));
+		}
+		adapter.notifyDataSetChanged();
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -201,8 +220,7 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			Custom_List = (ListView) findViewById(R.id.listView5);
-			Custom_List.setOnItemClickListener(CustomListItemClickListener);
+			
 			lesson_type = 0;
 			setLessonType();
 
@@ -239,6 +257,8 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 				JSONArray lessons = json.getJSONArray("lessons");
 
+				ThumnailUrlAction mThumnailAction = new ThumnailUrlAction();
+				
 				for (int i = 0; i < lessons.length(); i++) {
 					JSONObject lesson = lessons.getJSONObject(i);
 
@@ -252,6 +272,13 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 					if (!exists) {
 						int server_id = lesson.getInt("id");
+						
+						HashMap<String, String> params = new HashMap<String, String>();
+						params.put("lesson_id", Integer.toString(server_id));
+						params.put("current_position", "0");
+						
+						String thumnail = mThumnailAction.getThumnailUrl(params);
+						
 						int user_id = lesson.getInt("user_id");
 						Integer teacher_id;
 						try {
@@ -272,9 +299,10 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 						String user_name = URLDecoder.decode(
 								lesson.getString("user_name"), "UTF-8");
+												
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
-								question, created_datetime, status, user_name);
+								question, created_datetime, status, user_name, thumnail);
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}

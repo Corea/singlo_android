@@ -233,6 +233,7 @@
             android:gravity="center"
             android:scaleType="fitXY"
             android:text="경력사항"
+            android:onClick="onClick"
             android:textColor="#ff34a93a"
             android:textSize="12sp" />
 
@@ -247,6 +248,7 @@
             android:gravity="center"
             android:scaleType="fitXY"
             android:text="레슨후기"
+            android:onClick="onClick"
             android:textColor="#ff434343"
             android:textSize="12sp" />
     </LinearLayout>
