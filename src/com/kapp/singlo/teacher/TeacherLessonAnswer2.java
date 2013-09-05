@@ -12,10 +12,11 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import com.androidquery.AQuery;
+import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
-import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Coord;
 import com.kapp.singlo.util.JSONParser;
@@ -42,6 +43,7 @@ import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,7 +65,7 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 	private Spinner recommendSpinner1;
 	private Spinner recommendSpinner2;
 
-	private WebView profileWebView;
+	private ImageView profileWebView;
 	private TextView questionTextView;
 	private TextView nameTextView;
 	private TextView datetimeTextView;
@@ -74,8 +76,12 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 	private int cause;
 	private boolean complete;
 
-	private ImageButton downloadVideoButton;
+	private ImageView downloadVideoButton;
 	private Button submitButton;
+	
+	private AQuery mAq;
+	private String mThummailURL;
+	private String mUserThumnailURL;
 
 	Uri selected_video;
 
@@ -92,9 +98,14 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 
 		Intent intent = this.getIntent();
 		lesson_id = intent.getIntExtra("lesson_id", 0);
+		mThummailURL = intent.getStringExtra("thumnail");
+		mUserThumnailURL = intent.getStringExtra("user_thumnail");
+		
 		DBConnector db = new DBConnector(this);
 		lesson = db.getLesson(lesson_id);
 		db.close();
+		
+		mAq = new AQuery(this);
 
 		complete = false;
 
@@ -104,10 +115,12 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 		nameTextView.setText(lesson.getUserName());
 		datetimeTextView = (TextView) findViewById(R.id.DatetimeTextView);
 		datetimeTextView.setText(lesson.getCreatedDatetime());
-		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
+		profileWebView = (ImageView) findViewById(R.id.ProfileWebView);
 
-		downloadVideoButton = (ImageButton) findViewById(R.id.AnswerPlayButton);
+		downloadVideoButton = (ImageView) findViewById(R.id.AnswerPlayButtonImg);
 		downloadVideoButton.setOnTouchListener(videoButtonTouchListener);
+		mAq.id(downloadVideoButton).image(Const.CAPTURE_URL + mThummailURL);
+		mAq.id(profileWebView).image(Const.PROFILE_URL + mUserThumnailURL);
 
 		Button target = (Button) findViewById(R.id.ClubTypeButton);
 		switch (lesson.getClubType()) {

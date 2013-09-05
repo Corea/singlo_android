@@ -39,6 +39,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.adapter.MyLessonAdapter;
 import com.kapp.singlo.bg.APIPostAction;
@@ -46,7 +47,8 @@ import com.kapp.singlo.bg.ThumnailUrlAction;
 import com.kapp.singlo.bg.APIPostAction.getAPIConnetorResultListener;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
-import com.kapp.singlo.meta.SingloUserActivity;
+import com.kapp.singlo.data.MyLessonData;
+import com.kapp.singlo.data.Professional;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;

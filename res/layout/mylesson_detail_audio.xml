@@ -6,10 +6,10 @@
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="46dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@android:color/white"
+        android:background="@android:color/black"
         android:orientation="horizontal" >
 
         <ImageButton
@@ -57,7 +57,7 @@
 
         <ImageButton
             android:id="@+id/BackImageButton"
-            android:layout_width="51dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
@@ -65,31 +65,54 @@
             android:background="@android:color/transparent"
             android:maxWidth="32dp"
             android:scaleType="fitXY"
-            android:src="@drawable/goback_btn" />
+            android:src="@drawable/back_btn" />
+
+        <ImageButton
+            android:id="@+id/LeftImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/left_icon" />
+
+        <ImageButton
+            android:id="@+id/RightImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/right_icon" />
 
         <TextView
             android:id="@+id/AudioTimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
+            android:layout_alignRight="@+id/RightImageButton"
             android:paddingBottom="5dp"
             android:text="00 : 00 : 00"
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/ImageCountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/AudioTimeTextView"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_alignRight="@+id/RightImageButton"
+            android:layout_alignTop="@+id/BackImageButton"
+            android:paddingBottom="5dp"
             android:text="3 / 8"
             android:textColor="@android:color/white"
-            android:textSize="24sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </RelativeLayout>
 

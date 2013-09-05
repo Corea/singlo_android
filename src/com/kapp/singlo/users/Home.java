@@ -31,10 +31,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Professional;
-import com.kapp.singlo.meta.SingloUserActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 
