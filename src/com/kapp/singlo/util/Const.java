@@ -20,7 +20,7 @@ public class Const {
 	public static final String LESSON_ANSWER_URL = url_prefix + "/lesson/answer";
 	public static final String LESSON_ANSWER_GET_URL = url_prefix + "/lesson/get_answer";
 	public static final String LESSON_CAPTURE_GET_URL = url_prefix + "/lesson/get_video_capture";
-	public static final String LESSON_EVALUATION_URL = url_prefix + "/lesson/evaluation";
+	public static final String LESSON_EVALUATION_URL = url_prefix + "/lesson/evaluation";	
 	
 	public static final String TEACHER_GET_LIST_URL = url_prefix + "/teacher/get_list";
 	public static final String TEACHER_LIKE_URL = url_prefix + "/teacher/like";
@@ -32,6 +32,9 @@ public class Const {
 	public static final String PROFILE_URL = url_prefix + "/profile/";
 
 	public static final String PROFILE_NONE_URL = "http://garagestory.cafe24.com/img/none.jpg" ;
+	
+	public static final String GET_USER_PROFILE = url_prefix + "/auth" + "/get_user_profile";
+	public static final String GET_LESSON_REVIEW_EVALUATION = url_prefix + "/lesson"+ "/get_evaluation";
 		
 	public static final String lineEnd = "\r\n";
 	public static final String twoHyphens = "--";

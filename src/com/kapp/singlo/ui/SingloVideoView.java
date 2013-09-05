@@ -71,7 +71,7 @@ public class SingloVideoView extends Activity {
 				if (cacheFile.exists()) {
 					Runtime.getRuntime().exec(
 							"chmod 777 " + cacheFile.getAbsolutePath());
-					return null;
+				//	return null;
 				}
 
 				URLConnection cn = new URL(params[0]).openConnection();

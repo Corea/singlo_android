@@ -1,8 +1,14 @@
 package com.kapp.singlo.users;
 
+
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -12,6 +18,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -33,11 +40,16 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.kapp.singlo.R;
+import com.kapp.singlo.adapter.MyLessonAdapter;
+import com.kapp.singlo.bg.APIPostAction;
+import com.kapp.singlo.bg.ThumnailUrlAction;
+import com.kapp.singlo.bg.APIPostAction.getAPIConnetorResultListener;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.meta.SingloUserActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
+import com.kapp.singlo.util.Utility;
 
 @SuppressLint("NewApi")
 public class Mylesson extends SingloUserActivity {
@@ -49,19 +61,19 @@ public class Mylesson extends SingloUserActivity {
 	ListView Custom_List;
 
 	// 핵심 contents 들을 ListView로 뿌리기 위한 변수 선언.
-	private Mylesson_Adapter adapter;
+	private MyLessonAdapter adapter;
 
 	private ProgressDialog progressDialog;
 	// background process loading
 
-	private List<Lesson> lessons;
-	private List<Lesson> showingLessons;
-
+	private ArrayList<Lesson> lessons;
+	private ArrayList<Lesson> showingLessonsArray;
+	
 	private SharedPreferences spLogin;
 
 	private int user_id;
 
-	private UserLessonTask userLessonTask;
+	private UserLessonTask userLessonTask;	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,8 +86,6 @@ public class Mylesson extends SingloUserActivity {
 
 		mylessonActivity = Mylesson.this;
 
-		showingLessons = new ArrayList<Lesson>();
-
 		completeLessonButton = (Button) findViewById(R.id.CompleteLessonButton);
 		completeLessonButton
 				.setOnClickListener(completeLessonImageButtonOnClickListener);
@@ -85,6 +95,20 @@ public class Mylesson extends SingloUserActivity {
 
 		completeLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
 		completeLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
+		
+		init();
+		
+	}
+	
+	private void init(){
+		
+		showingLessonsArray = new ArrayList<Lesson>();
+		
+		Custom_List = (ListView)findViewById(R.id.listView1);
+		adapter = new MyLessonAdapter(this);
+		Custom_List.setOnItemClickListener(CustomListItemClickListener);
+		Custom_List.setAdapter(adapter);
+		
 	}
 
 	OnClickListener completeLessonImageButtonOnClickListener = new OnClickListener() {
@@ -97,22 +121,17 @@ public class Mylesson extends SingloUserActivity {
 			waitingLessonButton
 					.setBackgroundResource(R.drawable.shorttaboff_btn);
 			waitingLessonButton.setTextColor(Color.parseColor("#FF000000"));
-
-			DBConnector db = new DBConnector(Mylesson.this);
-			showingLessons.clear();
+			
+			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
 				if (lessons.get(i).getStatus() == 1) {
-					showingLessons.add(lessons.get(i));
+					showingLessonsArray.add(lessons.get(i));
 				}
 
 			}
-			db.close();
-
-			adapter = null;
-			adapter = new Mylesson_Adapter(getBaseContext(),
-					android.R.layout.simple_list_item_1, showingLessons);
-			Custom_List.setAdapter(adapter);
+			
+			setList(showingLessonsArray);			
 		}
 	};
 
@@ -126,30 +145,33 @@ public class Mylesson extends SingloUserActivity {
 			waitingLessonButton
 					.setBackgroundResource(R.drawable.shorttabon_btn);
 			waitingLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
-
-			DBConnector db = new DBConnector(Mylesson.this);
-			showingLessons.clear();
+			
+			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
 				if (lessons.get(i).getStatus() == 0) {
-					showingLessons.add(lessons.get(i));
+					showingLessonsArray.add(lessons.get(i));
 				}
 			}
-			db.close();
-
-			adapter = null;
-			adapter = new Mylesson_Adapter(getBaseContext(),
-					android.R.layout.simple_list_item_1, showingLessons);
-			Custom_List.setAdapter(adapter);
+			
+			setList(showingLessonsArray);
 		}
 	};
+	
+	private void setList(ArrayList<Lesson> list){
+		adapter.clear();
+		for(int i = 0; i < list.size(); i++){
+			adapter.add(list.get(i));
+		}
+		adapter.notifyDataSetChanged();
+	}
 
 	protected void onResume() {
 		super.onResume();
 
 		setTopImage(1);
 		
-		showingLessons.clear();
+		showingLessonsArray.clear();
 		progressDialog = ProgressDialog.show(Mylesson.this, "",
 				"레슨을 가져오고 있습니다.", false, false);
 		userLessonTask = new UserLessonTask();
@@ -161,12 +183,12 @@ public class Mylesson extends SingloUserActivity {
 		public void onItemClick(AdapterView<?> adapterView, View v, int pos,
 				long id) {
 
-			if (showingLessons.get(pos).getStatus() == 0) {
+			if (showingLessonsArray.get(pos).getStatus() == 0) {
 				Toast.makeText(Mylesson.this, "진행중입니다.", Toast.LENGTH_SHORT)
 						.show();
 			} else {
 				Intent intent = new Intent(Mylesson.this, MylessonDetail.class);
-				intent.putExtra("lesson_id", showingLessons.get(pos).getID());
+				intent.putExtra("lesson_id", showingLessonsArray.get(pos).getID());
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade, R.anim.hold);
 				finish();
@@ -207,21 +229,15 @@ public class Mylesson extends SingloUserActivity {
 			DBConnector db = new DBConnector(Mylesson.this);
 			lessons = db.getAllLesson();
 
-			showingLessons.clear();
+			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
 				if (lessons.get(i).getStatus() == 1) {
-					showingLessons.add(lessons.get(i));
+					showingLessonsArray.add(lessons.get(i));
 				}
 			}
 
-			adapter = null;
-			adapter = new Mylesson_Adapter(getBaseContext(),
-					android.R.layout.simple_list_item_1, showingLessons);
-			Custom_List = (ListView) findViewById(R.id.listView1);
-
-			Custom_List.setAdapter(adapter);
-			Custom_List.setOnItemClickListener(CustomListItemClickListener);
+			setList(showingLessonsArray);
 
 			progressDialog.dismiss();
 		}
@@ -255,7 +271,9 @@ public class Mylesson extends SingloUserActivity {
 				JSONObject json = jParser.getJSONFromStream(is);
 
 				JSONArray lessons = json.getJSONArray("lessons");
-
+				
+				ThumnailUrlAction mThumnailAction = new ThumnailUrlAction();
+				
 				for (int i = 0; i < lessons.length(); i++) {
 					JSONObject lesson = lessons.getJSONObject(i);
 
@@ -269,6 +287,13 @@ public class Mylesson extends SingloUserActivity {
 
 					if (!exists) {
 						int server_id = lesson.getInt("id");
+						
+						HashMap<String, String> params = new HashMap<String, String>();
+						params.put("lesson_id", Integer.toString(server_id));
+						params.put("current_position", "0");
+						
+						String thumnail = mThumnailAction.getThumnailUrl(params);						
+						
 						int user_id = lesson.getInt("user_id");
 						Integer teacher_id;
 						try {
@@ -287,11 +312,11 @@ public class Mylesson extends SingloUserActivity {
 						String created_datetime = lesson
 								.getString("created_datetime");
 
-						String user_name = URLDecoder.decode(
-								lesson.getString("user_name"), "UTF-8");
+						String user_name = Utility.strDecoder(lesson.getString("user_name"));						
+						
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
-								question, created_datetime, status, user_name);
+								question, created_datetime, status, user_name, thumnail);
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}
@@ -301,7 +326,6 @@ public class Mylesson extends SingloUserActivity {
 				Log.d("disp", "err : " + e.getMessage());
 			}
 			dbConnector.close();
-		}
+		}		
 	}
-
 }
