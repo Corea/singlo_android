@@ -2,13 +2,9 @@ package com.kapp.singlo.users;
 
 
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -18,7 +14,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -41,13 +36,9 @@ import android.widget.Toast;
 
 import com.kapp.singlo.R;
 import com.kapp.singlo.adapter.MyLessonAdapter;
-import com.kapp.singlo.bg.APIPostAction;
 import com.kapp.singlo.bg.ThumnailUrlAction;
-import com.kapp.singlo.bg.APIPostAction.getAPIConnetorResultListener;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
-import com.kapp.singlo.data.MyLessonData;
-import com.kapp.singlo.data.Professional;
 import com.kapp.singlo.meta.SingloUserActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;

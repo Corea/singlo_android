@@ -22,7 +22,6 @@ import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;

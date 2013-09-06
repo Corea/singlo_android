@@ -82,8 +82,6 @@ public class TeacherLesson extends SingloTeacherActivity {
 				false, false);
 		lessonTask = new LessonTask();
 		lessonTask.execute();
-		
-		
 	}
 	
 	private void init(){
@@ -169,20 +167,6 @@ public class TeacherLesson extends SingloTeacherActivity {
 		for (int k = 0; k < lessons.size(); k++) {
 			if (lessons.get(k).getLessonType() == lesson_type) {
 				showingLessons.add(lessons.get(k));
-				/*
-				 * String image_url = Const.PROFILE_URL + "user_" +
-				 * lessons.get(k).getUserID() + ".png";
-				 * 
-				 * if (lessons.get(k).getStatus() == 1) { data = new
-				 * TeacherLesson_List_Data(image_url, "문의자 : ",
-				 * lessons.get(k).getUserName(), "등록시간 : " +
-				 * lessons.get(k).getCreatedDatetime(), "",
-				 * R.drawable.completelesson_icon); } else { data = new
-				 * TeacherLesson_List_Data(image_url, "문의자 : ",
-				 * lessons.get(k).getUserName(), "등록시간 : " +
-				 * lessons.get(k).getCreatedDatetime(), "",
-				 * R.drawable.watinglesson_icon); }
-				 */
 			}
 		}
 
