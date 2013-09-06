@@ -39,7 +39,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.action.LessonReviewAction;
 import com.kapp.singlo.action.LessonReviewAction.lessonReviewListener;
@@ -47,6 +46,7 @@ import com.kapp.singlo.adapter.LessonReviewAdapter;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.LessonReviewData;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;

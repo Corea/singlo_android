@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.action.LessonReviewAction;
 import com.kapp.singlo.action.LessonReviewAction.lessonReviewListener;
@@ -18,6 +17,7 @@ import com.kapp.singlo.bg.LikeTeacherAsyncTask;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.LessonReviewData;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloUserActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Utility;
 

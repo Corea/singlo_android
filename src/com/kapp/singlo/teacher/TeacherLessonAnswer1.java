@@ -6,12 +6,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.androidquery.AQuery;
-import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.bg.APIPostAction;
 import com.kapp.singlo.bg.APIPostAction.getAPIConnetorResultListener;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
+import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.ui.SingloVideoView;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Utility;
