@@ -80,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="질문내용"
+                    android:text="레슨 프로"
                     android:textColor="#ff31aa39"
                     android:textSize="12sp"
                     android:textStyle="bold" />

@@ -40,6 +40,7 @@ import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
+import com.kapp.singlo.util.Utility;
 
 @SuppressLint("NewApi")
 public class TeacherLesson extends SingloTeacherActivity {
@@ -297,8 +298,7 @@ public class TeacherLesson extends SingloTeacherActivity {
 						String created_datetime = lesson
 								.getString("created_datetime");
 
-						String user_name = URLDecoder.decode(
-								lesson.getString("user_name"), "UTF-8");
+						String user_name = Utility.strDecoder(lesson.getString("user_name"));	
 												
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,

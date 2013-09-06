@@ -222,8 +222,8 @@ public class MylessonDetail extends SingloUserActivity {
 		causeDetailTextView = (TextView) findViewById(R.id.CauseDetailTextView);
 		question_text = (TextView) findViewById(R.id.QuestionTextView);
 		try {
-			question_text.setText(URLDecoder.decode(lesson.getQuestion(),
-					"utf-8"));
+			question_text.setText("질문 내용 : "
+					+ URLDecoder.decode(lesson.getQuestion(), "UTF-8"));
 		} catch (Exception e) {
 
 		}
