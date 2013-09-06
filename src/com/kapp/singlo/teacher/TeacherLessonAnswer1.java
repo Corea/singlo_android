@@ -6,27 +6,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.androidquery.AQuery;
-import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.bg.APIPostAction;
 import com.kapp.singlo.bg.APIPostAction.getAPIConnetorResultListener;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
+import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.ui.SingloVideoView;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.Utility;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +41,7 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 	private int user_id;
 	private int lesson_id;
 	private String mThummailURL;
+	private String mUserThumnailURL;
 
 	private ImageView downloadVideoButton;
 	private Button submitButton;
@@ -57,8 +55,8 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 			// TODO Auto-generated method stub
 			JSONObject mData = object;
 			try {
-				String mPath = mData.getString("photo");
-				mAq.id(profileWebView).image(Const.PROFILE_URL + mPath);				
+				mUserThumnailURL = mData.getString("photo");
+				mAq.id(profileWebView).image(Const.PROFILE_URL + mUserThumnailURL);				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -162,6 +160,8 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 				Intent intent = new Intent(TeacherLessonAnswer1.this,
 						TeacherLessonAnswer2.class);
 				intent.putExtra("lesson_id", lesson_id);
+				intent.putExtra("thumnail", mThummailURL);
+				intent.putExtra("user_thumnail", mUserThumnailURL);
 				startActivity(intent);
 				finish();
 			}

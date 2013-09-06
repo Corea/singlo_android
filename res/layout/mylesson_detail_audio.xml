@@ -3,14 +3,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="46dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:background="@android:color/black"
+        android:background="@android:color/white"
         android:orientation="horizontal" >
+
 
         <ImageButton
             android:id="@+id/PlayImageButton"
@@ -26,6 +28,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/play_btn" />
 
+
         <SeekBar
             android:id="@+id/PlaySeekBar"
             android:layout_width="wrap_content"
@@ -38,10 +41,12 @@
             android:layout_toLeftOf="@+id/PlayImageButton" />
     </RelativeLayout>
 
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp" >
+
 
         <ImageView
             android:id="@+id/NowImageView"
@@ -49,15 +54,17 @@
             android:layout_height="match_parent"
             android:src="@android:color/transparent" />
 
+
         <ImageView
             android:id="@+id/DrawingCanvasImageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@android:color/transparent" />
 
+
         <ImageButton
             android:id="@+id/BackImageButton"
-            android:layout_width="wrap_content"
+            android:layout_width="51dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
@@ -65,55 +72,36 @@
             android:background="@android:color/transparent"
             android:maxWidth="32dp"
             android:scaleType="fitXY"
-            android:src="@drawable/back_btn" />
+            android:src="@drawable/goback_btn" />
 
-        <ImageButton
-            android:id="@+id/LeftImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/left_icon" />
-
-        <ImageButton
-            android:id="@+id/RightImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/right_icon" />
 
         <TextView
             android:id="@+id/AudioTimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/RightImageButton"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
             android:paddingBottom="5dp"
             android:text="00 : 00 : 00"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
+
 
         <TextView
             android:id="@+id/ImageCountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/RightImageButton"
-            android:layout_alignTop="@+id/BackImageButton"
-            android:paddingBottom="5dp"
+            android:layout_above="@+id/AudioTimeTextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
             android:text="3 / 8"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
+
 </RelativeLayout>
+

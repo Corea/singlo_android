@@ -1,18 +1,22 @@
 package com.kapp.singlo.users;
 
+
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import org.json.JSONObject;
+
 
 import com.kapp.singlo.R;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;
+
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,44 +44,57 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 public class Register extends Activity {
+
 
 	private Boolean usingTermCheck;
 	private Boolean usingPersonalInfoCheck;
+
 
 	private ImageButton usingTermButton;
 	private ImageButton usingPersonalInfoButton;
 	private ImageButton backImageButton;
 	private Button startSingloButton;
 
+
 	private EditText phoneNumberEditText;
 	private EditText nameEditText;
 	private EditText birthdayEditText;
 	private ImageView profileImageView;
 
+
 	private RegisterTask registerTask;
+
 
 	private int id;
 	private String name, birthday, phone, photo;
 
+
 	private Boolean registerProcess;
 	private Boolean registerSuccess;
 
+
 	private SharedPreferences spLogin;
+
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
 
+
 		phoneNumberEditText = (EditText) findViewById(R.id.PhoneNumberEditText);
 		TelephonyManager mgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		phoneNumberEditText.setText(mgr.getLine1Number());
 
+
 		nameEditText = (EditText) findViewById(R.id.NameEditText);
 		birthdayEditText = (EditText) findViewById(R.id.BirthdayEditText);
 
+
 		usingTermCheck = false;
 		usingPersonalInfoCheck = false;
+
 
 		backImageButton = (ImageButton) findViewById(R.id.BackImageButton);
 		backImageButton.setOnClickListener(backClickListener);
@@ -87,16 +104,20 @@ public class Register extends Activity {
 		usingPersonalInfoButton
 				.setOnClickListener(usingPersonInfoButtonClickListener);
 
+
 		startSingloButton = (Button) findViewById(R.id.StartSingloButton);
 		startSingloButton.setOnClickListener(startSingloButtonClickListener);
 		profileImageView = (ImageView) findViewById(R.id.ProfileImageView);
 		profileImageView.setOnClickListener(profileImageViewOnClickListener);
 
+
 		registerProcess = false;
 		registerSuccess = false;
 
+
 		spLogin = getSharedPreferences("login", Login.MODE_PRIVATE);
 	}
+
 
 	void saveLoginPreferences() {
 		SharedPreferences.Editor editor = spLogin.edit();
@@ -107,6 +128,7 @@ public class Register extends Activity {
 		editor.putString("photo", photo);
 		editor.commit();
 	}
+
 
 	OnClickListener usingPersonInfoButtonClickListener = new OnClickListener() {
 		@Override
@@ -120,8 +142,10 @@ public class Register extends Activity {
 						.setImageResource(R.drawable.register_checkoff);
 			}
 
+
 		}
 	};
+
 
 	OnClickListener usingTermButtonClickListener = new OnClickListener() {
 		@Override
@@ -135,6 +159,7 @@ public class Register extends Activity {
 		}
 	};
 
+
 	OnClickListener startSingloButtonClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -146,10 +171,12 @@ public class Register extends Activity {
 						Toast.LENGTH_SHORT).show();
 			} else {
 
+
 				if (registerProcess) {
 					return;
 				}
 				registerProcess = true;
+
 
 				try {
 					name = URLEncoder.encode(nameEditText.getText().toString(),
@@ -164,11 +191,13 @@ public class Register extends Activity {
 					phone = nameEditText.getText().toString();
 				}
 
+
 				registerTask = new RegisterTask();
 				registerTask.execute();
 			}
 		}
 	};
+
 
 	OnClickListener backClickListener = new OnClickListener() {
 		@Override
@@ -178,11 +207,14 @@ public class Register extends Activity {
 			imm.hideSoftInputFromWindow(birthdayEditText.getWindowToken(), 0);
 			imm.hideSoftInputFromWindow(phoneNumberEditText.getWindowToken(), 0);
 
+
 			finish();
 		}
 	};
 
+
 	OnClickListener profileImageViewOnClickListener = new OnClickListener() {
+
 
 		@Override
 		public void onClick(View v) {
@@ -192,9 +224,11 @@ public class Register extends Activity {
 		}
 	};
 
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
+
 
 		if (resultCode == RESULT_OK) {
 			if (requestCode == 1) {
@@ -208,16 +242,19 @@ public class Register extends Activity {
 					String path = cursor.getString(columnIndex);
 					cursor.close();
 
+
 					Bitmap bitmap = Images.Media.getBitmap(
 							getContentResolver(), uri);
 					int height = bitmap.getHeight();
 					int width = bitmap.getWidth();
 					double ratio = Math.min(height / 150., width / 150.);
 
+
 					height /= ratio;
 					width /= ratio;
 					Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,
 							width, height, true);
+
 
 					ExifInterface exifMedia = new ExifInterface(path);
 					int rotation = exifMedia.getAttributeInt(
@@ -232,16 +269,20 @@ public class Register extends Activity {
 						rotationInDegrees = 270;
 					}
 
+
 					Matrix matrix = new Matrix();
 					if (rotation != 0) {
 						matrix.setRotate(rotationInDegrees, width / 2,
 								height / 2);
 					}
 
+
 					bitmap = Bitmap.createBitmap(scaledBitmap, 0, 0,
 							(int) width, (int) height, matrix, true);
 
+
 					profileImageView.setImageBitmap(bitmap);
+
 
 					String filename = Utility.getCacheFilename(Register.this,
 							"profile_image.png", true);
@@ -249,18 +290,22 @@ public class Register extends Activity {
 					bitmap.compress(CompressFormat.PNG, 100, fout);
 					fout.close();
 
+
 					photo = filename;
 				} catch (Exception e) {
+
 
 				}
 			}
 		}
 	}
 
+
 	public class RegisterTask extends AsyncTask<Void, Void, Void> {
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
+
 
 		@Override
 		protected Void doInBackground(Void... p) {
@@ -268,12 +313,14 @@ public class Register extends Activity {
 			return null;
 		}
 
+
 		@Override
 		protected void onPostExecute(Void result) {
 			if (registerSuccess) {
 				Toast.makeText(Register.this, "회원 가입이 완료되었습니다.",
 						Toast.LENGTH_LONG).show();
 				saveLoginPreferences();
+
 
 				if (Main.mainActivity != null) {
 					Main.mainActivity.finish();
@@ -286,6 +333,7 @@ public class Register extends Activity {
 				AlertDialog.Builder gsDialog = new AlertDialog.Builder(
 						Register.this);
 
+
 				gsDialog.setTitle("회원가입 실패");
 				gsDialog.setMessage(msg);
 				gsDialog.setPositiveButton("OK",
@@ -296,16 +344,19 @@ public class Register extends Activity {
 							}
 						}).create().show();
 
+
 				this.cancel(true);
 			}
 			registerProcess = false;
 		}
+
 
 		@Override
 		protected void onCancelled() {
 			super.onCancelled();
 			registerProcess = false;
 		}
+
 
 		void register() {
 			try {
@@ -322,13 +373,16 @@ public class Register extends Activity {
 				conn.setRequestProperty("Content-Type",
 						"multipart/form-data;boundary=" + Const.boundary);
 
+
 				DataOutputStream dos = new DataOutputStream(
 						conn.getOutputStream());
+
 
 				dos.writeBytes(Const.twoHyphens + Const.boundary
 						+ Const.lineEnd);
 				dos.writeBytes("Content-Disposition:form-data; name=\"name\""
 						+ Const.lineEnd + Const.lineEnd + name + Const.lineEnd);
+
 
 				dos.writeBytes(Const.twoHyphens + Const.boundary
 						+ Const.lineEnd);
@@ -338,50 +392,64 @@ public class Register extends Activity {
 						+ birthday
 						+ Const.lineEnd);
 
+
 				dos.writeBytes(Const.twoHyphens + Const.boundary
 						+ Const.lineEnd);
 				dos.writeBytes("Content-Disposition:form-data; name=\"phone\""
 						+ Const.lineEnd + Const.lineEnd + phone + Const.lineEnd);
-				
+
+
 				dos.writeBytes(Const.twoHyphens + Const.boundary
 						+ Const.lineEnd);
 				dos.writeBytes("Content-Disposition:form-data; name=\"pushtoken\""
 						+ Const.lineEnd + Const.lineEnd + pushtoken + Const.lineEnd);
+
 
 				dos.writeBytes(Const.twoHyphens + Const.boundary
 						+ Const.lineEnd);
 				dos.writeBytes("Content-Disposition:form-data; name=\"profile\"; filename=\"profile_image.png\""
 						+ Const.lineEnd + Const.lineEnd);
 
+
 				FileInputStream fileInputStream = new FileInputStream(photo);
+
 
 				int bytesAvailable = fileInputStream.available();
 				int maxBufferSize = 16384;
 				int bufferSize = Math.min(bytesAvailable, maxBufferSize);
 
+
 				byte[] buffer = new byte[bufferSize];
 				int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
 
 				while (bytesRead > 0) {
 					dos.write(buffer, 0, bufferSize);
 					bytesAvailable = fileInputStream.available();
 					bufferSize = Math.min(bytesAvailable, maxBufferSize);
 
+
 					bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 				}
 				fileInputStream.close();
+
 
 				dos.writeBytes(Const.lineEnd);
 				dos.writeBytes(Const.twoHyphens + Const.boundary
 						+ Const.twoHyphens + Const.lineEnd);
 				dos.flush();
 
+
 				InputStream is = conn.getInputStream();
+
 
 				JSONParser jParser = new JSONParser();
 				JSONObject json = jParser.getJSONFromStream(is);
+				name = URLDecoder.decode(name, "UTF-8");
+
 
 				String result = json.getString("result");
+
 
 				if (result.equals("success")) {
 					registerSuccess = true;
@@ -391,7 +459,9 @@ public class Register extends Activity {
 				dos.close();
 			} catch (Exception e) {
 
+
 			}
 		}
 	}
 }
+

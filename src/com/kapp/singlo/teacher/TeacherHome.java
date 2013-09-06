@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONObject;
 
@@ -15,6 +17,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.CompressFormat;
 import android.media.ExifInterface;
@@ -30,20 +33,26 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
+import com.kapp.singlo.action.LessonReviewAction;
+import com.kapp.singlo.action.LessonReviewAction.lessonReviewListener;
+import com.kapp.singlo.adapter.LessonReviewAdapter;
 import com.kapp.singlo.data.DBConnector;
+import com.kapp.singlo.data.LessonReviewData;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;
 
 @SuppressLint("NewApi")
-public class TeacherHome extends SingloTeacherActivity {
+public class TeacherHome extends SingloTeacherActivity implements OnClickListener{
 
 	private ProgressDialog progressDialog;
 
@@ -64,6 +73,22 @@ public class TeacherHome extends SingloTeacherActivity {
 	private RatingBar scoreRatingbar;
 
 	private ChangeProfileTask changeProfileTask;
+	
+	private Button mCareerBtn;
+	private Button mLessonReviewBtn;
+	private ScrollView mProfileScroll;
+	private ListView mLessonReviewList;
+	
+	private LessonReviewAdapter mReviewAdapter;
+	
+	private lessonReviewListener mLessonReviewListener = new lessonReviewListener() {
+		
+		@Override
+		public void result(ArrayList<LessonReviewData> list) {
+			// TODO Auto-generated method stub
+			setLessonReviewList(list);
+		}
+	};
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -87,6 +112,14 @@ public class TeacherHome extends SingloTeacherActivity {
 		profileTextView = (TextView) findViewById(R.id.ProfileTextView);
 		absenceTextView = (TextView) findViewById(R.id.AbsenceTextView);
 		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
+		mCareerBtn = (Button)findViewById(R.id.ProfileTabButton);
+		mLessonReviewBtn = (Button)findViewById(R.id.CommentTabButton);
+		
+		mProfileScroll = (ScrollView)findViewById(R.id.profile_scroll_view);
+		mLessonReviewList = (ListView)findViewById(R.id.lesson_review_list);
+		
+		mReviewAdapter = new LessonReviewAdapter(this);
+		mLessonReviewList.setAdapter(mReviewAdapter);
 
 		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
@@ -129,6 +162,40 @@ public class TeacherHome extends SingloTeacherActivity {
 		recommendVideoButton = (Button) findViewById(R.id.RecommendVideoButton);
 		recommendVideoButton
 				.setOnClickListener(recommendVideoButtonOnClickListener);
+	}
+	
+	private void setTabColor(Button btn){
+		Button[] mBtnArray = {mCareerBtn, mLessonReviewBtn};
+		
+		for(int i = 0; i < mBtnArray.length; i++){			
+			if(btn == mBtnArray[i]){				
+				mBtnArray[i].setBackgroundResource(R.drawable.tabon_btn);	
+				mBtnArray[i].setTextColor(Color.parseColor("#ff34a93a"));
+				continue;
+			}	
+			mBtnArray[i].setBackgroundResource(R.drawable.taboff_btn);
+			mBtnArray[i].setTextColor(Color.parseColor("#ff434343"));
+		}
+	}
+	
+	private void setTabContent(View view){
+		View[] mContentView = {mProfileScroll, mLessonReviewList};
+		
+		for(int i = 0; i < mContentView.length; i++){
+			if(view == mContentView[i]){
+				mContentView[i].setVisibility(View.VISIBLE);
+				continue;
+			}
+			mContentView[i].setVisibility(View.GONE);
+		}
+	}	
+	
+	private void setLessonReviewList(ArrayList<LessonReviewData> list){
+		mReviewAdapter.clear();
+		for(int i = 0; i < list.size(); i++){
+			mReviewAdapter.add(list.get(i));			
+		}
+		mReviewAdapter.notifyDataSetChanged();
 	}
 
 	private OnClickListener recommendVideoButtonOnClickListener = new OnClickListener() {
@@ -351,6 +418,27 @@ public class TeacherHome extends SingloTeacherActivity {
 			} catch (Exception e) {
 
 			}
+		}
+	}
+	
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.ProfileTabButton:
+			setTabColor(mCareerBtn);
+			setTabContent(mProfileScroll);
+			break;
+		case R.id.CommentTabButton:
+			setTabColor(mLessonReviewBtn);
+			setTabContent(mLessonReviewList);
+			HashMap<String, String> mParam = new HashMap<String, String>();
+			mParam.put("teacher_id", Integer.toString(professional.getServerId()));
+			new LessonReviewAction(Const.GET_LESSON_REVIEW_EVALUATION, mLessonReviewListener).execute(mParam);
+			break;
+
+		default:
+			break;
 		}
 	}
 }

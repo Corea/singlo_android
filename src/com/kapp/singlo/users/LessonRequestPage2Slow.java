@@ -279,7 +279,7 @@ public class LessonRequestPage2Slow extends Activity {
 		public void onClick(View v) {
 			purchaseItemCount = 0;
 			// TODO: 주석 삭제. 그래야 결제 과정 넘어갈 수 있음.
-			// requestPurchase();
+			requestPurchase();
 			uploadVideo();
 		}
 	};

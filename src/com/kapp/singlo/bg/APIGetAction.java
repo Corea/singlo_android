@@ -26,17 +26,21 @@ import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 
 import android.os.AsyncTask;
+import android.util.JsonReader;
 
-public class APIGetAction extends AsyncTask<HashMap<String, String>, Void, JSONObject>{
+public abstract class APIGetAction extends AsyncTask<HashMap<String, String>, Void, JSONObject>{
 	
 	private String URL;
 	
-	private getAPIConnetorResultListener mListener;
+	//private getAPIConnetorResultListener mListener;	
 	
-	public APIGetAction(String url, getAPIConnetorResultListener listener){
+	public APIGetAction(String url){
 		this.URL = url;
-		this.mListener = listener;
+		//this.mListener = listener;		
 	}
+	
+	//protected abstract void onAction(String url);
+	protected abstract void onActionPost(JSONObject object);
 	
 	@Override
 	protected JSONObject doInBackground(HashMap<String, String>... params) {
@@ -66,7 +70,7 @@ public class APIGetAction extends AsyncTask<HashMap<String, String>, Void, JSONO
 			
 			JSONParser jParser = new JSONParser();
 			json = jParser.getJSONFromStream(is);
-			
+						
 			/*String result = json.getString("result");
 			System.out.println("result = " + result);*/
 			
@@ -82,12 +86,12 @@ public class APIGetAction extends AsyncTask<HashMap<String, String>, Void, JSONO
 	protected void onPostExecute(JSONObject result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		
-		mListener.result(result);
+		onActionPost(result);
+		//mListener.result(result);
 		
 	}
 	
-	public interface getAPIConnetorResultListener{
-		public void result(JSONObject object);
-	}
+	/*public interface getAPIConnetorResultListener{
+		public void result(JSONObject object);		
+	}*/
 }

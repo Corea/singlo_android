@@ -216,6 +216,7 @@
             android:gravity="center"
             android:scaleType="fitXY"
             android:text="경력사항"
+            android:onClick="onClick"
             android:textColor="#ff34a93a"
             android:textSize="12sp" />
 
@@ -230,11 +231,13 @@
             android:gravity="center"
             android:scaleType="fitXY"
             android:text="레슨후기"
+            android:onClick="onClick"
             android:textColor="#ff434343"
             android:textSize="12sp" />
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/profile_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
@@ -252,4 +255,16 @@
             android:textSize="12sp" />
     </ScrollView>
 
+    <ListView 
+        android:id="@+id/lesson_review_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:visibility="gone"
+        android:background="@drawable/singlo_border">
+        
+    </ListView>
+    
 </LinearLayout>
