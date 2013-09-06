@@ -1,6 +1,5 @@
 package com.kapp.singlo.users;
 
-
 import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -61,12 +60,12 @@ public class Mylesson extends SingloUserActivity {
 
 	private ArrayList<Lesson> lessons;
 	private ArrayList<Lesson> showingLessonsArray;
-	
+
 	private SharedPreferences spLogin;
 
 	private int user_id;
 
-	private UserLessonTask userLessonTask;	
+	private UserLessonTask userLessonTask;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,20 +87,20 @@ public class Mylesson extends SingloUserActivity {
 
 		completeLessonButton.setBackgroundResource(R.drawable.shorttabon_btn);
 		completeLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
-		
+
 		init();
-		
+
 	}
-	
-	private void init(){
-		
+
+	private void init() {
+
 		showingLessonsArray = new ArrayList<Lesson>();
-		
-		Custom_List = (ListView)findViewById(R.id.listView1);
+
+		Custom_List = (ListView) findViewById(R.id.listView1);
 		adapter = new MyLessonAdapter(this);
 		Custom_List.setOnItemClickListener(CustomListItemClickListener);
 		Custom_List.setAdapter(adapter);
-		
+
 	}
 
 	OnClickListener completeLessonImageButtonOnClickListener = new OnClickListener() {
@@ -114,7 +113,7 @@ public class Mylesson extends SingloUserActivity {
 			waitingLessonButton
 					.setBackgroundResource(R.drawable.shorttaboff_btn);
 			waitingLessonButton.setTextColor(Color.parseColor("#FF000000"));
-			
+
 			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
@@ -123,8 +122,8 @@ public class Mylesson extends SingloUserActivity {
 				}
 
 			}
-			
-			setList(showingLessonsArray);			
+
+			setList(showingLessonsArray);
 		}
 	};
 
@@ -138,7 +137,7 @@ public class Mylesson extends SingloUserActivity {
 			waitingLessonButton
 					.setBackgroundResource(R.drawable.shorttabon_btn);
 			waitingLessonButton.setTextColor(Color.parseColor("#FF34A93A"));
-			
+
 			showingLessonsArray.clear();
 
 			for (int i = 0; i < lessons.size(); i++) {
@@ -146,14 +145,14 @@ public class Mylesson extends SingloUserActivity {
 					showingLessonsArray.add(lessons.get(i));
 				}
 			}
-			
+
 			setList(showingLessonsArray);
 		}
 	};
-	
-	private void setList(ArrayList<Lesson> list){
+
+	private void setList(ArrayList<Lesson> list) {
 		adapter.clear();
-		for(int i = 0; i < list.size(); i++){
+		for (int i = 0; i < list.size(); i++) {
 			adapter.add(list.get(i));
 		}
 		adapter.notifyDataSetChanged();
@@ -163,7 +162,7 @@ public class Mylesson extends SingloUserActivity {
 		super.onResume();
 
 		setTopImage(1);
-		
+
 		showingLessonsArray.clear();
 		progressDialog = ProgressDialog.show(Mylesson.this, "",
 				"레슨을 가져오고 있습니다.", false, false);
@@ -181,7 +180,8 @@ public class Mylesson extends SingloUserActivity {
 						.show();
 			} else {
 				Intent intent = new Intent(Mylesson.this, MylessonDetail.class);
-				intent.putExtra("lesson_id", showingLessonsArray.get(pos).getID());
+				intent.putExtra("lesson_id", showingLessonsArray.get(pos)
+						.getID());
 				startActivity(intent);
 				overridePendingTransition(R.anim.fade, R.anim.hold);
 				finish();
@@ -264,9 +264,9 @@ public class Mylesson extends SingloUserActivity {
 				JSONObject json = jParser.getJSONFromStream(is);
 
 				JSONArray lessons = json.getJSONArray("lessons");
-				
+
 				ThumnailUrlAction mThumnailAction = new ThumnailUrlAction();
-				
+
 				for (int i = 0; i < lessons.length(); i++) {
 					JSONObject lesson = lessons.getJSONObject(i);
 
@@ -280,13 +280,15 @@ public class Mylesson extends SingloUserActivity {
 
 					if (!exists) {
 						int server_id = lesson.getInt("id");
-						
+
 						HashMap<String, String> params = new HashMap<String, String>();
 						params.put("lesson_id", Integer.toString(server_id));
 						params.put("current_position", "0");
-						
-						String thumnail = mThumnailAction.getThumnailUrl(params);						
-						
+
+						// String thumnail =
+						// mThumnailAction.getThumnailUrl(params);
+						String thumbnail = lesson.getString("thumbnail");
+
 						int user_id = lesson.getInt("user_id");
 						Integer teacher_id;
 						try {
@@ -305,11 +307,13 @@ public class Mylesson extends SingloUserActivity {
 						String created_datetime = lesson
 								.getString("created_datetime");
 
-						String user_name = Utility.strDecoder(lesson.getString("user_name"));						
-						
+						String user_name = Utility.strDecoder(lesson
+								.getString("user_name"));
+
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
-								question, created_datetime, status, user_name, thumnail);
+								question, created_datetime, status, user_name,
+								thumbnail);
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}
@@ -319,6 +323,6 @@ public class Mylesson extends SingloUserActivity {
 				Log.d("disp", "err : " + e.getMessage());
 			}
 			dbConnector.close();
-		}		
+		}
 	}
 }
