@@ -3,15 +3,10 @@ package com.kapp.singlo.users;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.kapp.singlo.R;
 import com.kapp.singlo.action.LessonReviewAction;
 import com.kapp.singlo.action.LessonReviewAction.lessonReviewListener;
 import com.kapp.singlo.adapter.LessonReviewAdapter;
-import com.kapp.singlo.bg.APIGetAction;
 import com.kapp.singlo.bg.CallbackListener;
 import com.kapp.singlo.bg.LikeTeacherAsyncTask;
 import com.kapp.singlo.data.DBConnector;
