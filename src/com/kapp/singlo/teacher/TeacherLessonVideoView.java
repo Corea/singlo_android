@@ -81,7 +81,6 @@ public class TeacherLessonVideoView extends Activity {
 	private ImageButton nowDrawImageButton;
 	private ImageButton lineDrawImageButton;
 	private ImageButton circleDrawImageButton;
-	private ImageButton rectDrawImageButton;
 
 	private ImageButton nowColorImageButton;
 	private ImageButton redColorImageButton;
@@ -180,9 +179,6 @@ public class TeacherLessonVideoView extends Activity {
 		circleDrawImageButton = (ImageButton) findViewById(R.id.CircleDrawImageButton);
 		circleDrawImageButton
 				.setOnClickListener(circleDrawImageButtonOnClickListener);
-		rectDrawImageButton = (ImageButton) findViewById(R.id.RectDrawImageButton);
-		rectDrawImageButton
-				.setOnClickListener(rectDrawImageButtonOnClickListener);
 
 		nowColorImageButton = (ImageButton) findViewById(R.id.NowColorImageButton);
 		nowColorImageButton
@@ -411,11 +407,9 @@ public class TeacherLessonVideoView extends Activity {
 		nowDrawImageButton.setVisibility(View.INVISIBLE);
 		lineDrawImageButton.setVisibility(View.VISIBLE);
 		circleDrawImageButton.setVisibility(View.VISIBLE);
-		rectDrawImageButton.setVisibility(View.VISIBLE);
 	}
 
 	private void hideDrawImageButton() {
-		rectDrawImageButton.setVisibility(View.GONE);
 		circleDrawImageButton.setVisibility(View.GONE);
 		lineDrawImageButton.setVisibility(View.GONE);
 		nowDrawImageButton.setVisibility(View.VISIBLE);

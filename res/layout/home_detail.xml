@@ -58,21 +58,6 @@
                     android:layout_alignTop="@+id/NameLinearLayout" >
 
                     <Button
-                        android:id="@+id/LessonButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/gray_btn"
-                        android:gravity="center"
-                        android:paddingBottom="3dp"
-                        android:paddingLeft="7dp"
-                        android:paddingRight="7dp"
-                        android:paddingTop="3dp"
-                        android:text="레슨신청"
-                        android:textColor="@android:color/white"
-                        android:textSize="12sp" />
-
-                    <Button
                         android:id="@+id/RecommendVideoButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -253,7 +238,8 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <ScrollView
+    <ScrollView  
+        android:id="@+id/profile_scroll_view"      
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
@@ -270,5 +256,18 @@
             android:textColor="@android:color/black"
             android:textSize="12sp" />
     </ScrollView>
+    
+    <ListView 
+        android:id="@+id/lesson_review_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:visibility="gone"
+        android:background="@drawable/singlo_border">
+        
+    </ListView>
+    
 
 </LinearLayout>

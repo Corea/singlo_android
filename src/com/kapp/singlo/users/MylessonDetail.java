@@ -46,13 +46,13 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.kapp.sginlo.meta.SingloUserActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.data.LessonAnswer;
 import com.kapp.singlo.data.LessonAnswerImage;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloUserActivity;
 import com.kapp.singlo.ui.SingloVideoView;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
@@ -222,8 +222,8 @@ public class MylessonDetail extends SingloUserActivity {
 		causeDetailTextView = (TextView) findViewById(R.id.CauseDetailTextView);
 		question_text = (TextView) findViewById(R.id.QuestionTextView);
 		try {
-			question_text.setText(URLDecoder.decode(lesson.getQuestion(),
-					"utf-8"));
+			question_text.setText("질문 내용 : "
+					+ URLDecoder.decode(lesson.getQuestion(), "UTF-8"));
 		} catch (Exception e) {
 
 		}

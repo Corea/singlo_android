@@ -27,10 +27,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.kapp.sginlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.R;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Professional;
+import com.kapp.singlo.meta.SingloTeacherActivity;
 import com.kapp.singlo.users.Main;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;

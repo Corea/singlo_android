@@ -1,6 +1,10 @@
 package com.kapp.singlo.teacher;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -61,8 +65,36 @@ public class TeacherLesson_Adapter extends ArrayAdapter<Lesson> {
 		questionTextView.setText(lesson.getQuestion());
 		if (lesson.getStatus() == 0) {
 			statusImageView.setImageResource(R.drawable.watinglesson_icon);
+
+			Date today = new Date();
+			SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm",
+					Locale.KOREA);
+			Date lesson_time;
+			try {
+				lesson_time = format.parse(lesson.getCreatedDatetime());
+			} catch (Exception e) {
+				lesson_time = today;
+			}
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(lesson_time);
+			cal.add(Calendar.HOUR_OF_DAY, 12);
+			lesson_time = cal.getTime();
+
+			long today_long_time = today.getTime();
+			long lesson_long_time = lesson_time.getTime();
+			long remain_time = lesson_long_time - today_long_time;
+
+			remain_time /= (1000 * 60);
+
 			remainTimeTitleTextView.setText("레슨 회신 만료 ");
-			remainTimeTextView.setText("0분 전");
+			if (remain_time >= 60) {
+				remainTimeTextView.setText((remain_time / 60) + "시간 전");
+			} else if (remain_time >= 0) {
+				remainTimeTextView.setText(remain_time + "분 전");
+			} else {
+				remainTimeTitleTextView.setText("레슨 회신 ");
+				remainTimeTextView.setText("만료");
+			}
 			remainTimeTextView.setTextColor(Color.parseColor("#ffe60019"));
 		} else {
 			statusImageView.setImageResource(R.drawable.completelesson_icon);
