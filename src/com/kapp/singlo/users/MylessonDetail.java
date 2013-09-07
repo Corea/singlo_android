@@ -59,11 +59,12 @@ import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;
 
 @SuppressLint("NewApi")
-public class MylessonDetail extends SingloUserActivity {
+public class MylessonDetail extends SingloUserActivity implements OnClickListener{
 	private List<Integer> causeIDList;
 	private List<Integer> causeStringList;
 	private List<Integer> causeTitleStringList;
-	private List<Integer> recommendIDList;
+	private ArrayList<Integer> mRecommendList;
+	
 	private List<LessonAnswerImage> lessonAnswerImageList;
 
 	private Button lessonTabButton;
@@ -155,58 +156,7 @@ public class MylessonDetail extends SingloUserActivity {
 		causeTitleStringList.add(R.string.causeTitle_11);
 		causeTitleStringList.add(R.string.causeTitle_12);
 
-		recommendIDList = new ArrayList<Integer>();
-		recommendIDList.add(R.drawable.recommend_1);
-		recommendIDList.add(R.drawable.recommend_2);
-		recommendIDList.add(R.drawable.recommend_3);
-		recommendIDList.add(R.drawable.recommend_4);
-		recommendIDList.add(R.drawable.recommend_5);
-		recommendIDList.add(R.drawable.recommend_6);
-		recommendIDList.add(R.drawable.recommend_7);
-		recommendIDList.add(R.drawable.recommend_8);
-		recommendIDList.add(R.drawable.recommend_9);
-		recommendIDList.add(R.drawable.recommend_10);
-		recommendIDList.add(R.drawable.recommend_11);
-		recommendIDList.add(R.drawable.recommend_12);
-		recommendIDList.add(R.drawable.recommend_13);
-		recommendIDList.add(R.drawable.recommend_14);
-		recommendIDList.add(R.drawable.recommend_15);
-		recommendIDList.add(R.drawable.recommend_16);
-		recommendIDList.add(R.drawable.recommend_17);
-		recommendIDList.add(R.drawable.recommend_18);
-		recommendIDList.add(R.drawable.recommend_19);
-		recommendIDList.add(R.drawable.recommend_20);
-		recommendIDList.add(R.drawable.recommend_21);
-		recommendIDList.add(R.drawable.recommend_22);
-		recommendIDList.add(R.drawable.recommend_23);
-		recommendIDList.add(R.drawable.recommend_24);
-		recommendIDList.add(R.drawable.recommend_25);
-		recommendIDList.add(R.drawable.recommend_26);
-		recommendIDList.add(R.drawable.recommend_27);
-		recommendIDList.add(R.drawable.recommend_28);
-		recommendIDList.add(R.drawable.recommend_29);
-		recommendIDList.add(R.drawable.recommend_30);
-		recommendIDList.add(R.drawable.recommend_31);
-		recommendIDList.add(R.drawable.recommend_32);
-		recommendIDList.add(R.drawable.recommend_33);
-		recommendIDList.add(R.drawable.recommend_34);
-		recommendIDList.add(R.drawable.recommend_35);
-		recommendIDList.add(R.drawable.recommend_36);
-		recommendIDList.add(R.drawable.recommend_37);
-		recommendIDList.add(R.drawable.recommend_38);
-		recommendIDList.add(R.drawable.recommend_39);
-		recommendIDList.add(R.drawable.recommend_40);
-		recommendIDList.add(R.drawable.recommend_41);
-		recommendIDList.add(R.drawable.recommend_42);
-		recommendIDList.add(R.drawable.recommend_43);
-		recommendIDList.add(R.drawable.recommend_44);
-		recommendIDList.add(R.drawable.recommend_45);
-		recommendIDList.add(R.drawable.recommend_46);
-		recommendIDList.add(R.drawable.recommend_47);
-		recommendIDList.add(R.drawable.recommend_48);
-		recommendIDList.add(R.drawable.recommend_49);
-		recommendIDList.add(R.drawable.recommend_50);
-		recommendIDList.add(R.drawable.recommend_51);
+		
 
 		lessonTabButton = (Button) findViewById(R.id.LessonTabButton);
 		lessonTabButton.setOnClickListener(lessonTabImageButtonListener);
@@ -252,8 +202,8 @@ public class MylessonDetail extends SingloUserActivity {
 		thumbnailImageView
 				.setOnClickListener(thumbnailImageViewOnClickListener);
 		causeImageView = (ImageView) findViewById(R.id.CauseImageView);
-		recommendImageView1 = (ImageView) findViewById(R.id.RecommendImageView1);
-		recommendImageView2 = (ImageView) findViewById(R.id.RecommendImageView2);
+		/*recommendImageView1 = (ImageView) findViewById(R.id.RecommendImageView1);
+		recommendImageView2 = (ImageView) findViewById(R.id.RecommendImageView2);*/
 		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
 		if (professional.getPhoto() == null) {
 			profileWebView.loadDataWithBaseURL(null,
@@ -481,7 +431,7 @@ public class MylessonDetail extends SingloUserActivity {
 					.getCause()));
 			causeTitleTextView.setText(causeTitleStringList.get(lessonAnswer
 					.getCause()));
-			try {
+			/*try {
 				recommendImageView1
 						.setImageDrawable(createLargeDrawable(recommendIDList
 								.get(lessonAnswer.getRecommend1() - 1)));
@@ -490,7 +440,7 @@ public class MylessonDetail extends SingloUserActivity {
 								.get(lessonAnswer.getRecommend2() - 1)));
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+			}*/
 
 			String path = Const.VIDEO_URL
 					+ lessonAnswerImageList.get(0).getImage();
@@ -547,6 +497,13 @@ public class MylessonDetail extends SingloUserActivity {
 					String sound = json.getString("sound");
 					String created_datetime = json
 							.getString("created_datetime");
+					
+					mRecommendList = new ArrayList<Integer>();
+					JSONArray mRecommendArray = json.getJSONArray("recommend");
+					
+					for(int i = 0; i < mRecommendArray.length(); i++){
+						mRecommendList.add(mRecommendArray.getInt(i));												
+					}
 
 					LessonAnswer lessonAnswer = new LessonAnswer(
 							lesson.getServerID(), server_id, score1, score2,
@@ -612,6 +569,22 @@ public class MylessonDetail extends SingloUserActivity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.recommend_btn:
+			Intent aIntent = new Intent(this, RecommendActivity.class);
+			aIntent.putExtra("recommend", mRecommendList);
+			startActivity(aIntent);
+			
+			break;
+
+		default:
+			break;
 		}
 	}
 }
