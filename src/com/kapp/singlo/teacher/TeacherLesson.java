@@ -286,14 +286,15 @@ public class TeacherLesson extends SingloTeacherActivity {
 								lesson.getString("question"), "UTF-8");
 						String created_datetime = lesson
 								.getString("created_datetime");
-
 						String user_name = Utility.strDecoder(lesson
 								.getString("user_name"));
+						temp = lesson.getBoolean("evaluation_status");
+						int evaluation_status = (temp ? 1 : 0);
 
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
 								question, created_datetime, status, user_name,
-								thumbnail);
+								thumbnail, evaluation_status);
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}
