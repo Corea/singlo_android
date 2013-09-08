@@ -1,9 +1,6 @@
 package com.kapp.singlo.bg;
 
-import java.io.DataOutputStream;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +15,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 
 import android.os.AsyncTask;

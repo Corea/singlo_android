@@ -4,7 +4,6 @@
 package com.kapp.singlo.users;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.androidquery.AQuery;
 import com.kapp.singlo.R;
@@ -17,20 +16,21 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 /**
  * @author Baek
- *
+ * 
  */
 public class RecommendActivity extends Activity {
-	
+
 	private AQuery mAq;
 	private ViewPager mViewPager;
-	private ArrayList<Integer> recommendIDList;	
+	private ArrayList<Integer> recommendIDList;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -40,11 +40,11 @@ public class RecommendActivity extends Activity {
 		setContentView(R.layout.recommend_image_activity);
 
 		init();
-		
+
 	}
-	
-	private void init(){
-		
+
+	private void init() {
+
 		recommendIDList = new ArrayList<Integer>();
 		recommendIDList.add(R.drawable.recommend_1);
 		recommendIDList.add(R.drawable.recommend_2);
@@ -97,58 +97,65 @@ public class RecommendActivity extends Activity {
 		recommendIDList.add(R.drawable.recommend_49);
 		recommendIDList.add(R.drawable.recommend_50);
 		recommendIDList.add(R.drawable.recommend_51);
-		
+
 		ArrayList<Integer> mRecommendArray = new ArrayList<Integer>();
-		mRecommendArray = (ArrayList<Integer>)getIntent().getSerializableExtra("recommend");		
-		
-		mViewPager = (ViewPager)findViewById(R.id.pager);
-		mViewPager.setAdapter(new PagerAdapterClass(getApplicationContext(), mRecommendArray));
+		mRecommendArray = (ArrayList<Integer>) getIntent()
+				.getSerializableExtra("recommend");
+
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(new PagerAdapterClass(getApplicationContext(),
+				mRecommendArray));
 	}
-	
-	private class PagerAdapterClass extends PagerAdapter{
-		
+
+	private class PagerAdapterClass extends PagerAdapter {
+
 		private LayoutInflater mInflater;
 		private ArrayList<Integer> mRecommendImgArray;
-		
-		public PagerAdapterClass(Context c, ArrayList<Integer> data){
-            super();
-            mInflater = LayoutInflater.from(c);
-            this.mRecommendImgArray = data; 
-        }
-		
+
+		public PagerAdapterClass(Context c, ArrayList<Integer> data) {
+			super();
+			mInflater = LayoutInflater.from(c);
+			this.mRecommendImgArray = data;
+		}
+
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
 			return mRecommendImgArray.size();
-		}		
+		}
 
 		@Override
 		public Object instantiateItem(View container, final int position) {
 			// TODO Auto-generated method stub
-			
+
 			View mView = null;
-			
+
 			mView = mInflater.inflate(R.layout.recommend_image_item, null);
-			ImageView mAdImg = (ImageView)mView.findViewById(R.id.recommend_img);			
-			mAdImg.setImageResource(recommendIDList.get(mRecommendImgArray.get(position) - 1));			
-			((ViewPager)container).addView(mView, 0);
-			
+			ImageView mAdImg = (ImageView) mView
+					.findViewById(R.id.recommend_img);
+			mAdImg.setImageResource(recommendIDList.get(mRecommendImgArray
+					.get(position) - 1));
+			((ViewPager) container).addView(mView, 0);
+
 			return mView;
 		}
 
 		@Override
 		public boolean isViewFromObject(View arg0, Object arg1) {
-			// TODO Auto-generated method stub			
+			// TODO Auto-generated method stub
 			return arg0 == arg1;
 		}
 
 		@Override
 		public void destroyItem(View container, int position, Object object) {
 			// TODO Auto-generated method stub
-			((ViewPager)container).removeView((View)object);
+			((ViewPager) container).removeView((View) object);
 		}
-		
-		@Override public Parcelable saveState() { return null; }		
+
+		@Override
+		public Parcelable saveState() {
+			return null;
+		}
 	}
 
 }

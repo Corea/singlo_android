@@ -34,7 +34,7 @@ import android.widget.Toast;
 
 import com.kapp.singlo.R;
 import com.kapp.singlo.adapter.TeacherMyLessonAdapter;
-import com.kapp.singlo.bg.ThumnailUrlAction;
+import com.kapp.singlo.bg.ThumbnailUrlAction;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.meta.SingloTeacherActivity;
@@ -245,7 +245,7 @@ public class TeacherLesson extends SingloTeacherActivity {
 
 				JSONArray lessons = json.getJSONArray("lessons");
 
-				ThumnailUrlAction mThumnailAction = new ThumnailUrlAction();
+				ThumbnailUrlAction mThumnailAction = new ThumbnailUrlAction();
 
 				for (int i = 0; i < lessons.length(); i++) {
 					JSONObject lesson = lessons.getJSONObject(i);
