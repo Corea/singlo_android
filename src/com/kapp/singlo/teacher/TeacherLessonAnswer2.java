@@ -33,19 +33,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TimingLogger;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.webkit.WebView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,9 +57,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 	private List<Button> causeButtonList;
 	private List<Integer> scoreList;
 
-	private Spinner recommendSpinner1;
-	private Spinner recommendSpinner2;
-
 	private ImageView profileWebView;
 	private TextView questionTextView;
 	private TextView nameTextView;
@@ -78,7 +70,7 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 
 	private ImageView downloadVideoButton;
 	private Button submitButton;
-	
+
 	private AQuery mAq;
 	private String mThummailURL;
 	private String mUserThumnailURL;
@@ -100,11 +92,11 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 		lesson_id = intent.getIntExtra("lesson_id", 0);
 		mThummailURL = intent.getStringExtra("thumnail");
 		mUserThumnailURL = intent.getStringExtra("user_thumnail");
-		
+
 		DBConnector db = new DBConnector(this);
 		lesson = db.getLesson(lesson_id);
 		db.close();
-		
+
 		mAq = new AQuery(this);
 
 		complete = false;
@@ -181,15 +173,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 					cause1ButtonOnClickListener);
 		}
 		cause = -1;
-
-		recommendSpinner1 = (Spinner) findViewById(R.id.RecommendSpinner1);
-		ArrayAdapter adapter1 = ArrayAdapter.createFromResource(this,
-				R.array.cause, android.R.layout.simple_spinner_item);
-		adapter1.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-		recommendSpinner1.setAdapter(adapter1);
-		recommendSpinner2 = (Spinner) findViewById(R.id.RecommendSpinner2);
-		recommendSpinner2.setAdapter(adapter1);
-
 	}
 
 	protected void onResume() {
@@ -367,18 +350,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 					+ Const.lineEnd + Const.lineEnd + cause + Const.lineEnd);
 
 			dos.writeBytes(Const.twoHyphens + Const.boundary + Const.lineEnd);
-			dos.writeBytes("Content-Disposition:form-data; name=\"recommend1\""
-					+ Const.lineEnd + Const.lineEnd
-					+ recommendSpinner1.getSelectedItemPosition()
-					+ Const.lineEnd);
-
-			dos.writeBytes(Const.twoHyphens + Const.boundary + Const.lineEnd);
-			dos.writeBytes("Content-Disposition:form-data; name=\"recommend2\""
-					+ Const.lineEnd + Const.lineEnd
-					+ recommendSpinner2.getSelectedItemPosition()
-					+ Const.lineEnd);
-
-			dos.writeBytes(Const.twoHyphens + Const.boundary + Const.lineEnd);
 			dos.writeBytes("Content-Disposition:form-data; name=\"image_count\""
 					+ Const.lineEnd
 					+ Const.lineEnd
@@ -459,7 +430,7 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 
 			for (int i = 0; i < changeTimeList.size(); i++) {
 				dos.writeBytes(Const.twoHyphens + Const.boundary
-						+ Const.lineEnd); 
+						+ Const.lineEnd);
 				dos.writeBytes("Content-Disposition:form-data; name=\"timing"
 						+ i + "\"" + Const.lineEnd + Const.lineEnd
 						+ changeTimeList.get(i) + Const.lineEnd);
@@ -493,14 +464,6 @@ public class TeacherLessonAnswer2 extends SingloTeacherActivity {
 			if (cause == -1) {
 				Toast.makeText(TeacherLessonAnswer2.this, "증상을 진단하지 않으셨습니다.",
 						Toast.LENGTH_SHORT).show();
-				return;
-			}
-			if (recommendSpinner1.getSelectedItemPosition() == Spinner.INVALID_POSITION
-					|| recommendSpinner1.getSelectedItemPosition() == 0
-					|| recommendSpinner2.getSelectedItemPosition() == Spinner.INVALID_POSITION
-					|| recommendSpinner2.getSelectedItemPosition() == 0) {
-				Toast.makeText(TeacherLessonAnswer2.this,
-						"추천 훈련을 선택하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
 				return;
 			}
 			if (complete == false) {

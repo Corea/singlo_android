@@ -37,7 +37,6 @@ import com.kapp.singlo.util.JSONParser;
 
 @SuppressLint("NewApi")
 public class TeacherSetting extends SingloTeacherActivity {
-	private ImageButton pushStatusImageButton;
 	private ImageButton lessonStatusImageButton;
 
 	private LinearLayout noticeLinearLayout;
@@ -46,7 +45,6 @@ public class TeacherSetting extends SingloTeacherActivity {
 	private LinearLayout logoutLinearLayout;
 
 	private int teacher_id;
-	private int sw = 0;
 	private Professional professional;
 
 	private void removeLoginPreferences() {
@@ -72,9 +70,6 @@ public class TeacherSetting extends SingloTeacherActivity {
 		professional = db.getProfessionalByServerID(teacher_id);
 		db.close();
 
-		pushStatusImageButton = (ImageButton) findViewById(R.id.PushStatusImageButton);
-		pushStatusImageButton
-				.setOnClickListener(pushStatusImageButtonOnClickListener);
 		lessonStatusImageButton = (ImageButton) findViewById(R.id.LessonStatusImageButton);
 		lessonStatusImageButton
 				.setOnClickListener(lessonStatusImageButtonOnClickListener);
@@ -89,15 +84,12 @@ public class TeacherSetting extends SingloTeacherActivity {
 		deactiveLinearLayout
 				.setOnClickListener(deactiveLinearLayoutOnClickListener);
 
-		if (sw == 0) {
-			pushStatusImageButton.setBackgroundResource(R.drawable.switchoff_btn);
-		} else {
-			pushStatusImageButton.setBackgroundResource(R.drawable.switchon_btn);
-		}
 		if (professional.getStatus() == 1) {
-			lessonStatusImageButton.setBackgroundResource(R.drawable.switchon_btn);
+			lessonStatusImageButton
+					.setBackgroundResource(R.drawable.switchon_btn);
 		} else {
-			lessonStatusImageButton.setBackgroundResource(R.drawable.switchoff_btn);
+			lessonStatusImageButton
+					.setBackgroundResource(R.drawable.switchoff_btn);
 		}
 	}
 
@@ -106,21 +98,6 @@ public class TeacherSetting extends SingloTeacherActivity {
 
 		setTopImage(3);
 	}
-
-	private OnClickListener pushStatusImageButtonOnClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			sw = 1 - sw;
-
-			if (sw == 0) {
-				pushStatusImageButton
-						.setBackgroundResource(R.drawable.switchoff_btn);
-			} else {
-				pushStatusImageButton.setBackgroundResource(R.drawable.switchon_btn);
-			}
-		}
-	};
 
 	private LessonStatusTeacherAsyncTask lessonStatusTeacherAsyncTask;
 	private OnClickListener lessonStatusImageButtonOnClickListener = new OnClickListener() {
