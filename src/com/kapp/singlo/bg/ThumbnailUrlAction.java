@@ -1,7 +1,6 @@
 package com.kapp.singlo.bg;
 
 import java.io.InputStream;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,7 +17,7 @@ import org.json.JSONObject;
 import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 
-public class ThumnailUrlAction {
+public class ThumbnailUrlAction {
 	
 	public String getThumnailUrl(HashMap<String, String> params){
 		

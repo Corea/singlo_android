@@ -88,6 +88,8 @@ public class LessonRequestPage2Slow extends Activity {
 	private Activity mActivity;
 	private HashMap<Integer, String> levelHashMap;
 
+	private ArrayList<Purchase> purchaseList;
+
 	// List additionalSkuList = new List();
 	// additionalSkuList.add("com.kapp.singlo.masterpro");
 	// additionalSkuList.add("com.kapp.singlo.semipro");
@@ -99,6 +101,7 @@ public class LessonRequestPage2Slow extends Activity {
 		levelHashMap.put(9900, HEAD_PRO);
 		levelHashMap.put(5900, PRO_EVENT); // PRO
 		levelHashMap.put(3900, SEMI_PRO_EVENT); // SEMI_PRO
+		levelHashMap.put(2900, SEMI_PRO_EVENT); // SEMI_PRO
 
 		mActivity = this;
 		String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuzmpFd1j/O1CYxR6k5QKjozel0TtFhWTK6aeWB8aIp9R4W6SH//DO/9DutcGDAGs3IWBjPeYA+DLI7A3Qjx2j50K4IdYXWtKeFIQVMatuSUZxwzgB6Aj90trhmbkdPpAAlaMgqyW/ynV8lrRilV6tnzV43RNW/UcQvBL74sq+m10QMQEekOuK4i/eOw2qpwfyyz4mV5DOsMoec0d9pmHjmq+UGyRSCaV6g6Sx79PgiMfYspTtyTuYaoZDQuPQFnLvCbAV2cbcpTdZVmuAU6morsuQl+7XHYowjz+7Fg2P5jfZ6k3UmeTtEQD+8AE3YA56I7VBPIYQ3Y/1akpXymohQIDAQAB";
@@ -111,6 +114,7 @@ public class LessonRequestPage2Slow extends Activity {
 			public void onIabSetupFinished(IabResult result) {
 				// TODO Auto-generated method stub
 				if (!result.isSuccess()) {
+					Log.d("start setup error", result.getMessage());
 					// Oh noes, there was a problem.
 
 				}
@@ -118,6 +122,7 @@ public class LessonRequestPage2Slow extends Activity {
 				// Hooray, IAB is fully set up!
 			}
 		});
+		purchaseList = new ArrayList<Purchase>();
 
 		SharedPreferences spLogin = getSharedPreferences("login",
 				Activity.MODE_PRIVATE);
@@ -277,9 +282,20 @@ public class LessonRequestPage2Slow extends Activity {
 	OnClickListener paymentImageButtonOnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			if (submitProcess) {
+				return;
+			}
+			if (selectedData.size() == 0) {
+				Toast.makeText(LessonRequestPage2Slow.this,
+						"적어도 한 명 이상의 프로를 선택해야합니다.", Toast.LENGTH_LONG).show();
+				return;
+			}
+			submitProcess = true;
+			status = true;
+
 			purchaseItemCount = 0;
 			// TODO: 주석 삭제. 그래야 결제 과정 넘어갈 수 있음.
-			requestPurchase();
+			// requestPurchase();
 			uploadVideo();
 		}
 	};
@@ -311,7 +327,8 @@ public class LessonRequestPage2Slow extends Activity {
 			if (LessonRequestPage1.lessonRequestPage1Activity != null) {
 				LessonRequestPage1.lessonRequestPage1Activity.finish();
 			}
-			Intent intent = new Intent(LessonRequestPage2Slow.this, Mylesson.class);
+			Intent intent = new Intent(LessonRequestPage2Slow.this,
+					Mylesson.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 			overridePendingTransition(R.anim.fade, R.anim.hold);
@@ -360,6 +377,10 @@ public class LessonRequestPage2Slow extends Activity {
 						+ Const.lineEnd
 						+ Const.lineEnd
 						+ professional.getServerId() + Const.lineEnd);
+				dos.writeBytes("Content-Disposition:form-data; name=\"purchase_id[]\""
+						+ Const.lineEnd
+						+ Const.lineEnd
+						+ purchaseList.get(i).getToken() + Const.lineEnd);
 				Log.d("SAJO",
 						"professional.getServerId() : "
 								+ professional.getServerId());
@@ -432,6 +453,7 @@ public class LessonRequestPage2Slow extends Activity {
 						requestPurchase();
 					}
 				} else {
+					submitProcess = false;
 					// handle error
 				}
 			}
@@ -443,8 +465,10 @@ public class LessonRequestPage2Slow extends Activity {
 				// TODO Auto-generated method stub
 				if (result.isFailure()) {
 					Log.d("SAJO", "Error purchasing: " + result);
+					submitProcess = false;
 					return;
 				} else {
+					purchaseList.add(purchase);
 					Log.d("SAJO", "item : " + purchase.getSku());
 					mHelper.consumeAsync(purchase, mConsumeFinishedListener);
 
@@ -471,16 +495,6 @@ public class LessonRequestPage2Slow extends Activity {
 	}
 
 	private void uploadVideo() {
-		if (submitProcess) {
-			return;
-		}
-		if (selectedData.size() == 0) {
-			Toast.makeText(LessonRequestPage2Slow.this,
-					"적어도 한 명 이상의 프로를 선택해야합니다.", Toast.LENGTH_LONG).show();
-			return;
-		}
-		submitProcess = true;
-		status = true;
 
 		processDialog = new ProgressDialog(LessonRequestPage2Slow.this);
 		processDialog.setMessage("동영상을 업로드 하고 있습니다.");

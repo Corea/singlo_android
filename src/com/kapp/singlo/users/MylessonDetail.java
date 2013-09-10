@@ -3,7 +3,6 @@ package com.kapp.singlo.users;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -21,25 +20,19 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -59,12 +52,13 @@ import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;
 
 @SuppressLint("NewApi")
-public class MylessonDetail extends SingloUserActivity implements OnClickListener{
+public class MylessonDetail extends SingloUserActivity implements
+		OnClickListener {
 	private List<Integer> causeIDList;
 	private List<Integer> causeStringList;
 	private List<Integer> causeTitleStringList;
 	private ArrayList<Integer> mRecommendList;
-	
+
 	private List<LessonAnswerImage> lessonAnswerImageList;
 
 	private Button lessonTabButton;
@@ -73,8 +67,6 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 
 	private WebView profileWebView;
 	private ImageView causeImageView;
-	private ImageView recommendImageView1;
-	private ImageView recommendImageView2;
 	private ImageView thumbnailImageView;
 
 	private List<SeekBar> seekBarList;
@@ -156,15 +148,17 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 		causeTitleStringList.add(R.string.causeTitle_11);
 		causeTitleStringList.add(R.string.causeTitle_12);
 
-		
-
 		lessonTabButton = (Button) findViewById(R.id.LessonTabButton);
 		lessonTabButton.setOnClickListener(lessonTabImageButtonListener);
 		mySwingTabButton = (Button) findViewById(R.id.MySwingTabButton);
 		mySwingTabButton.setOnClickListener(mySwingTabImageButtonListener);
 		evaluationButton = (Button) findViewById(R.id.EvaluationButton);
-		evaluationButton
-				.setOnClickListener(evaluationImageButtonOnClickListener);
+		if (lesson.getEvaluationStatus() == 1) {
+			evaluationButton.setVisibility(Button.GONE);
+		} else {
+			evaluationButton
+					.setOnClickListener(evaluationImageButtonOnClickListener);
+		}
 
 		nameTextView = (TextView) findViewById(R.id.NameTextView);
 		datetimeTextView = (TextView) findViewById(R.id.DatetimeTextView);
@@ -202,8 +196,6 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 		thumbnailImageView
 				.setOnClickListener(thumbnailImageViewOnClickListener);
 		causeImageView = (ImageView) findViewById(R.id.CauseImageView);
-		/*recommendImageView1 = (ImageView) findViewById(R.id.RecommendImageView1);
-		recommendImageView2 = (ImageView) findViewById(R.id.RecommendImageView2);*/
 		profileWebView = (WebView) findViewById(R.id.ProfileWebView);
 		if (professional.getPhoto() == null) {
 			profileWebView.loadDataWithBaseURL(null,
@@ -223,13 +215,20 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 		lessonDetailTask.execute();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		if (lesson.getEvaluationStatus() == 1) {
+			evaluationButton.setVisibility(Button.GONE);
+		}
+	}
+
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		switch (keyCode) {
 
 		case KeyEvent.KEYCODE_BACK:
-			// Toast.makeText(this, "Did's you want cancel this app?",
-			// Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(MylessonDetail.this, Mylesson.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 			startActivity(intent);
@@ -242,20 +241,6 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 		return super.onKeyDown(keyCode, event);
 
 	}
-
-	/*
-	 * private OnTouchListener playButtonTouchListener = new OnTouchListener() {
-	 * 
-	 * @Override public boolean onTouch(View v, MotionEvent event) { switch
-	 * (event.getAction()) { case MotionEvent.ACTION_DOWN:
-	 * 
-	 * Intent intent = new Intent(MylessonDetail.this, SingloVideoView.class);
-	 * intent.putExtra("url", lessonAnswer.getVideo()); startActivity(intent);
-	 * 
-	 * break;
-	 * 
-	 * } return false; } };
-	 */
 
 	private OnClickListener lessonTabImageButtonListener = new OnClickListener() {
 
@@ -304,82 +289,27 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(MylessonDetail.this,
-					MylessonEvaluation.class);
-			intent.putExtra("lesson_id", lesson_id);
-			startActivity(intent);
+			if (lesson.getEvaluationStatus() == 1) {
+				String msg = "이미 평가를 하셨습니다.";
+				AlertDialog.Builder gsDialog = new AlertDialog.Builder(
+						MylessonDetail.this);
 
+				gsDialog.setTitle("평가 완료");
+				gsDialog.setMessage(msg);
+				gsDialog.setPositiveButton("OK",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+							}
+						}).create().show();
+			} else {
+				Intent intent = new Intent(MylessonDetail.this,
+						MylessonEvaluation.class);
+				intent.putExtra("lesson_id", lesson_id);
+				startActivity(intent);
+			}
 		}
 	};
-
-	private static final int MAX_SIZE = 1024;
-
-	private Drawable createLargeDrawable(int resId) throws IOException {
-
-		InputStream is = getResources().openRawResource(resId);
-		BitmapRegionDecoder brd = BitmapRegionDecoder.newInstance(is, true);
-
-		try {
-			Point point = new Point();
-			((WindowManager) getSystemService(WINDOW_SERVICE))
-					.getDefaultDisplay().getSize(point);
-			double ratio = point.x / (double) brd.getWidth();
-			if (brd.getWidth() <= MAX_SIZE && brd.getHeight() <= MAX_SIZE) {
-				Bitmap resize = Bitmap.createScaledBitmap(
-						BitmapFactory.decodeResource(getResources(), resId),
-						(int) Math.floor(brd.getWidth() * ratio),
-						(int) Math.floor(brd.getHeight() * ratio), true);
-				return new BitmapDrawable(getResources(), resize);
-			}
-
-			int rowCount = (int) Math.ceil((float) brd.getHeight()
-					/ (float) MAX_SIZE);
-			int colCount = (int) Math.ceil((float) brd.getWidth()
-					/ (float) MAX_SIZE);
-
-			BitmapDrawable[] drawables = new BitmapDrawable[rowCount * colCount];
-
-			for (int i = 0; i < rowCount; i++) {
-
-				int top = MAX_SIZE * i;
-				int bottom = i == rowCount - 1 ? brd.getHeight() : top
-						+ MAX_SIZE;
-
-				for (int j = 0; j < colCount; j++) {
-
-					int left = MAX_SIZE * j;
-					int right = j == colCount - 1 ? brd.getWidth() : left
-							+ MAX_SIZE;
-
-					int dstWidth = (int) Math.floor((right - left) * ratio);
-					int dstHeight = (int) Math.floor((bottom - top) * ratio);
-
-					Bitmap b = brd.decodeRegion(new Rect(left, top, right,
-							bottom), null);
-					Bitmap resize = Bitmap.createScaledBitmap(b, dstWidth,
-							dstHeight, true);
-					BitmapDrawable bd = new BitmapDrawable(getResources(),
-							resize);
-					bd.setGravity(Gravity.TOP | Gravity.LEFT);
-					drawables[i * colCount + j] = bd;
-				}
-			}
-
-			LayerDrawable ld = new LayerDrawable(drawables);
-			for (int i = 0; i < rowCount; i++) {
-				for (int j = 0; j < colCount; j++) {
-
-					ld.setLayerInset(i * colCount + j,
-							(int) Math.floor(MAX_SIZE * j * ratio),
-							(int) Math.floor(MAX_SIZE * i * ratio), 0, 0);
-				}
-			}
-
-			return ld;
-		} finally {
-			brd.recycle();
-		}
-	}
 
 	private class LessonDetailTask extends AsyncTask<Void, Void, Void> {
 
@@ -431,16 +361,6 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 					.getCause()));
 			causeTitleTextView.setText(causeTitleStringList.get(lessonAnswer
 					.getCause()));
-			/*try {
-				recommendImageView1
-						.setImageDrawable(createLargeDrawable(recommendIDList
-								.get(lessonAnswer.getRecommend1() - 1)));
-				recommendImageView2
-						.setImageDrawable(createLargeDrawable(recommendIDList
-								.get(lessonAnswer.getRecommend2() - 1)));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}*/
 
 			String path = Const.VIDEO_URL
 					+ lessonAnswerImageList.get(0).getImage();
@@ -497,12 +417,12 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 					String sound = json.getString("sound");
 					String created_datetime = json
 							.getString("created_datetime");
-					
+
 					mRecommendList = new ArrayList<Integer>();
 					JSONArray mRecommendArray = json.getJSONArray("recommend");
-					
-					for(int i = 0; i < mRecommendArray.length(); i++){
-						mRecommendList.add(mRecommendArray.getInt(i));												
+
+					for (int i = 0; i < mRecommendArray.length(); i++) {
+						mRecommendList.add(mRecommendArray.getInt(i));
 					}
 
 					LessonAnswer lessonAnswer = new LessonAnswer(
@@ -580,7 +500,7 @@ public class MylessonDetail extends SingloUserActivity implements OnClickListene
 			Intent aIntent = new Intent(this, RecommendActivity.class);
 			aIntent.putExtra("recommend", mRecommendList);
 			startActivity(aIntent);
-			
+
 			break;
 
 		default:

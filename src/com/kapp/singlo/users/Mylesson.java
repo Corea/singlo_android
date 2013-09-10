@@ -35,7 +35,6 @@ import android.widget.Toast;
 
 import com.kapp.singlo.R;
 import com.kapp.singlo.adapter.MyLessonAdapter;
-import com.kapp.singlo.bg.ThumnailUrlAction;
 import com.kapp.singlo.data.DBConnector;
 import com.kapp.singlo.data.Lesson;
 import com.kapp.singlo.meta.SingloUserActivity;
@@ -265,8 +264,6 @@ public class Mylesson extends SingloUserActivity {
 
 				JSONArray lessons = json.getJSONArray("lessons");
 
-				ThumnailUrlAction mThumnailAction = new ThumnailUrlAction();
-
 				for (int i = 0; i < lessons.length(); i++) {
 					JSONObject lesson = lessons.getJSONObject(i);
 
@@ -285,8 +282,6 @@ public class Mylesson extends SingloUserActivity {
 						params.put("lesson_id", Integer.toString(server_id));
 						params.put("current_position", "0");
 
-						// String thumnail =
-						// mThumnailAction.getThumnailUrl(params);
 						String thumbnail = lesson.getString("thumbnail");
 
 						int user_id = lesson.getInt("user_id");
@@ -306,14 +301,15 @@ public class Mylesson extends SingloUserActivity {
 								lesson.getString("question"), "UTF-8");
 						String created_datetime = lesson
 								.getString("created_datetime");
-
 						String user_name = Utility.strDecoder(lesson
 								.getString("user_name"));
+						temp = lesson.getBoolean("evaluation_status");
+						int evaluation_status = (temp ? 1 : 0);
 
 						Lesson lesson_db = new Lesson(server_id, user_id,
 								teacher_id, lesson_type, video, club_type,
 								question, created_datetime, status, user_name,
-								thumbnail);
+								thumbnail, evaluation_status);
 						dbConnector.addLesson(lesson_db);
 						Log.d("loading_lesson_list", "add " + question);
 					}
