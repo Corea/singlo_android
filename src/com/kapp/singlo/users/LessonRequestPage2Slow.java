@@ -165,9 +165,9 @@ public class LessonRequestPage2Slow extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (mHelper != null)
-			mHelper.dispose();
-		mHelper = null;
+		//if (mHelper != null)
+		//	mHelper.dispose();
+		//mHelper = null;
 	}
 
 	private void loading_list() {
@@ -377,10 +377,10 @@ public class LessonRequestPage2Slow extends Activity {
 						+ Const.lineEnd
 						+ Const.lineEnd
 						+ professional.getServerId() + Const.lineEnd);
-				dos.writeBytes("Content-Disposition:form-data; name=\"purchase_id[]\""
-						+ Const.lineEnd
-						+ Const.lineEnd
-						+ purchaseList.get(i).getToken() + Const.lineEnd);
+				//dos.writeBytes("Content-Disposition:form-data; name=\"purchase_id[]\""
+				//		+ Const.lineEnd
+				//		+ Const.lineEnd
+				//		+ purchaseList.get(i).getToken() + Const.lineEnd);
 				Log.d("SAJO",
 						"professional.getServerId() : "
 								+ professional.getServerId());
