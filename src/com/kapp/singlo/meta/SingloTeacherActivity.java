@@ -1,6 +1,5 @@
 package com.kapp.singlo.meta;
 
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-
 import com.kapp.singlo.R;
 import com.kapp.singlo.teacher.TeacherGolfbag;
 import com.kapp.singlo.teacher.TeacherHome;
@@ -19,10 +17,8 @@ import com.kapp.singlo.teacher.TeacherLesson;
 import com.kapp.singlo.teacher.TeacherSetting;
 import com.kapp.singlo.users.Login;
 
-
 @SuppressLint("NewApi")
 public class SingloTeacherActivity extends Activity {
-
 
 	private ImageButton homeImageButton;
 	private ImageButton mylessonImageButton;
@@ -30,18 +26,14 @@ public class SingloTeacherActivity extends Activity {
 	private ImageButton settingImageButton;
 	private TextView mylessonAlertTextView;
 
-
 	private Context context;
 
-
 	private int topIndex;
-
 
 	protected void setTopMenu(int index) {
 		SharedPreferences spLogin = getSharedPreferences("login",
 				Login.MODE_PRIVATE);
 		int count = spLogin.getInt("count", 0);
-
 
 		homeImageButton = (ImageButton) findViewById(R.id.HomeImageButton);
 		homeImageButton.setOnClickListener(homeImageButtonOnClickListener);
@@ -55,7 +47,6 @@ public class SingloTeacherActivity extends Activity {
 		settingImageButton
 				.setOnClickListener(settingImageButtonOnClickListener);
 
-
 		mylessonAlertTextView = (TextView) findViewById(R.id.MylessonAlertButton);
 		if (count == 0) {
 			mylessonAlertTextView.setVisibility(View.INVISIBLE);
@@ -64,19 +55,16 @@ public class SingloTeacherActivity extends Activity {
 			mylessonAlertTextView.setText("" + count);
 		}
 
-
 		topIndex = index;
 		setTopImage(topIndex);
 		context = this;
 	}
-
 
 	protected void setTopImage(int index) {
 		homeImageButton.setImageResource(R.drawable.profileoff_btn);
 		mylessonImageButton.setImageResource(R.drawable.mylessonoff_btn);
 		golfbagImageButton.setImageResource(R.drawable.golfbagoff_btn);
 		settingImageButton.setImageResource(R.drawable.settingoff_btn);
-
 
 		switch (index) {
 		case 0:
@@ -94,14 +82,11 @@ public class SingloTeacherActivity extends Activity {
 		}
 	}
 
-
 	private OnClickListener homeImageButtonOnClickListener = new OnClickListener() {
-
 
 		@Override
 		public void onClick(View v) {
 			setTopImage(0);
-
 
 			if (context.getClass() == TeacherHome.class) {
 				return;
@@ -114,14 +99,11 @@ public class SingloTeacherActivity extends Activity {
 		}
 	};
 
-
 	private OnClickListener mylessonImageButtonOnClickListener = new OnClickListener() {
-
 
 		@Override
 		public void onClick(View v) {
 			setTopImage(1);
-
 
 			if (context.getClass() == TeacherLesson.class) {
 				return;
@@ -134,14 +116,11 @@ public class SingloTeacherActivity extends Activity {
 		}
 	};
 
-
 	private OnClickListener golfbagImageButtonOnClickListener = new OnClickListener() {
-
 
 		@Override
 		public void onClick(View v) {
 			setTopImage(2);
-
 
 			if (context.getClass() == TeacherGolfbag.class) {
 				return;
@@ -152,18 +131,14 @@ public class SingloTeacherActivity extends Activity {
 			finish();
 			overridePendingTransition(0, 0);
 
-
 		}
 	};
 
-
 	private OnClickListener settingImageButtonOnClickListener = new OnClickListener() {
-
 
 		@Override
 		public void onClick(View v) {
 			setTopImage(3);
-
 
 			if (context.getClass() == TeacherSetting.class) {
 				return;
@@ -176,4 +151,3 @@ public class SingloTeacherActivity extends Activity {
 		}
 	};
 }
-

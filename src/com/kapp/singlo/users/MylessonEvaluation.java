@@ -22,7 +22,9 @@ import com.kapp.singlo.util.Const;
 import com.kapp.singlo.util.JSONParser;
 import com.kapp.singlo.util.Utility;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -71,7 +73,7 @@ public class MylessonEvaluation extends SingloUserActivity {
 
 	private ProgressDialog progressDialog;
 	private EvaluationTask evaluationTask;
-	
+
 	private RelativeLayout recommendYesRelativeLayout;
 	private RelativeLayout recommendNoRelativeLayout;
 
@@ -96,6 +98,20 @@ public class MylessonEvaluation extends SingloUserActivity {
 		lesson = db.getLesson(lesson_id);
 		professional = db.getProfessionalByServerID(lesson.getTeacherID());
 		db.close();
+		if (lesson.getEvaluationStatus() == 1) {
+			String msg = "이미 평가를 하셨습니다.";
+			AlertDialog.Builder gsDialog = new AlertDialog.Builder(
+					MylessonEvaluation.this);
+
+			gsDialog.setTitle("평가 완료");
+			gsDialog.setMessage(msg);
+			gsDialog.setPositiveButton("OK",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).create().show();
+			finish();
+		}
 
 		nameTextView = (TextView) findViewById(R.id.NameTextView);
 		priceTextView = (TextView) findViewById(R.id.PriceTextView);
@@ -103,7 +119,7 @@ public class MylessonEvaluation extends SingloUserActivity {
 		certificateTextView = (TextView) findViewById(R.id.CertificationTextView);
 		scoreTextView = (TextView) findViewById(R.id.ScoreTextView);
 		scoreRatingbar = (RatingBar) findViewById(R.id.ScoreRatingBar);
-		
+
 		nameTextView.setText(professional.getName());
 		priceTextView.setText("￦" + professional.getPrice());
 		try {
@@ -140,11 +156,12 @@ public class MylessonEvaluation extends SingloUserActivity {
 		priceRatingBar = (RatingBar) findViewById(R.id.PriceRatingBar);
 
 		recommendYesRelativeLayout = (RelativeLayout) findViewById(R.id.RecommendYesRelativeLayout);
-		recommendYesRelativeLayout.setOnClickListener(recommendYesImageButtonOnClickListener);
+		recommendYesRelativeLayout
+				.setOnClickListener(recommendYesImageButtonOnClickListener);
 		recommendNoRelativeLayout = (RelativeLayout) findViewById(R.id.RecommendNoRelativeLayout);
-		recommendNoRelativeLayout.setOnClickListener(recommendNoImageButtonOnClickListener);
+		recommendNoRelativeLayout
+				.setOnClickListener(recommendNoImageButtonOnClickListener);
 
-        
 		recommendYesImageButton = (ImageButton) findViewById(R.id.RecommendYesImageButton);
 		recommendYesImageButton
 				.setOnClickListener(recommendYesImageButtonOnClickListener);
@@ -155,7 +172,8 @@ public class MylessonEvaluation extends SingloUserActivity {
 		completeButton.setOnClickListener(completeImageButtonOnClickListener);
 
 		reviewEditText = (EditText) findViewById(R.id.ReviewEditText);
-		reviewEditText.setOnEditorActionListener(reviewEditTextOnEditorActionListener);
+		reviewEditText
+				.setOnEditorActionListener(reviewEditTextOnEditorActionListener);
 	}
 
 	private OnEditorActionListener reviewEditTextOnEditorActionListener = new OnEditorActionListener() {
@@ -168,7 +186,6 @@ public class MylessonEvaluation extends SingloUserActivity {
 			return true;
 		}
 	};
-
 
 	OnClickListener recommendYesImageButtonOnClickListener = new OnClickListener() {
 		@Override
@@ -195,7 +212,6 @@ public class MylessonEvaluation extends SingloUserActivity {
 
 		@Override
 		public void onClick(View v) {
-
 			if (recommend == null) {
 				Toast.makeText(MylessonEvaluation.this, "프로님의 추천여부를 선택해주세요.",
 						Toast.LENGTH_SHORT).show();
@@ -219,7 +235,6 @@ public class MylessonEvaluation extends SingloUserActivity {
 		boolean result;
 
 		protected void onPreExecute() {
-
 			result = false;
 			super.onPreExecute();
 		}
@@ -271,13 +286,18 @@ public class MylessonEvaluation extends SingloUserActivity {
 		protected void onPostExecute(Void res) {
 			super.onPostExecute(res);
 
-			progressDialog.dismiss();
-
 			if (!result) {
+				progressDialog.dismiss();
 				Toast.makeText(MylessonEvaluation.this, "전송 중 문제가 발생했습니다.",
 						Toast.LENGTH_SHORT).show();
-
 			} else {
+				DBConnector dbConnector = new DBConnector(
+						MylessonEvaluation.this);
+				lesson.setEvaluationStatus(1);
+				dbConnector.updateLesson(lesson);
+				dbConnector.close();
+
+				progressDialog.dismiss();
 				finish();
 			}
 		}
