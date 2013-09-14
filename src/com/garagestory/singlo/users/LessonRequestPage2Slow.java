@@ -90,6 +90,8 @@ public class LessonRequestPage2Slow extends Activity {
 
 	private ArrayList<Purchase> purchaseList;
 
+	private boolean iabHelperStatus = false;
+
 	// List additionalSkuList = new List();
 	// additionalSkuList.add("com.garagestory.singlo.masterpro");
 	// additionalSkuList.add("com.garagestory.singlo.semipro");
@@ -108,7 +110,6 @@ public class LessonRequestPage2Slow extends Activity {
 
 		// compute your public key and store it in base64EncodedPublicKey
 		mHelper = new IabHelper(this, base64EncodedPublicKey);
-
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
 			@Override
 			public void onIabSetupFinished(IabResult result) {
@@ -116,7 +117,8 @@ public class LessonRequestPage2Slow extends Activity {
 				if (!result.isSuccess()) {
 					Log.d("start setup error", result.getMessage());
 					// Oh noes, there was a problem.
-
+				} else {
+					iabHelperStatus = true;
 				}
 				readyForPurchase();
 				// Hooray, IAB is fully set up!
@@ -165,9 +167,12 @@ public class LessonRequestPage2Slow extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		// if (mHelper != null)
-		// mHelper.dispose();
-		// mHelper = null;
+		if (iabHelperStatus) {
+			if (mHelper != null) {
+				mHelper.dispose();
+			}
+		}
+		mHelper = null;
 	}
 
 	private void loading_list() {
@@ -295,8 +300,11 @@ public class LessonRequestPage2Slow extends Activity {
 
 			purchaseItemCount = 0;
 			// TODO: 주석 삭제. 그래야 결제 과정 넘어갈 수 있음.
-			// requestPurchase();
-			uploadVideo();
+			if (iabHelperStatus) {
+				requestPurchase();
+			} else {
+				uploadVideo();
+			}
 		}
 	};
 
@@ -377,10 +385,12 @@ public class LessonRequestPage2Slow extends Activity {
 						+ Const.lineEnd
 						+ Const.lineEnd
 						+ professional.getServerId() + Const.lineEnd);
-				// dos.writeBytes("Content-Disposition:form-data; name=\"purchase_id[]\""
-				// + Const.lineEnd
-				// + Const.lineEnd
-				// + purchaseList.get(i).getToken() + Const.lineEnd);
+				if (purchaseList.size() > i) {
+					dos.writeBytes("Content-Disposition:form-data; name=\"purchase_id[]\""
+							+ Const.lineEnd
+							+ Const.lineEnd
+							+ purchaseList.get(i).getToken() + Const.lineEnd);
+				}
 				Log.d("SAJO",
 						"professional.getServerId() : "
 								+ professional.getServerId());
