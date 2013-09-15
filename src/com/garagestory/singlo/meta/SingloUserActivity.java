@@ -23,7 +23,7 @@ public class SingloUserActivity extends Activity {
 
 	private ImageButton homeImageButton;
 	private ImageButton mylessonImageButton;
-	private ImageButton golfbagImageButton;
+	//private ImageButton golfbagImageButton;
 	private ImageButton settingImageButton;
 	private ImageButton lessonRequestImageButton;
 	private TextView mylessonAlertTextView;
@@ -42,9 +42,8 @@ public class SingloUserActivity extends Activity {
 		mylessonImageButton = (ImageButton) findViewById(R.id.MylessonImageButton);
 		mylessonImageButton
 				.setOnClickListener(mylessonImageButtonOnClickListener);
-		golfbagImageButton = (ImageButton) findViewById(R.id.GolfbagImageButton);
-		golfbagImageButton
-				.setOnClickListener(golfbagImageButtonOnClickListener);
+		//golfbagImageButton = (ImageButton) findViewById(R.id.GolfbagImageButton);
+		//golfbagImageButton.setOnClickListener(golfbagImageButtonOnClickListener);
 		settingImageButton = (ImageButton) findViewById(R.id.SettingImageButton);
 		settingImageButton
 				.setOnClickListener(settingImageButtonOnClickListener);
@@ -66,23 +65,23 @@ public class SingloUserActivity extends Activity {
 	}
 
 	protected void setTopImage(int index) {
-		homeImageButton.setImageResource(R.drawable.prooff_btn);
-		mylessonImageButton.setImageResource(R.drawable.mylessonoff_btn);
-		golfbagImageButton.setImageResource(R.drawable.golfbagoff_btn);
-		settingImageButton.setImageResource(R.drawable.settingoff_btn);
+		homeImageButton.setImageResource(R.drawable.nogolfbag_prooff_btn);
+		mylessonImageButton.setImageResource(R.drawable.nogolfbag_mylessonoff_btn);
+		//golfbagImageButton.setImageResource(R.drawable.golfbagoff_btn);
+		settingImageButton.setImageResource(R.drawable.nogolfbag_settingoff_btn);
 
 		switch (index) {
 		case 0:
-			homeImageButton.setImageResource(R.drawable.proon_btn);
+			homeImageButton.setImageResource(R.drawable.nogolfbag_proon_btn);
 			break;
 		case 1:
-			mylessonImageButton.setImageResource(R.drawable.mylessonon_btn);
+			mylessonImageButton.setImageResource(R.drawable.nogolfbag_mylessonon_btn);
 			break;
 		case 2:
-			golfbagImageButton.setImageResource(R.drawable.golfbagon_btn);
+			//golfbagImageButton.setImageResource(R.drawable.golfbagon_btn);
 			break;
 		case 3:
-			settingImageButton.setImageResource(R.drawable.settingon_btn);
+			settingImageButton.setImageResource(R.drawable.nogolfbag_settingon_btn);
 			break;
 		}
 	}
