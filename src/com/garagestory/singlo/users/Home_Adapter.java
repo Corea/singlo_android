@@ -142,42 +142,42 @@ public class Home_Adapter extends ArrayAdapter<Professional> implements
 	private OnClickListener likestarOnClickListener = new OnClickListener() {
 
 		public void onClick(View v) {
-			ImageView likeImageView = (ImageView) v
-					.findViewById(R.id.LikeImageView);
+        ImageView likeImageView = (ImageView) v
+                .findViewById(R.id.LikeImageView);
 
-			int index = (Integer) v.getTag();
+        int index = (Integer) v.getTag();
 
-			Log.d("index", String.valueOf(index));
+        Log.d("index", String.valueOf(index));
 
-			if (!is_interested) {
-				if (items.get(index).getLike() == 0) {
-					likeImageView.setImageResource(likeImage);
-					items.get(index).setLike(1);
-				} else {
-					likeImageView.setImageResource(unlikeImage);
-					items.get(index).setLike(0);
-				}
+        if (!is_interested) {
+            if (items.get(index).getLike() == 0) {
+                likeImageView.setImageResource(likeImage);
+                items.get(index).setLike(1);
+            } else {
+                likeImageView.setImageResource(unlikeImage);
+                items.get(index).setLike(0);
+            }
 
-				likestar(index);
+            likestar(index);
 
-			} else {
-				int count = 0;
-				for (int i = 0; i < items.size(); i++) {
-					if (items.get(i).getLike() == 1) {
-						if (count == index) {
-							index = i;
-							break;
-						}
-						count++;
-					}
-				}
+        } else {
+            int count = 0;
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).getLike() == 1) {
+                    if (count == index) {
+                        index = i;
+                        break;
+                    }
+                    count++;
+                }
+            }
 
-				likeImageView.setImageResource(unlikeImage);
-				items.get(index).setLike(0);
-				likestar(index);
-				items.remove(index);
-				Home_Adapter.this.notifyDataSetChanged();
-			}
+            likeImageView.setImageResource(unlikeImage);
+            items.get(index).setLike(0);
+            likestar(index);
+            items.remove(index);
+            Home_Adapter.this.notifyDataSetChanged();
+        }
 		}
 	};
 

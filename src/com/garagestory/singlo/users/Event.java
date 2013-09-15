@@ -19,7 +19,6 @@ import com.garagestory.singlo.R;
 import com.garagestory.singlo.action.EventAction;
 import com.garagestory.singlo.action.EventAction.eventListener;
 import com.garagestory.singlo.util.Const;
-import com.garagestory.singlo.util.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -83,23 +82,26 @@ public class Event extends Activity {
     }
 
 
-
     private void setEventList(ArrayList<String> imageList) {
-        bitmapList = new ArrayList<Bitmap>();
+        if (imageList.size() > 0) {
+            bitmapList = new ArrayList<Bitmap>();
 
-        for (String image : imageList) {
-            String path = Const.EVENT_IMAGE_URL + image;
-            File cacheDir = this.getCacheDir();
-            cacheDir.mkdirs();
-            File cacheFile = new File(cacheDir, "" + path.hashCode());
-            bitmapList.add(BitmapFactory.decodeFile(cacheFile
-                    .getAbsolutePath()));
+            for (String image : imageList) {
+                String path = Const.EVENT_IMAGE_URL + image;
+                File cacheDir = this.getCacheDir();
+                cacheDir.mkdirs();
+                File cacheFile = new File(cacheDir, "" + path.hashCode());
+                bitmapList.add(BitmapFactory.decodeFile(cacheFile
+                        .getAbsolutePath()));
+            }
+
+            mViewPager = (ViewPager) findViewById(R.id.ViewPager);
+            mViewPager.setAdapter(new PagerAdapterClass(getApplicationContext()));
+            progressDialog.dismiss();
+        } else {
+            progressDialog.dismiss();
+            endAction();
         }
-
-        mViewPager = (ViewPager) findViewById(R.id.ViewPager);
-        mViewPager.setAdapter(new PagerAdapterClass(getApplicationContext()));
-
-        progressDialog.dismiss();
     }
 
     private class PagerAdapterClass extends PagerAdapter {

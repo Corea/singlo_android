@@ -15,6 +15,7 @@ public class Const {
 	public static final String LOGIN_URL = url_prefix + "/auth/login";
 	public static final String CHANGE_PROFILE_URL = url_prefix + "/auth/profile";
     public static final String EVENT_URL = url_prefix + "/auth/event";
+    public static final String BOARD_URL = url_prefix + "/auth/board";
 	
 	public static final String LESSON_ASK_FAST_URL = url_prefix + "/lesson/ask_fast";
 	public static final String LESSON_ASK_SLOW_URL = url_prefix + "/lesson/ask_slow";
