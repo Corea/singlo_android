@@ -16,13 +16,11 @@ public class LessonReviewAction extends APIGetAction{
 
 	public LessonReviewAction(String url, lessonReviewListener listener) {
 		super(url);
-		// TODO Auto-generated constructor stub
 		this.mListener = listener;
 	}
 
 	@Override
 	protected void onActionPost(JSONObject object) {
-		// TODO Auto-generated method stub	
 		try {
 			ArrayList<LessonReviewData> mListData = new ArrayList<LessonReviewData>();
 			JSONArray mJSONArray = object.getJSONArray("evaluations");
@@ -40,7 +38,6 @@ public class LessonReviewAction extends APIGetAction{
 			
 			mListener.result(mListData);
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -9,12 +9,12 @@ public class Const {
 	public static final String url_prefix = scheme + "://" + host + ":" + port;
 	
 	public static final String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.kapp.singlo";
+
 	public static final String VERSION_URL = url_prefix + "/auth/version_android";
-	
 	public static final String REGISTER_URL = url_prefix + "/auth/register";
 	public static final String LOGIN_URL = url_prefix + "/auth/login";
-	public static final String LOGOUT_URL = url_prefix + "/auth/logout";
 	public static final String CHANGE_PROFILE_URL = url_prefix + "/auth/profile";
+    public static final String EVENT_URL = url_prefix + "/auth/event";
 	
 	public static final String LESSON_ASK_FAST_URL = url_prefix + "/lesson/ask_fast";
 	public static final String LESSON_ASK_SLOW_URL = url_prefix + "/lesson/ask_slow";
@@ -32,7 +32,8 @@ public class Const {
 	
 	public static final String VIDEO_URL = url_prefix + "/video/";
 	public static final String CAPTURE_URL = url_prefix + "/capture/";
-	public static final String PROFILE_URL = url_prefix + "/profile/";
+    public static final String PROFILE_URL = url_prefix + "/profile/";
+    public static final String EVENT_IMAGE_URL = url_prefix + "/event/";
 
 	public static final String PROFILE_NONE_URL = "http://garagestory.cafe24.com/img/none.jpg" ;
 	
@@ -46,4 +47,5 @@ public class Const {
 	
 	public static final int STROKE_LINE_FACTOR = 150;
 	public static final int RADIUS_CIRCLE_FACTOR = 20;
+
 }

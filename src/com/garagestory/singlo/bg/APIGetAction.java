@@ -1,11 +1,7 @@
 package com.garagestory.singlo.bg;
 
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-
+import android.os.AsyncTask;
+import com.garagestory.singlo.util.JSONParser;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -15,80 +11,66 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import com.garagestory.singlo.util.JSONParser;
-
-import android.os.AsyncTask;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Vector;
 
 public abstract class APIGetAction extends
-		AsyncTask<HashMap<String, String>, Void, JSONObject> {
+        AsyncTask<HashMap<String, String>, Void, JSONObject> {
 
-	private String URL;
+    private String URL;
 
-	// private getAPIConnetorResultListener mListener;
+    public APIGetAction(String url) {
+        this.URL = url;
+    }
 
-	public APIGetAction(String url) {
-		this.URL = url;
-		// this.mListener = listener;
-	}
+    protected abstract void onActionPost(JSONObject object);
 
-	// protected abstract void onAction(String url);
-	protected abstract void onActionPost(JSONObject object);
+    @Override
+    protected JSONObject doInBackground(HashMap<String, String>... params) {
+        HttpClient httpClient = new DefaultHttpClient();
 
-	@Override
-	protected JSONObject doInBackground(HashMap<String, String>... params) {
-		// TODO Auto-generated method stub
+        InputStream is;
+        JSONObject json = null;
+        try {
 
-		HttpClient httpClient = new DefaultHttpClient();
+            Vector<NameValuePair> nameValuePairs = new Vector<NameValuePair>();
 
-		InputStream is;
-		JSONObject json = null;
-		try {
+            if( params.length > 0) {
+                for (String key : params[0].keySet()) {
+                    nameValuePairs.add(new BasicNameValuePair(key, URLEncoder
+                            .encode(params[0].get(key), "UTF-8")));
+                    System.out.println("key = " + key);
+                    System.out.println("value = " + params[0].get(key));
+                }
+            }
 
-			Vector<NameValuePair> nameValuePairs = new Vector<NameValuePair>();
+            HttpGet httpGet = new HttpGet(URL + "?"
+                    + URLEncodedUtils.format(nameValuePairs, "UTF-8"));
+            System.out.println("URL = " + URL + "?"
+                    + URLEncodedUtils.format(nameValuePairs, "UTF-8"));
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            is = httpResponse.getEntity().getContent();
 
-			Iterator<String> iterator = params[0].keySet().iterator();
-			while (iterator.hasNext()) {
-				String key = (String) iterator.next();
-				nameValuePairs.add(new BasicNameValuePair(key, URLEncoder
-						.encode(params[0].get(key), "UTF-8")));
-				System.out.println("key = " + key);
-				System.out.println("value = " + params[0].get(key));
-			}
-
-			HttpGet httpGet = new HttpGet(URL + "?"
-					+ URLEncodedUtils.format(nameValuePairs, "UTF-8"));
-			System.out.println("URL = " + URL + "?"
-					+ URLEncodedUtils.format(nameValuePairs, "UTF-8"));
-			HttpResponse httpResponse = httpClient.execute(httpGet);
-			is = httpResponse.getEntity().getContent();
-
-			JSONParser jParser = new JSONParser();
-			json = jParser.getJSONFromStream(is);
+            JSONParser jParser = new JSONParser();
+            json = jParser.getJSONFromStream(is);
 
 			/*
-			 * String result = json.getString("result");
+             * String result = json.getString("result");
 			 * System.out.println("result = " + result);
 			 */
 
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		return json;
-	}
+        return json;
+    }
 
-	@Override
-	protected void onPostExecute(JSONObject result) {
-		// TODO Auto-generated method stub
-		super.onPostExecute(result);
-		onActionPost(result);
-		// mListener.result(result);
-
-	}
-
-	/*
-	 * public interface getAPIConnetorResultListener{ public void
-	 * result(JSONObject object); }
-	 */
+    @Override
+    protected void onPostExecute(JSONObject result) {
+        super.onPostExecute(result);
+        onActionPost(result);
+    }
 }

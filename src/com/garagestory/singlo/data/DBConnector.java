@@ -66,7 +66,7 @@ public class DBConnector extends SQLiteOpenHelper {
 	private static final String KEY_EVALUATION_STATUS = "evaluation_status";
 	private static final String KEY_COMPANY = "company";
 	private static final String KEY_TIMING = "timing";
-	private static final String KEY_THUMNAIL = "thumnail";
+	private static final String KEY_THUMBNAIL = "thumbnail";
 
 	public DBConnector(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -93,7 +93,7 @@ public class DBConnector extends SQLiteOpenHelper {
 				+ KEY_VIDEO + " TEXT," + KEY_CLUB_TYPE + " INTEGER, "
 				+ KEY_QUESTION + " TEXT," + KEY_CREATED_DATETIME + " TEXT,"
 				+ KEY_STATUS + " INTEGER," + KEY_USER_NAME + " TEXT,"
-				+ KEY_THUMNAIL + " TEXT," + KEY_EVALUATION_STATUS + " INTEGER"
+				+ KEY_THUMBNAIL + " TEXT," + KEY_EVALUATION_STATUS + " INTEGER"
 				+ ")";
 		db.execSQL(CREATE_LESSON_TABLE);
 
@@ -324,7 +324,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_CREATED_DATETIME, lesson.getCreatedDatetime());
 		values.put(KEY_STATUS, lesson.getStatus());
 		values.put(KEY_USER_NAME, lesson.getUserName());
-		values.put(KEY_THUMNAIL, lesson.getThumnail());
+		values.put(KEY_THUMBNAIL, lesson.getThumnail());
 		values.put(KEY_EVALUATION_STATUS, lesson.getEvaluationStatus());
 
 		// Inserting Row
@@ -347,7 +347,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		values.put(KEY_CREATED_DATETIME, lesson.getCreatedDatetime());
 		values.put(KEY_STATUS, lesson.getStatus());
 		values.put(KEY_USER_NAME, lesson.getUserName());
-		values.put(KEY_THUMNAIL, lesson.getThumnail());
+		values.put(KEY_THUMBNAIL, lesson.getThumnail());
 		values.put(KEY_EVALUATION_STATUS, lesson.getEvaluationStatus());
 
 		// updating row
@@ -364,7 +364,7 @@ public class DBConnector extends SQLiteOpenHelper {
 		Cursor cursor = db.query(TABLE_LESSON, new String[] { KEY_ID,
 				KEY_SERVER_ID, KEY_USER_ID, KEY_TEACHER_ID, KEY_LESSON_TYPE,
 				KEY_VIDEO, KEY_CLUB_TYPE, KEY_QUESTION, KEY_CREATED_DATETIME,
-				KEY_STATUS, KEY_USER_NAME, KEY_THUMNAIL, KEY_EVALUATION_STATUS }, KEY_ID + "=?",
+				KEY_STATUS, KEY_USER_NAME, KEY_THUMBNAIL, KEY_EVALUATION_STATUS }, KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 
 		if (cursor != null) {

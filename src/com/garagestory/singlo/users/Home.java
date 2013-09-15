@@ -43,8 +43,6 @@ public class Home extends SingloUserActivity {
 
 	public static Activity homeActivity;
 
-	public static ProgressDialog mProgress;
-
 	private LoadingHomeAsyncTask loadingHomeAsyncTask;
 
 	private ArrayList<Professional> professionals;
@@ -200,7 +198,6 @@ public class Home extends SingloUserActivity {
 		}
 
 		return false;
-
 	}
 
 	public class LoadingHomeAsyncTask extends AsyncTask<Void, Void, Void> {

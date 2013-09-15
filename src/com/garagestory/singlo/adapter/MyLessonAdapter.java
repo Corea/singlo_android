@@ -47,7 +47,7 @@ public class MyLessonAdapter extends ArrayAdapter<Lesson> {
 			}
 			dbConnector.close();
 			
-			ImageView thumnailImgView = (ImageView)convertView.findViewById(R.id.lesson_thumnail_img);
+			ImageView thumbnailImgView = (ImageView)convertView.findViewById(R.id.lesson_thumnail_img);
 			TextView nameTextView = (TextView)convertView.findViewById(R.id.NameTextView);
 			TextView companyTextView = (TextView)convertView.findViewById(R.id.CompanyTextView);
 			TextView datetimeTextView = (TextView)convertView.findViewById(R.id.DatetimeTextView);
@@ -56,7 +56,7 @@ public class MyLessonAdapter extends ArrayAdapter<Lesson> {
 			Button clubTypeButton = (Button)convertView.findViewById(R.id.ClubTypeButton);
 			TextView questionTextView = (TextView)convertView.findViewById(R.id.QuestionTextView);
 			
-			aq.id(thumnailImgView).image(Const.CAPTURE_URL + mData.getThumnail(), true, true, 100, R.drawable.none_thumnail);
+			aq.id(thumbnailImgView).image(Const.CAPTURE_URL + mData.getThumnail(), true, true, 100, R.drawable.none_thumnail);
 			
 			if (mProData == null) {				
 				nameTextView.setText("신속 레슨");

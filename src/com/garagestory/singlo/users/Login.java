@@ -2,6 +2,7 @@ package com.garagestory.singlo.users;
 
 import java.net.URLEncoder;
 
+import android.util.Log;
 import com.garagestory.singlo.R;
 import com.garagestory.singlo.bg.CallbackListener;
 import com.garagestory.singlo.bg.LoginAsyncTask;
@@ -56,7 +57,7 @@ public class Login extends Activity implements CallbackListener {
 			try {
 				name = URLEncoder.encode(name, "UTF-8");
 			} catch (Exception e) {
-
+                Log.d("Login.java - onCreate", e.getMessage());
 			}
 
 			loginAsyncTask = new LoginAsyncTask();
@@ -157,7 +158,8 @@ public class Login extends Activity implements CallbackListener {
 			if (isProfessional) {
 				intent = new Intent(Login.this, TeacherHome.class);
 			} else {
-				intent = new Intent(Login.this, Home.class);
+                intent = new Intent(Login.this, Event.class);
+				// intent = new Intent(Login.this, Home.class);
 			}
 			if (Main.mainActivity != null) {
 				Main.mainActivity.finish();
