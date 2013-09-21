@@ -60,23 +60,23 @@ public class SingloTeacherActivity extends Activity {
 	}
 
 	protected void setTopImage(int index) {
-		homeImageButton.setImageResource(R.drawable.profileoff_btn);
-		mylessonImageButton.setImageResource(R.drawable.mylessonoff_btn);
+		homeImageButton.setImageResource(R.drawable.nogolfbag_profileoff_btn);
+		mylessonImageButton.setImageResource(R.drawable.nogolfbag_mylessonoff_btn);
 		//golfbagImageButton.setImageResource(R.drawable.golfbagoff_btn);
-		settingImageButton.setImageResource(R.drawable.settingoff_btn);
+		settingImageButton.setImageResource(R.drawable.nogolfbag_settingoff_btn);
 
 		switch (index) {
 		case 0:
-			homeImageButton.setImageResource(R.drawable.profileon_btn);
+			homeImageButton.setImageResource(R.drawable.nogolfbag_profileon_btn);
 			break;
 		case 1:
-			mylessonImageButton.setImageResource(R.drawable.mylessonon_btn);
+			mylessonImageButton.setImageResource(R.drawable.nogolfbag_mylessonon_btn);
 			break;
 		case 2:
 			//golfbagImageButton.setImageResource(R.drawable.golfbagon_btn);
 			break;
 		case 3:
-			settingImageButton.setImageResource(R.drawable.settingon_btn);
+			settingImageButton.setImageResource(R.drawable.nogolfbag_settingon_btn);
 			break;
 		}
 	}

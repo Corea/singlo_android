@@ -74,10 +74,10 @@ public class TeacherSetting extends SingloTeacherActivity {
 		lessonStatusImageButton
 				.setOnClickListener(lessonStatusImageButtonOnClickListener);
 
-		noticeLinearLayout = (LinearLayout) findViewById(R.id.NoticeLinearLayout);
-		noticeLinearLayout.setOnTouchListener(settingmenu01TouchListener);
-		helpLinearLayout = (LinearLayout) findViewById(R.id.HelpLinearLayout);
-		helpLinearLayout.setOnTouchListener(settingmenu02TouchListener);
+        noticeLinearLayout = (LinearLayout) findViewById(R.id.NoticeLinearLayout);
+        noticeLinearLayout.setOnTouchListener(noticeImageButtonTouchListener);
+        helpLinearLayout = (LinearLayout) findViewById(R.id.HelpLinearLayout);
+        helpLinearLayout.setOnTouchListener(helpImageButtonTouchListener);
 		logoutLinearLayout = (LinearLayout) findViewById(R.id.LogoutLinearLayout);
 		logoutLinearLayout.setOnTouchListener(settingmenu04TouchListener);
 		deactiveLinearLayout = (LinearLayout) findViewById(R.id.DeactiveLinearLayout);
@@ -110,26 +110,36 @@ public class TeacherSetting extends SingloTeacherActivity {
 		}
 	};
 
-	private OnTouchListener settingmenu01TouchListener = new OnTouchListener() {
-		public boolean onTouch(View v, MotionEvent event) {
 
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				break;
-			}
-			return true;
-		}
-	};
-	private OnTouchListener settingmenu02TouchListener = new OnTouchListener() {
-		public boolean onTouch(View v, MotionEvent event) {
+    private OnTouchListener noticeImageButtonTouchListener = new OnTouchListener() {
+        public boolean onTouch(View v, MotionEvent event) {
 
-			switch (event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
-				break;
-			}
-			return true;
-		}
-	};
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    Intent intent = new Intent(TeacherSetting.this, TeacherSettingBoard.class);
+                    intent.putExtra("board_name", "notice");
+                    startActivity(intent);
+
+                    break;
+            }
+            return true;
+        }
+    };
+    private OnTouchListener helpImageButtonTouchListener = new OnTouchListener() {
+        public boolean onTouch(View v, MotionEvent event) {
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+
+                    Intent intent = new Intent(TeacherSetting.this, TeacherSettingBoard.class);
+                    intent.putExtra("board_name", "help");
+                    startActivity(intent);
+
+                    break;
+            }
+            return true;
+        }
+    };
 	private OnTouchListener settingmenu04TouchListener = new OnTouchListener() {
 		public boolean onTouch(View v, MotionEvent event) {
 
