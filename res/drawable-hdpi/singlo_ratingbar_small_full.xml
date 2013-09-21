@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/background"
+        android:id="@+android:id/background"
         android:drawable="@drawable/singlo_ratingbar_small_full_empty"/>
     <item
-        android:id="@+id/secondaryProgress"
+        android:id="@+android:id/secondaryProgress"
         android:drawable="@drawable/singlo_ratingbar_small_full_empty"/>
     <item
-        android:id="@+id/progress"
+        android:id="@+android:id/progress"
         android:drawable="@drawable/singlo_ratingbar_small_full_filled"/>
 
 </layer-list>

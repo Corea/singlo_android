@@ -73,7 +73,7 @@
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/profileoff_btn" />
+            android:src="@drawable/nogolfbag_profileoff_btn" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
-                android:src="@drawable/mylessonoff_btn" />
+                android:src="@drawable/nogolfbag_mylessonoff_btn" />
 
             <TextView
                 android:id="@+id/MylessonAlertButton"
@@ -106,16 +106,6 @@
         </RelativeLayout>
 
         <ImageButton
-            android:id="@+id/GolfbagImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/golfbagoff_btn" />
-
-        <ImageButton
             android:id="@+id/SettingImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,7 +113,7 @@
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
-            android:src="@drawable/settingoff_btn" />
+            android:src="@drawable/nogolfbag_settingoff_btn" />
     </LinearLayout>
 
 </LinearLayout>

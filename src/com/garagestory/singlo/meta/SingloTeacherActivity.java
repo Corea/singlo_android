@@ -22,7 +22,7 @@ public class SingloTeacherActivity extends Activity {
 
 	private ImageButton homeImageButton;
 	private ImageButton mylessonImageButton;
-	private ImageButton golfbagImageButton;
+	//private ImageButton golfbagImageButton;
 	private ImageButton settingImageButton;
 	private TextView mylessonAlertTextView;
 
@@ -40,9 +40,8 @@ public class SingloTeacherActivity extends Activity {
 		mylessonImageButton = (ImageButton) findViewById(R.id.MylessonImageButton);
 		mylessonImageButton
 				.setOnClickListener(mylessonImageButtonOnClickListener);
-		golfbagImageButton = (ImageButton) findViewById(R.id.GolfbagImageButton);
-		golfbagImageButton
-				.setOnClickListener(golfbagImageButtonOnClickListener);
+		//golfbagImageButton = (ImageButton) findViewById(R.id.GolfbagImageButton);
+		//golfbagImageButton.setOnClickListener(golfbagImageButtonOnClickListener);
 		settingImageButton = (ImageButton) findViewById(R.id.SettingImageButton);
 		settingImageButton
 				.setOnClickListener(settingImageButtonOnClickListener);
@@ -63,7 +62,7 @@ public class SingloTeacherActivity extends Activity {
 	protected void setTopImage(int index) {
 		homeImageButton.setImageResource(R.drawable.profileoff_btn);
 		mylessonImageButton.setImageResource(R.drawable.mylessonoff_btn);
-		golfbagImageButton.setImageResource(R.drawable.golfbagoff_btn);
+		//golfbagImageButton.setImageResource(R.drawable.golfbagoff_btn);
 		settingImageButton.setImageResource(R.drawable.settingoff_btn);
 
 		switch (index) {
@@ -74,7 +73,7 @@ public class SingloTeacherActivity extends Activity {
 			mylessonImageButton.setImageResource(R.drawable.mylessonon_btn);
 			break;
 		case 2:
-			golfbagImageButton.setImageResource(R.drawable.golfbagon_btn);
+			//golfbagImageButton.setImageResource(R.drawable.golfbagon_btn);
 			break;
 		case 3:
 			settingImageButton.setImageResource(R.drawable.settingon_btn);
@@ -116,7 +115,7 @@ public class SingloTeacherActivity extends Activity {
 		}
 	};
 
-	private OnClickListener golfbagImageButtonOnClickListener = new OnClickListener() {
+	/*private OnClickListener golfbagImageButtonOnClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
@@ -132,7 +131,7 @@ public class SingloTeacherActivity extends Activity {
 			overridePendingTransition(0, 0);
 
 		}
-	};
+	};*/
 
 	private OnClickListener settingImageButtonOnClickListener = new OnClickListener() {
 
