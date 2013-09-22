@@ -18,7 +18,8 @@ public class Const {
     public static final String BOARD_URL = url_prefix + "/auth/board";
 	
 	public static final String LESSON_ASK_FAST_URL = url_prefix + "/lesson/ask_fast";
-	public static final String LESSON_ASK_SLOW_URL = url_prefix + "/lesson/ask_slow";
+    public static final String LESSON_ASK_SLOW_URL = url_prefix + "/lesson/ask_slow_solo";
+    public static final String LESSON_ASK_SLOW_PAYMENT_URL = url_prefix + "/lesson/ask_slow_payment";
 	public static final String LESSON_GET_LIST_URL = url_prefix + "/lesson/get_list";
 	public static final String LESSON_GET_LIST_USER_URL = url_prefix + "/lesson/get_list_user";
 	public static final String LESSON_ANSWER_URL = url_prefix + "/lesson/answer";

@@ -23,9 +23,9 @@ public class APIPostAction extends AsyncTask<HashMap<String, String>, Void, JSON
 	
 	private String URL;
 	
-	private getAPIConnetorResultListener mListener;
+	private getAPIConnectorResultListener mListener;
 	
-	public APIPostAction(String url, getAPIConnetorResultListener listener){
+	public APIPostAction(String url, getAPIConnectorResultListener listener){
 		this.URL = url;
 		this.mListener = listener;
 	}
@@ -81,7 +81,7 @@ public class APIPostAction extends AsyncTask<HashMap<String, String>, Void, JSON
 		
 	}
 	
-	public interface getAPIConnetorResultListener{
+	public interface getAPIConnectorResultListener {
 		public void result(JSONObject object);
 	}
 }

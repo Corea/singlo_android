@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import com.androidquery.AQuery;
 import com.garagestory.singlo.R;
 import com.garagestory.singlo.bg.APIPostAction;
-import com.garagestory.singlo.bg.APIPostAction.getAPIConnetorResultListener;
 import com.garagestory.singlo.data.DBConnector;
 import com.garagestory.singlo.data.Lesson;
 import com.garagestory.singlo.meta.SingloTeacherActivity;
@@ -48,7 +47,7 @@ public class TeacherLessonAnswer1 extends SingloTeacherActivity {
 	
 	private AQuery mAq;
 	
-	private getAPIConnetorResultListener mUserProfileListener = new getAPIConnetorResultListener() {
+	private APIPostAction.getAPIConnectorResultListener mUserProfileListener = new APIPostAction.getAPIConnectorResultListener() {
 		
 		@Override
 		public void result(JSONObject object) {
