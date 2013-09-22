@@ -260,7 +260,7 @@ public class LessonRequestPage2Slow extends Activity {
             if (!adapter.getInterested()) {
                 return;
             }
-            adapter.setIntrested(false);
+            adapter.setInterested(false);
             loading_list();
             adapter.notifyDataSetChanged();
         }
@@ -272,7 +272,7 @@ public class LessonRequestPage2Slow extends Activity {
             if (adapter.getInterested()) {
                 return;
             }
-            adapter.setIntrested(true);
+            adapter.setInterested(true);
             loading_list();
             adapter.notifyDataSetChanged();
         }
@@ -284,9 +284,9 @@ public class LessonRequestPage2Slow extends Activity {
             if (submitProcess) {
                 return;
             }
-            if (selectedData.size() == 0) {
+            if (selectedData.size() != 1) {
                 Toast.makeText(LessonRequestPage2Slow.this,
-                        "적어도 한 명 이상의 프로를 선택해야합니다.", Toast.LENGTH_LONG).show();
+                        "한명의 프로만 선택해야합니다.", Toast.LENGTH_LONG).show();
                 return;
             }
             for (int i = 0; i < selectedData.size(); i++) {

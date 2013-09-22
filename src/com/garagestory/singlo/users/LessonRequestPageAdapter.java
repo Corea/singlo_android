@@ -43,7 +43,7 @@ public class LessonRequestPageAdapter extends ArrayAdapter<Professional> {
 		checkList.delete(items.get(index).getServerId());
 	}
 
-	public void setIntrested(Boolean interested) {
+	public void setInterested(Boolean interested) {
 		is_interested = interested;
 	}
 
