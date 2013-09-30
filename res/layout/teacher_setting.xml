@@ -16,7 +16,7 @@
             android:id="@+id/NoticeLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:orientation="horizontal" >
 
             <TextView
@@ -46,7 +46,7 @@
             android:id="@+id/HelpLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:orientation="horizontal" >
 
             <TextView
@@ -75,7 +75,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:orientation="horizontal" >
 
             <TextView
@@ -107,7 +107,7 @@
             android:id="@+id/DeactiveLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:clickable="true"
             android:orientation="horizontal" >
 
@@ -136,7 +136,7 @@
             android:id="@+id/LogoutLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:orientation="horizontal" >
 
             <TextView
