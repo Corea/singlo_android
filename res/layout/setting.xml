@@ -19,7 +19,7 @@
             android:id="@+id/NoticeLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:orientation="horizontal" >
 
 
@@ -52,7 +52,7 @@
             android:id="@+id/HelpLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:orientation="horizontal" >
 
 
@@ -85,7 +85,7 @@
             android:id="@+id/LogoutLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/singlo_subtitle"
+            android:background="@drawable/singlo_setting_border"
             android:orientation="horizontal" >
 
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="fill_parent">
+
+
+
+    <RelativeLayout
+            android:id="@+id/BoardRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/singlo_setting_border">
+
+
+        <TextView
+                android:id="@+id/TitleTextView"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="제목"
+                android:textColor="#666"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+        <TextView
+                android:id="@+id/DateTextView"
+                android:layout_margin="5dp"
+                android:layout_toRightOf="@id/TitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="05/22"
+                android:textColor="#666"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/ToggleContentImageButton"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_width="12dp"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/showinfo_btn" />
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/ContentTextView"
+            android:visibility="gone"
+            android:background="@drawable/singlo_setting_notice_border"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글긴글" />
+
+
+</LinearLayout>
