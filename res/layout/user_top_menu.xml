@@ -45,16 +45,6 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/grey_logo" />
 
-            <ImageButton
-                android:id="@+id/EventShowImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/imageView1"
-                android:adjustViewBounds="true"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/eventshow_btn" />
         </RelativeLayout>
     </FrameLayout>
 

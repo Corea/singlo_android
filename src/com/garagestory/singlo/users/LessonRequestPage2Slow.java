@@ -601,7 +601,7 @@ public class LessonRequestPage2Slow extends Activity {
 
     private void uploadVideo() {
         processDialog = ProgressDialog.show(LessonRequestPage2Slow.this, "",
-                "동영상을 업로드 하고 있습니다.", true, false);
+                "동영상을 업로드 하고 있습니다. 최대 1분의 시간이 소요될 수 있으니, 잠시만 기다려 주십시오.", true, false);
 
         submitQuestion = new SubmitQuestion();
         submitQuestion.execute();
