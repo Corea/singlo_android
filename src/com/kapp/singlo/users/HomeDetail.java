@@ -267,6 +267,16 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 		return false;
 
 	}
+	
+	private void onTeacherBlogView()
+	{
+		Intent intent = this.getIntent();
+		intent = new Intent(HomeDetail.this, teacherBlog.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		startActivity(intent);
+		finish();
+		overridePendingTransition(0, 0);
+	}
 
 	@Override
 	public void callback(Object... params) {
@@ -283,8 +293,9 @@ public class HomeDetail extends SingloUserActivity implements CallbackListener, 
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.ProfileTabButton:
-			setTabColor(mCareerBtn);
-			setTabContent(mProfileScroll);
+			//setTabColor(mCareerBtn);
+			//setTabContent(mProfileScroll);
+			onTeacherBlogView();
 			break;
 		case R.id.CommentTabButton:
 			setTabColor(mLessonReviewBtn);

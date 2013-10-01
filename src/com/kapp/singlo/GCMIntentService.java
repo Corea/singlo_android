@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.android.gcm.GCMBaseIntentService;
 import com.kapp.singlo.R;
 import com.kapp.singlo.users.Main;
-
+ 
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
