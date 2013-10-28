@@ -20,3 +20,8 @@ local.properties
 .project
 
 .DS_Store
+
+# IntelliJ project files
+.idea
+*.iml
+out/
